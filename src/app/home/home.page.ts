@@ -31,6 +31,15 @@ export class HomePage {
     this.router.navigate(['/sobrenosotros']);
   }
 
+  onRutinaChange(event: any) {
+    const seleccion = event.detail.value;
+    if (seleccion === 'guiadas') {
+      this.router.navigate(['/guiadas']);
+    } else if (seleccion === 'personalizadas') {
+      this.router.navigate(['/personalizadas']);
+    }
+  }
+
   login() {
     console.log('Login clicked');
   }

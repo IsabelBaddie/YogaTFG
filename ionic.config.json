@@ -1,0 +1,7 @@
+{
+  "name": "Yoga",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

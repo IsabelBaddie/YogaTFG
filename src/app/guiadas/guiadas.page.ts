@@ -6,7 +6,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonImg, IonBut
 
  } from '@ionic/angular/standalone';
 import { Rutina } from '../models/Rutina';
-import { Router } from '@angular/router';
+import { NavigationService } from '../services/navigation.service';
 
 
 
@@ -28,25 +28,23 @@ export class GuiadasPage implements OnInit {
   ngOnInit() {
   }
 
-    //Inyectar Router
-    constructor(private router: Router) {}
-
+    constructor(private navigationService: NavigationService) {}
 
     goToHome() {
-      this.router.navigate(['/home']);
+      this.navigationService.goToHome();
     }
-  
+    
     goToSobreNosotros() {
-      this.router.navigate(['/sobrenosotros']);
+      this.navigationService.goToSobreNosotros();
     }
-  
+
+    goToPrivacidad() {
+      this.navigationService.goToPrivacidad;
+    }
+    
     onRutinaChange(event: any) {
-      const seleccion = event.detail.value;
-      if (seleccion === 'guiadas') {
-        this.router.navigate(['/guiadas']);
-      } else if (seleccion === 'personalizadas') {
-        this.router.navigate(['/personalizadas']);
-      }
+      this.navigationService.goToRutina(event.detail.value);
     }
+   
 
 }

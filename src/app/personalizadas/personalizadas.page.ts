@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar,
   IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonSelectOption, 
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect
  } from '@ionic/angular/standalone';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-personalizadas',
@@ -18,7 +19,23 @@ import { IonContent, IonHeader, IonTitle, IonToolbar,
 })
 export class PersonalizadasPage implements OnInit {
 
-  constructor() { }
+     constructor(private navigationService: NavigationService) {}
+ 
+     goToHome() {
+       this.navigationService.goToHome();
+     }
+     
+     goToSobreNosotros() {
+       this.navigationService.goToSobreNosotros();
+     }
+
+     goToPrivacidad() {
+      this.navigationService.goToPrivacidad;
+    }
+     
+     onRutinaChange(event: any) {
+       this.navigationService.goToRutina(event.detail.value);
+     }
 
   ngOnInit() {
   }

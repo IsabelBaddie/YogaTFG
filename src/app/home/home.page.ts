@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; 
 
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
   IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
   IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-home',
@@ -19,26 +19,23 @@ import {
 })
 export class HomePage {
 
-  //Inyectar Router
-  constructor(private router: Router) {}
+    constructor(private navigationService: NavigationService) {}
 
-
-  goToHome() {
-    this.router.navigate(['/home']);
-  }
-
-  goToSobreNosotros() {
-    this.router.navigate(['/sobrenosotros']);
-  }
-
-  onRutinaChange(event: any) {
-    const seleccion = event.detail.value;
-    if (seleccion === 'guiadas') {
-      this.router.navigate(['/guiadas']);
-    } else if (seleccion === 'personalizadas') {
-      this.router.navigate(['/personalizadas']);
+    goToHome() {
+      this.navigationService.goToHome();
     }
-  }
+    
+    goToSobreNosotros() {
+      this.navigationService.goToSobreNosotros();
+    }
+
+    goToPrivacidad() {
+      this.navigationService.goToPrivacidad;
+    }
+    
+    onRutinaChange(event: any) {
+      this.navigationService.goToRutina(event.detail.value);
+    }
 
   login() {
     console.log('Login clicked');

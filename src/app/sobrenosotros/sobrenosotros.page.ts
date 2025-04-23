@@ -6,6 +6,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonSegment, Io
    IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter,
    IonItem, IonSelect, IonSelectOption
     } from '@ionic/angular/standalone';
+import { NavigationService } from '../services/navigation.service';
 
 @Component({
   selector: 'app-sobrenosotros',
@@ -44,19 +45,26 @@ export class SobrenosotrosPage implements OnInit {
     }
   ];
 
-   //Inyectar Router
-   constructor(private router: Router) {}
-
   ngOnInit() {
   }
 
-  goToHome() {
-    this.router.navigate(['/home']);
-  }
+    constructor(private navigationService: NavigationService) {}
 
-  goToSobreNosotros() {
-    this.router.navigate(['/sobrenosotros']);
-  }
+    goToHome() {
+      this.navigationService.goToHome();
+    }
+    
+    goToSobreNosotros() {
+      this.navigationService.goToSobreNosotros();
+    }
+
+    goToPrivacidad() {
+      this.navigationService.goToPrivacidad;
+    }
+    
+    onRutinaChange(event: any) {
+      this.navigationService.goToRutina(event.detail.value);
+    }
 
   login() {
     console.log('Login clicked');
@@ -64,15 +72,6 @@ export class SobrenosotrosPage implements OnInit {
 
   logout() {
     console.log('Logout clicked');
-  }
-
-  onRutinaChange(event: any) {
-    const seleccion = event.detail.value;
-    if (seleccion === 'guiadas') {
-      this.router.navigate(['/guiadas']);
-    } else if (seleccion === 'personalizadas') {
-      this.router.navigate(['/personalizadas']);
-    }
   }
 
 }

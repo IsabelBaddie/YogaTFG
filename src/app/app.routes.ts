@@ -22,4 +22,8 @@ export const routes: Routes = [
     path: 'personalizadas',
     loadComponent: () => import('./personalizadas/personalizadas.page').then( m => m.PersonalizadasPage)
   },
+  {
+    path: 'privacidad',
+    loadComponent: () => import('./privacidad/privacidad.page').then( m => m.PrivacidadPage)
+  },
 ];

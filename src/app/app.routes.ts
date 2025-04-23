@@ -10,4 +10,8 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  {
+    path: 'sobrenosotros',
+    loadComponent: () => import('./sobrenosotros/sobrenosotros.page').then( m => m.SobrenosotrosPage)
+  },
 ];

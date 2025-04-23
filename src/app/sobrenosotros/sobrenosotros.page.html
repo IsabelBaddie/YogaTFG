@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <img src="assets/img/logoyoga.png" alt="logo" width="50" style="margin-right: 10px;" />
+      <ion-title>Asana Flow</ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>Login | Register</ion-button>
+      <ion-button color="light">Logout</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="light">
+    <ion-segment value="inicio">
+      <ion-segment-button value="inicio">
+        <ion-label>Inicio</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="sobre-nosotros">
+        <ion-label>Sobre Nosotros</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="rutinas">
+        <ion-label>Rutinas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding bg-azulclaro">
+  <ion-card class="bg-amarillopastel">
+    <ion-card-header>
+      <ion-card-title class="text-naranjamedio text-center">
+        La historia y el mundo de la marca
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <h4 class="text-azuloscuro">
+        AsanaFlow no es solo una app de yoga, es un estilo de vida. <br />
+        AsanaFlow simboliza la conexión entre mente, cuerpo y alma,
+        proporcionando una experiencia única de bienestar.
+      </h4>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-padding">
+    <p class="text-azulmedio">Nuestra historia. Nuestro legado.</p>
+    <h1 class="text-naranjamedio">
+      AsanaFlow: tu compañero de yoga en cada paso.
+    </h1>
+    <h5 class="text-azuloscuro">
+      Desde su lanzamiento en 2015, AsanaFlow ha transformado la manera en que
+      las personas practican yoga. <br />
+      Con entrenamientos personalizados y clases de todo nivel, nuestra app ha
+      sido diseñada para acompañarte en tu camino hacia el bienestar total.
+    </h5>
+  </ion-card>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" *ngFor="let card of cards">
+        <ion-card class="bg-azulclaro">
+          <img [src]="card.img" />
+          <ion-card-header>
+            <ion-card-title class="text-azulmedio">{{ card.titulo }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-azuloscuro">
+            {{ card.descripcion }}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="bg-degradado-multiple">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="ion-align-items-center ion-justify-content-between">
+        <ion-col size="12" size-md="6">
+          <h3 class="text-white">Isabel Carrasco Gallego ©</h3>
+        </ion-col>
+        <ion-col size="12" size-md="6" class="ion-text-end">
+          <ion-button fill="clear" color="light">Política y privacidad</ion-button>
+          <ion-button fill="clear" color="light">Términos y condiciones</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

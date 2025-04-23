@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router'; 
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonSegment, IonButton, IonSegmentButton,
-   IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter
+   IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter,
+   IonItem, IonSelect, IonSelectOption
     } from '@ionic/angular/standalone';
 
 @Component({
@@ -12,10 +14,12 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonSegment, Io
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, 
     IonButtons, IonSegment, IonButton, IonSegmentButton,
-    IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter
+    IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter,
+    IonItem, IonSelect, IonSelectOption
   ]
 })
 export class SobrenosotrosPage implements OnInit {
+
 
   cards = [
     {
@@ -40,9 +44,26 @@ export class SobrenosotrosPage implements OnInit {
     }
   ];
 
-  constructor() { }
+   //Inyectar Router
+   constructor(private router: Router) {}
 
   ngOnInit() {
+  }
+
+  goToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  goToSobreNosotros() {
+    this.router.navigate(['/sobrenosotros']);
+  }
+
+  login() {
+    console.log('Login clicked');
+  }
+
+  logout() {
+    console.log('Logout clicked');
   }
 
 }

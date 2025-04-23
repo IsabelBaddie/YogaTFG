@@ -1,19 +1,41 @@
 import { Component } from '@angular/core';
-//import { IonicModule } from '@ionic/angular'; // Agrega IonicModule aquí
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonGrid, 
-  IonRow, IonCol, IonCard, IonCardHeader, IonCardContent, IonFooter, IonCardTitle, 
-  IonList, IonItem, IonSelect, IonSelectOption
+import { Router } from '@angular/router'; 
+
+import {
+  IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
+  IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
+  IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonGrid, IonRow, IonCol,
-    IonCard, IonCardHeader, IonCardContent, IonFooter, IonGrid, IonCardTitle,
-    IonList, IonItem, IonSelect, IonSelectOption
+  imports: [
+    IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
+    IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
+    IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption
   ],
 })
 export class HomePage {
-  constructor() {}
+
+  //Inyectar Router
+  constructor(private router: Router) {}
+
+
+  goToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  goToSobreNosotros() {
+    this.router.navigate(['/sobrenosotros']);
+  }
+
+  login() {
+    console.log('Login clicked');
+  }
+
+  logout() {
+    console.log('Logout clicked');
+  }
 }

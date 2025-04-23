@@ -1,17 +1,15 @@
 <ion-header>
   <ion-toolbar class="bg-degradado-multiple">
+    <ion-title class="text-white">Asana Flow</ion-title>
     <ion-buttons slot="start">
       <img src="/assets/img/logoyoga.png" alt="logo" width="50" />
       <ion-button (click)="goToHome()">Inicio</ion-button>
       <ion-button (click)="goToSobreNosotros()">Sobre nosotros</ion-button>
     </ion-buttons>
 
-    <ion-title class="text-white">Asana Flow</ion-title>
-
     <ion-buttons slot="end">
       <ion-item>
-        <ion-select aria-label="Rutinas" interface="popover" placeholder="Rutinas"
-                    (ionChange)="onRutinaChange($event)">
+        <ion-select aria-label="Rutinas" interface="popover" placeholder="Rutinas" (ionChange)="onRutinaChange($event)">
           <ion-select-option value="guiadas">Rutinas guiadas</ion-select-option>
           <ion-select-option value="personalizadas">Rutinas personalizadas</ion-select-option>
         </ion-select>
@@ -22,7 +20,6 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content class="bg-azulclaro" fullscreen>
   <ion-grid>
@@ -37,7 +34,8 @@
           <ion-button class="btn btn-warning text-azulmedio" expand="block" fill="solid">Invertidas</ion-button>
           <ion-button class="btn btn-warning text-azulmedio" expand="block" fill="solid">Brazos / Core</ion-button>
           <ion-button class="btn btn-warning text-azulmedio" expand="block" fill="solid">Torsión</ion-button>
-          <ion-button class="btn btn-warning text-azulmedio" expand="block" fill="solid">Apertura de caderas</ion-button>
+          <ion-button class="btn btn-warning text-azulmedio" expand="block" fill="solid">Apertura de
+            caderas</ion-button>
           <ion-button class="btn btn-warning text-azulmedio" expand="block" fill="solid">Meditación</ion-button>
         </div>
       </ion-col>

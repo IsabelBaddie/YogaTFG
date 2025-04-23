@@ -10,7 +10,7 @@
 
     <ion-buttons slot="end">
       <ion-item>
-        <ion-select aria-label="Rutinas" interface="popover" placeholder="Rutinas">
+        <ion-select aria-label="Rutinas" interface="popover" placeholder="Rutinas" (ionChange)="onRutinaChange($event)">
           <ion-select-option value="guiadas">Rutinas guiadas</ion-select-option>
           <ion-select-option value="personalizadas">Rutinas Personalizadas</ion-select-option>
         </ion-select>

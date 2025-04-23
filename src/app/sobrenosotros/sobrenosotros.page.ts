@@ -66,5 +66,14 @@ export class SobrenosotrosPage implements OnInit {
     console.log('Logout clicked');
   }
 
+  onRutinaChange(event: any) {
+    const seleccion = event.detail.value;
+    if (seleccion === 'guiadas') {
+      this.router.navigate(['/guiadas']);
+    } else if (seleccion === 'personalizadas') {
+      this.router.navigate(['/personalizadas']);
+    }
+  }
+
 }
 

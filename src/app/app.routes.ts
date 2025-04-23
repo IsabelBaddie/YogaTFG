@@ -18,4 +18,8 @@ export const routes: Routes = [
     path: 'guiadas',
     loadComponent: () => import('./guiadas/guiadas.page').then( m => m.GuiadasPage)
   },
+  {
+    path: 'personalizadas',
+    loadComponent: () => import('./personalizadas/personalizadas.page').then( m => m.PersonalizadasPage)
+  },
 ];

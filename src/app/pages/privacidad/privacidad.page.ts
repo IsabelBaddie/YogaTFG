@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, 
   IonButtons, IonImg, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonListHeader,
-  IonLabel, IonItem, IonCardSubtitle, IonFooter
+  IonLabel, IonItem, IonCardSubtitle, IonFooter, IonSelect, IonSelectOption
  } from '@ionic/angular/standalone';
-import { NavigationService } from '../services/navigation.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-privacidad',
@@ -14,7 +14,7 @@ import { NavigationService } from '../services/navigation.service';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
     IonButtons, IonImg, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonListHeader,
-    IonLabel, IonItem, IonCardSubtitle, IonFooter
+    IonLabel, IonItem, IonCardSubtitle, IonFooter, IonSelect, IonSelectOption
   ]
 })
 export class PrivacidadPage implements OnInit {
@@ -33,6 +33,11 @@ export class PrivacidadPage implements OnInit {
       goToPrivacidad() {
         this.navigationService.goToPrivacidad;
       }
+
+      onRutinaChange(event: any) {
+        this.navigationService.goToRutina(event.detail.value);
+      }
+ 
 
   ngOnInit() {
   }

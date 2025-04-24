@@ -1,0 +1,209 @@
+<ion-header class="bg-degradado-multiple">
+
+  <ion-toolbar class="bg-degradado-multiple p-4" color="bg-degradado-multiple">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+
+      <!-- IZQUIERDA: Logo + navegación -->
+      <div style="display: flex; align-items: center; flex-wrap: wrap;">
+        <img src="/assets/img/logoyoga.png" alt="logo" width="50" />
+        <h6 class="ms-3 me-3 mb-0 text-white">Asana flow</h6>
+
+        <ion-button fill="clear" (click)="goToHome()" class="text-white">Inicio</ion-button>
+        <ion-button fill="clear" (click)="goToSobreNosotros()" class="text-white">Sobre Nosotros</ion-button>
+
+        <!-- Rutinas -->
+        <ion-item class="bg-transparent" lines="none" style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
+          <ion-select
+            class="select-transparente"
+            aria-label="RUTINAS"
+            interface="popover"
+            placeholder="RUTINAS"
+            (ionChange)="onRutinaChange($event)">
+            <ion-select-option value="guiadas">Rutinas guiadas</ion-select-option>
+            <ion-select-option value="personalizadas">Rutinas personalizadas</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+      </div>
+
+      <!-- DERECHA: Bienvenida + botones -->
+      <div style="display: flex; align-items: center; flex-wrap: wrap;">
+        <span class="me-3 text-white fw-bold">Bienvenido invitado/a</span>
+        <ion-button fill="outline" class="me-2 bg-amarillopastel">Login | Registered</ion-button>
+        <ion-button fill="outline" class="bg-amarillopastel">Logout</ion-button>
+      </div>
+
+    </div>
+  </ion-toolbar>
+
+</ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Ley de protección de datos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          Acorde a la normativa vigente de protección de datos, y al Reglamento (UE) 2016/679...
+          esta Política de Privacidad se aplica a los tratamientos de datos de carácter personal que Asana Flow realiza
+          como Responsable y/o Encargado de los mismos, en relación con los datos que los usuarios y/o clientes
+          facilitan como consecuencia de la contratación de los servicios.
+          Más información en:
+          <a href="https://www.asanaflow.com/">https://www.asanaflow.com/</a>
+        </p>
+
+        <ion-list>
+          <ion-list-header><ion-label><strong>APARTADOS:</strong></ion-label></ion-list-header>
+          <ion-item>1.- Responsable del tratamiento de sus datos</ion-item>
+          <ion-item>2.- Finalidad del tratamiento</ion-item>
+          <ion-item>3.- Plazo de conservación</ion-item>
+          <ion-item>4.- Legitimación del tratamiento</ion-item>
+          <ion-item>5.- Destinatarios de cesiones o transferencias</ion-item>
+          <ion-item>6.- Derechos de las personas interesadas</ion-item>
+          <ion-item>7.- Datos de menores</ion-item>
+          <ion-item>8.- Medidas de seguridad que aplicamos</ion-item>
+          <ion-item>9.- Derechos del usuario</ion-item>
+          <ion-item>10.- Cookies</ion-item>
+          <ion-item>11.- Conservación de los datos de carácter personal</ion-item>
+          <ion-item>12.- Posibilidad de retirar el consentimiento</ion-item>
+        </ion-list>
+
+
+        <ion-card-subtitle>1.- RESPONSABLE DEL TRATAMIENTO DE SUS DATOS</ion-card-subtitle>
+        <ion-list>
+          <ion-item><strong>Denominación Social:</strong> Asana Flow, S.L.</ion-item>
+          <ion-item><strong>Marca comercial:</strong> Asana Flow</ion-item>
+          <ion-item><strong>Domicilio:</strong> Calle de la Innovación, 22, 28010, Madrid</ion-item>
+          <ion-item><strong>NIF:</strong> B12345678</ion-item>
+          <ion-item><strong>Email:</strong> contacto&#64;asanaflow.com</ion-item>
+          <ion-item><strong>Datos de inscripción:</strong> Registro Mercantil de Madrid Tomo 12345, Folio 67, Hoja
+            M-543210</ion-item>
+        </ion-list>
+
+        <ion-card-subtitle>2.- FINALIDADES DEL TRATAMIENTO</ion-card-subtitle>
+        <p>Sus datos personales se utilizarán con la finalidad genérica de la gestión y control del negocio...</p>
+        <ion-list>
+          <ion-item>Gestionar el acceso y uso correcto de los Servicios.</ion-item>
+          <ion-item>Responder a incidencias, dudas, solicitudes, comentarios, etc.</ion-item>
+          <ion-item>Actualizar y proteger los servicios y actividades.</ion-item>
+          <ion-item>Ofrecer nuevos talleres y servicios.</ion-item>
+          <ion-item>Comunicaciones informativas (no renunciables).</ion-item>
+          <ion-item>Comunicaciones comerciales (marketing): previa autorización.</ion-item>
+          <ion-item>Visibilidad de clases, likes y comentarios por otros usuarios.</ion-item>
+        </ion-list>
+
+        <p>No trataremos sus datos personales para ninguna otra finalidad más allá de las descritas anteriormente, salvo
+          que venga impuesto por ley o exista algún requerimiento judicial.</p>
+          <ion-card-subtitle>3.- PLAZO DE CONSERVACIÓN</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              Los datos personales se conservarán durante la relación de prestación de servicios. Si el usuario ejerce el derecho de supresión, Asana Flow bloqueará los datos mientras existan obligaciones legales.
+            </ion-item>
+            <ion-item>
+              Los datos de personas interesadas en información sobre los Servicios se mantendrán de forma indefinida, salvo que el interesado solicite su supresión.
+            </ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>4.- LEGITIMACIÓN DEL TRATAMIENTO</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              La base legal es el <b>consentimiento del interesado</b>, solicitado al registrarse o activar los Servicios.
+            </ion-item>
+            <ion-item>
+              También puede tratarse en base al <b>interés legítimo</b> de Asana Flow para mejorar servicios, gestionar solicitudes, informar sobre promociones y fidelizar clientes.
+            </ion-item>
+            <ion-item>
+              La negativa o revocación del consentimiento puede impedir la prestación de servicios.
+            </ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>5.- DESTINATARIOS DE CESIONES O TRANSFERENCIAS</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              Agencia Tributaria, bancos y entidades financieras para el cobro de servicios, según obligación legal.
+            </ion-item>
+            <ion-item>
+              Encargados del tratamiento necesarios, con contrato que garantiza privacidad equivalente al responsable.
+            </ion-item>
+            <ion-item>
+              Posibles transferencias internacionales bajo el marco del Privacy Shield.
+            </ion-item>
+            <ion-item>
+              En caso de revocar el consentimiento, no se podrán prestar los Servicios.
+            </ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>6.- DERECHOS DE LAS PERSONAS INTERESADAS</ion-card-subtitle>
+          <ion-list>
+            <ion-item><b>Acceso:</b> Obtener información sobre los datos personales tratados.</ion-item>
+            <ion-item><b>Rectificación:</b> Corregir datos inexactos o incompletos.</ion-item>
+            <ion-item><b>Supresión:</b> Solicitar eliminación si los datos ya no son necesarios.</ion-item>
+            <ion-item><b>Oposición:</b> Oponerse al tratamiento salvo motivos legítimos o defensa de reclamaciones.</ion-item>
+            <ion-item><b>Limitación:</b> Solicitar conservación limitada para fines legales.</ion-item>
+            <ion-item><b>Portabilidad:</b> Recibir los datos o transferirlos a otro responsable en formato estructurado.</ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>7.- DATOS DE MENORES</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              No se tratarán datos de menores de 14 años. El usuario debe abstenerse de proporcionarlos si no cumple esa edad.
+            </ion-item>
+            <ion-item>
+              Asana Flow no se responsabiliza del incumplimiento de esta condición.
+            </ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>8.- MEDIDAS DE SEGURIDAD QUE APLICAMOS</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              Asana Flow adopta medidas técnicas y organizativas apropiadas para proteger los datos personales contra pérdida, mal uso, acceso no autorizado o robo.
+            </ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>9.- DERECHOS DEL USUARIO</ion-card-subtitle>
+          <ion-list>
+            <ion-item>Conocer si se están tratando sus datos.</ion-item>
+            <ion-item>Acceder a los datos personales tratados.</ion-item>
+            <ion-item>Solicitar rectificación si los datos son inexactos.</ion-item>
+            <ion-item>Solicitar supresión si ya no son necesarios o retira el consentimiento.</ion-item>
+            <ion-item>Solicitar limitación del tratamiento en casos específicos.</ion-item>
+            <ion-item>Solicitar portabilidad de los datos a otro responsable.</ion-item>
+            <ion-item>Presentar reclamación ante la Agencia Española de Protección de Datos.</ion-item>
+            <ion-item>Revocar el consentimiento en cualquier momento.</ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>10.- COOKIES</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              Esta web utiliza cookies. Más información en la <a href="#"> Política de Cookies</a>.
+            </ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>11.- CONSERVACIÓN DE LOS DATOS DE CARÁCTER PERSONAL</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              Los datos se conservarán mientras dure la finalidad del tratamiento o relación contractual, salvo que el usuario solicite su supresión.
+            </ion-item>
+          </ion-list>
+          
+          <ion-card-subtitle>12.- POSIBILIDAD DE RETIRAR EL CONSENTIMIENTO</ion-card-subtitle>
+          <ion-list>
+            <ion-item>
+              El consentimiento podrá retirarse en cualquier momento, sin que afecte a la legalidad del tratamiento previo.
+            </ion-item>
+          </ion-list>
+          
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar color="bg-degradado-multiple" class="bg-degradado-multiple">
+      <ion-title class="text-white">Isabel Carrasco Gallego ©</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="goToPrivacidad()" fill="clear" class="text-white">Política y privacidad</ion-button>
+        <ion-button fill="clear" class="text-white">Términos y condiciones</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>

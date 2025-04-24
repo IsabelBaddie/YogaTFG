@@ -1,3 +1,4 @@
+
 :root {
   --azul-oscuro: #28537e;
   --azul-medio: #3385C0;
@@ -43,13 +44,28 @@
   color: var(--azul-oscuro);
 }
 
-
+.bg-azuloscuro {
+  background-color: var(--azul-oscuro);
+}
 
 .bg-degradado-multiple {
   background: linear-gradient(to left, #b2c3d8, #3385C0, #0056b3);
 }
 
-ion-item.bg-transparent,
+.bg-asanaflow {
+    background-image: url("/assets/img/fondonosotros.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 300px; /* Ajusta la altura según necesites */
+}
+
+.dimension-foto {
+  height: 800px;
+  width: 800px;
+}
+
+  ion-item.bg-transparent,
 ion-select.select-transparente {
   --background: transparent;
   --ion-background-color: transparent;

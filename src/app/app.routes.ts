@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
   },
   {
     path: '',
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'sobrenosotros',
-    loadComponent: () => import('./sobrenosotros/sobrenosotros.page').then( m => m.SobrenosotrosPage)
+    loadComponent: () => import('./pages/sobrenosotros/sobrenosotros.page').then( m => m.SobrenosotrosPage)
   },
   {
     path: 'guiadas',
@@ -20,10 +20,10 @@ export const routes: Routes = [
   },
   {
     path: 'personalizadas',
-    loadComponent: () => import('./personalizadas/personalizadas.page').then( m => m.PersonalizadasPage)
+    loadComponent: () => import('./pages/personalizadas/personalizadas.page').then( m => m.PersonalizadasPage)
   },
   {
     path: 'privacidad',
-    loadComponent: () => import('./privacidad/privacidad.page').then( m => m.PrivacidadPage)
+    loadComponent: () => import('./pages/privacidad/privacidad.page').then( m => m.PrivacidadPage)
   },
 ];

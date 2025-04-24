@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
   IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
-  IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption
+  IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption, 
+  IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView
 } from '@ionic/angular/standalone';
-import { NavigationService } from '../services/navigation.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ import { NavigationService } from '../services/navigation.service';
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
     IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
-    IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption
+    IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
+    IonSegment, IonSegmentButton, IonLabel,  IonSegmentContent, IonSegmentView
   ],
 })
 export class HomePage {
@@ -30,7 +32,7 @@ export class HomePage {
     }
 
     goToPrivacidad() {
-      this.navigationService.goToPrivacidad;
+      this.navigationService.goToPrivacidad();
     }
     
     onRutinaChange(event: any) {

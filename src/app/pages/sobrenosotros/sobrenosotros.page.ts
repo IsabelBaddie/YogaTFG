@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router'; 
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonSegment, IonButton, IonSegmentButton,
    IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter,
    IonItem, IonSelect, IonSelectOption
     } from '@ionic/angular/standalone';
-import { NavigationService } from '../services/navigation.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-sobrenosotros',
@@ -59,7 +58,7 @@ export class SobrenosotrosPage implements OnInit {
     }
 
     goToPrivacidad() {
-      this.navigationService.goToPrivacidad;
+      this.navigationService.goToPrivacidad();
     }
     
     onRutinaChange(event: any) {

@@ -1,4 +1,4 @@
-#container {
+/*#container {
   text-align: center;
 
   position: absolute;
@@ -24,7 +24,7 @@
 
 #container a {
   text-decoration: none;
-}
+}>*/
 
 :root {
   --azul-oscuro: #28537e;
@@ -78,3 +78,16 @@
 .bg-degradado-multiple {
   background: linear-gradient(to left, #b2c3d8, #3385C0, #0056b3);
 }
+
+ion-item.bg-transparent,
+ion-select.select-transparente {
+  --background: transparent;
+  --ion-background-color: transparent;
+  background: transparent !important;
+  --color: white;
+  --placeholder-color: white;
+  --placeholder-opacity: 1;
+  --highlight-color-focused: white;
+  --highlight-color: white;
+}
+

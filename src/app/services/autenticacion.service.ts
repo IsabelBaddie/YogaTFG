@@ -36,7 +36,6 @@ export class AutenticacionService {
     return signOut(this.auth);
   }
 
-
   // Verificar si hay un usuario autenticado
   onAuthStateChanged(callback: (user: UserI | null) => void) {
     onAuthStateChanged(this.auth, (user) => {
@@ -58,7 +57,7 @@ export class AutenticacionService {
     const user = this.auth.currentUser;
     if (user) {
       const uid = user.uid;
-      const docRef = doc(this.db, 'Usuarios', uid);
+      const docRef = doc(this.db, 'usuarios', uid);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {

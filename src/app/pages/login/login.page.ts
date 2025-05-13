@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ReactiveFormsModule } from '@angular/forms';
 // Importamos los módulos necesarios de Ionic
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonFooter,
   IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-  IonLabel,
+  IonLabel, IonInput, 
 } from '@ionic/angular/standalone';
 // Importamos el servicio de navegación
 import { NavigationService } from '../../services/navigation.service';
@@ -14,6 +14,10 @@ import { NavigationService } from '../../services/navigation.service';
 import { Storage } from '@ionic/storage-angular';
 import { UserI } from 'src/app/models/user.models';
 
+// Importamos diferenes servicios 
+import { FirestoreService } from '../../services/firestore.service';
+import { AutenticacionService } from '../../services/autenticacion.service';
+import { RutinasService } from '../../services/rutinas.service';
 
 @Component({
   selector: 'app-login',
@@ -22,41 +26,34 @@ import { UserI } from 'src/app/models/user.models';
   standalone: true,
   imports: [IonCardTitle, IonFooter, IonButtons, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
     FormsModule, IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardContent,
-    IonLabel]
+    IonLabel, IonInput, ReactiveFormsModule, ]
 })
 export class LoginPage implements OnInit {
 
-  constructor(private navigationService: NavigationService, private firestoreService: FirestoreService, private rutinaService: RutinasService) { // Constructor del componente
-    this.loadusers(); //Al crear el componente (es decir la pagina), se ejecuta loadusers() para cargar los usuarios desde Firestore.
+  constructor(private navigationService: NavigationService, private firestoreService: FirestoreService, private rutinaService: RutinasService, private autenticacion: AutenticacionService) { // Constructor del componente
+    this.initStorage(); // Inicializamos el almacenamiento
+    this.loadusers(); //Al crear el componente (la pagina), se ejecuta loadusers() para cargar los usuarios desde Firestore.
     this.initUser(); // Inicializamos un usuario vacío para el formulario
-
-    //añadimos iconos personalizados
-    addIcons({ create: icons['create'] });
-    addIcons({ trash: icons['trash'] });
-
-    this.initStorage(); // <--- importante
   }
-
-   autenticacion = inject(AutenticacionService); //inyectamos el servicio de autenticacion
 
   ngOnInit() {
   }
 
   //VARIABLES 
   // Definimos las propiedades del componente
-  private storage: Storage; // Almacenamiento de datos en el dispositivo
+  private storage!: Storage; // Almacenamiento de datos en el dispositivo
 
   //Atributo users, que es un array de objetos del tipo UserI.
   users: UserI[] = []; //Inicializamos en vacio, de un modelo/interfaz que hemos creado, se va rellenando con Firebase
 
-  newUser: UserI;   // Objeto que usamos para el formulario de crear/editar usuarios
+  newUser!: UserI;   // Objeto que usamos para el formulario de crear/editar usuarios
 
   cargando: boolean = false;  // Bandera para mostrar un spinner de carga (true/false)
 
   usuarioActual: any; // Variable para almacenar el usuario activo
 
 
-  login = {
+  loginData = {
     email: '',
     password: ''
   };
@@ -81,10 +78,9 @@ export class LoginPage implements OnInit {
       }
 
     })
-
   }
 
-  initUser() {
+  initUser() { // Inicializamos un nuevo usuario vacío para el formulario
     this.newUser = {
       id: this.firestoreService.createIdDoc(),
       nombre: null,
@@ -93,15 +89,28 @@ export class LoginPage implements OnInit {
     }
   }
 
-  goToHome() { // Utilizamos el servicio de navegación para ir a la página home
-    this.navigationService.goToHome();
+  async goToHome() { // Utilizamos el servicio de navegación para ir a la página home
+    // Verificar si el usuario está logueado
+    const usuarioId = await this.storage.get('usuarioActivo');
+
+    if (usuarioId) {
+      // Si está logueado, redirigir a la página de rutinas
+      console.log('Usuario logueado, redirigiendo...');
+      this.navigationService.goToHome();
+    } else {
+      // Si no está logueado, redirigir al login o mostrar un mensaje
+      console.log('Usuario no logueado');
+    }
+    
   }
 
   goToPrivacidad() { // Utilizamos el servicio de navegación para ir a la página de privacidad
     this.navigationService.goToPrivacidad();
   }
 
-  async registerAndSave() {
+  
+
+  async registerAndSave() { // Método para registrar y guardar un nuevo usuario
     const { email, password, nombre } = this.newUser;
 
     if (email && password && nombre) {
@@ -111,7 +120,7 @@ export class LoginPage implements OnInit {
 
         // 2. Guardar en Firestore (usando el ID generado o el UID del auth)
         this.newUser.id = cred.user.uid; // usa el UID del auth como ID único
-        await this.firestoreService.createDocumentID(this.newUser, 'Usuarios', this.newUser.id);
+        await this.firestoreService.createDocumentID(this.newUser, 'usuarios', this.newUser.id);
 
         console.log('Usuario registrado y guardado correctamente.');
         this.initUser();
@@ -124,11 +133,35 @@ export class LoginPage implements OnInit {
     }
   }
 
-  login() {
-    console.log('Login clicked');
+  async login() { // Método para iniciar sesión
+    const { email, password } = this.loginData;
+
+
+    if (email && password) {
+      try {
+        const res = await this.autenticacion.signIn(email, password);
+        console.log('Login exitoso:', res);
+
+        // Guardar el UID o email del usuario
+        await this.storage.set('usuarioActivo', res.user.uid);
+        console.log('Usuario almacenado en Storage con este uid:', res.user.uid);
+
+        const datos = await this.autenticacion.obtenerDatosUsuario();
+        this.usuarioActual = datos;
+
+        this.rutinaService.crearRutinasPorDefectoParaUsuario(); // Crear rutinas por defecto para el usuario
+
+        console.log('Usuario actual:', this.usuarioActual);
+
+      } catch (err) {
+        console.error('Error en login:', err);
+      }
+    } else {
+      console.warn('Por favor completa el email y la contraseña.');
+    }
   }
 
-  async logout() {
+  async logout() { // Método para cerrar sesión
     try {
       await this.autenticacion.logout();
       await this.storage.remove('usuarioActivo');
@@ -137,7 +170,6 @@ export class LoginPage implements OnInit {
       console.error('Error al cerrar sesión:', err);
     }
   }
-
 
 
 }

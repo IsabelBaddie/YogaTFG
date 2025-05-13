@@ -76,3 +76,26 @@ ion-select.select-transparente {
   --highlight-color-focused: white;
   --highlight-color: white;
 }
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Hace que en pantallas pequeñas se apilen */
+  width: 100%;
+  padding: 0 16px;
+  gap: 8px;
+}
+
+.footer-left {
+  flex: 1;
+  text-align: left;
+  min-width: 200px;
+}
+
+.footer-right {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}

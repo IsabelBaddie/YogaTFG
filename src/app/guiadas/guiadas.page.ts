@@ -6,7 +6,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonImg, IonBut
   IonItem
 
  } from '@ionic/angular/standalone';
-import { Rutina } from '../models/Rutina';
+import { RoutineI } from '../models/routine.models';
 import { NavigationService } from '../services/navigation.service';
 
 
@@ -24,7 +24,7 @@ import { NavigationService } from '../services/navigation.service';
 export class GuiadasPage implements OnInit {
 
   
-  rutinas: Rutina[] = [];
+  rutinas: RoutineI[] = [];
 
   ngOnInit() {
   }

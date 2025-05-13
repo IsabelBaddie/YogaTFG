@@ -23,8 +23,6 @@ export class FirestoreService {
     //  el argumento path que es la la ruta/el nombre de la coleccion 
 
     const refcollection = collection(this.firestore, path); //recibe la biblioteca/libreria y la ruta 
-
-
     return collectionData(refcollection)  as Observable<tipo[]>; //nos devuelve un observable y le pasamos una referencia a la coleccion 
     
   }

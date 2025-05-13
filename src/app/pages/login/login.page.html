@@ -1,0 +1,82 @@
+<ion-header class="bg-degradado-multiple">
+
+  <ion-toolbar class="bg-degradado-multiple p-4" color="bg-degradado-multiple">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+
+      <!-- IZQUIERDA: Logo -->
+      <div style="display: flex; align-items: center; flex-wrap: wrap;">
+        <img src="/assets/img/logoyoga.png" alt="logo" width="50" />
+        <h6 class="ms-3 me-3 mb-0 text-white">Asana flow</h6>       
+      </div>
+
+    </div>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content fullscreen class="ion-padding bg-azulclaro">
+<ion-card>
+  <!-- FORMULARIO LOGIN -->
+  <ion-item>
+    <ion-label position="stacked">Email</ion-label>
+    <ion-input type="email" [(ngModel)]="login.email" name="loginEmail"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Password</ion-label>
+    <ion-input type="password" [(ngModel)]="login.password" name="loginPassword"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="inicio()">Iniciar sesión</ion-button>
+</ion-card>
+
+<ion-card>
+  <!-- FORMULARIO REGISTRO -->
+  <ion-item>
+    <ion-label position="stacked">Email</ion-label>
+    <ion-input type="email" [(ngModel)]="newUser.email" name="registerEmail"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Password</ion-label>
+    <ion-input type="password" [(ngModel)]="newUser.password" name="registerPassword"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="newUser.nombre" name="registerNombre"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="registerAndSave()">Registrar usuario</ion-button>
+</ion-card>
+
+<ion-button expand="block" color="medium" (click)="logout()">
+  Cerrar sesión
+</ion-button>
+
+<ion-card *ngIf="usuarioActual">
+  <ion-card-header>
+    <ion-card-title>Bienvenido, {{ usuarioActual.nombre }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p>Email: {{ usuarioActual.email }}</p>
+    <!-- Agrega otros campos si existen -->
+    <p>ID: {{ usuarioActual.id }}</p>
+  </ion-card-content>
+</ion-card>
+
+<ion-button (click)="goToHome()" expand="block" fill="clear" shape="round">
+  Ir al inicio
+</ion-button>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="bg-degradado-multiple" class="bg-degradado-multiple">
+    <ion-title class="text-white">Isabel Carrasco Gallego ©</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToPrivacidad()" fill="clear" class="text-white">Política y privacidad</ion-button>
+      <ion-button fill="clear" class="text-white">Términos y condiciones</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

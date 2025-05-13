@@ -23,6 +23,8 @@ export class HomePage {
 
     constructor(private navigationService: NavigationService) {}
 
+    
+
     goToHome() {
       this.navigationService.goToHome();
     }

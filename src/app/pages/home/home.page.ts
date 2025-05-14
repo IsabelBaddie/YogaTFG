@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
   IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
   IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
-  IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView
+  IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView,
+  
 } from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common'; 
 
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -24,15 +27,20 @@ import { CategoriasService } from '../../services/categorias.service';
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
     IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
     IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
-    IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView
+    IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView,
+       FormsModule, CommonModule
   ],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
   constructor(private navigationService: NavigationService, private categoriasService : CategoriasService,
     private firestore: Firestore
   ) { }
 
+    ngOnInit() {
+    this.cargarCategorias();
+    this.cargarTodasLasPosturas();
+  }
 
   categorias: any[] = [];
    posturasPorCategoria: { [categoriaId: string]: PosturaI[] } = {}; // Diccionario para guardar resultados por categoría
@@ -87,12 +95,14 @@ export class HomePage {
 
   }
 
+onCategoriaChange(event: any) {
+  const categoriaId = event.detail.value;
+  this.categoriaSeleccionadaId = categoriaId;
+  this.cargarPosturasDeCategoria(categoriaId);
+}
 
-  async cargarTodasLasPosturasPorCategoria() {
-    for (const categoria of this.categorias) {
-      const posturas = await this.categoriasService.getPosturasDeCategoria(categoria.id);
-      this.posturasPorCategoria[categoria.id] = posturas;
-      console.log(`Posturas de la categoría ${categoria.nombre}:`, posturas);
-    }
-  }
+async cargarPosturasDeCategoria(categoriaId: string) {
+  this.posturasPorCategoria[categoriaId] = await this.categoriasService.getPosturasDeCategoria(categoriaId);
+}
+
 }

@@ -1,9 +1,8 @@
 <ion-header class="bg-degradado-multiple">
-
-  <ion-toolbar class="bg-degradado-multiple p-4" color="bg-degradado-multiple">
+  <ion-toolbar class="bg-degradado-multiple p-4">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
 
-      <!-- IZQUIERDA: Logo + navegación -->
+      <!-- IZQUIERDA -->
       <div style="display: flex; align-items: center; flex-wrap: wrap;">
         <img src="/assets/img/logoyoga.png" alt="logo" width="50" />
         <h6 class="ms-3 me-3 mb-0 text-white">Asana flow</h6>
@@ -12,21 +11,17 @@
         <ion-button fill="clear" (click)="goToSobreNosotros()" class="text-white">Sobre Nosotros</ion-button>
 
         <!-- Rutinas -->
-        <ion-item class="bg-transparent" lines="none" style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
-          <ion-select
-            class="select-transparente"
-            aria-label="RUTINAS"
-            interface="popover"
-            placeholder="RUTINAS"
+        <ion-item class="bg-transparent" lines="none"
+          style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
+          <ion-select class="select-transparente" aria-label="RUTINAS" interface="popover" placeholder="RUTINAS"
             (ionChange)="onRutinaChange($event)">
             <ion-select-option value="guiadas">Rutinas guiadas</ion-select-option>
             <ion-select-option value="personalizadas">Rutinas personalizadas</ion-select-option>
           </ion-select>
         </ion-item>
-        
       </div>
 
-      <!-- DERECHA: Bienvenida + botones -->
+      <!-- DERECHA -->
       <div style="display: flex; align-items: center; flex-wrap: wrap;">
         <span class="me-3 text-white fw-bold">Bienvenido invitado/a</span>
         <ion-button fill="outline" class="me-2 bg-amarillopastel">Login | Registered</ion-button>
@@ -35,138 +30,59 @@
 
     </div>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content fullscreen>
   <ion-grid class="bg-azulclaro">
-
     <ion-row>
       <ion-col size="12">
         <h3 class="text-center pt-3 text-naranjamedio">Biblioteca de asanas</h3>
         <h5 class="text-center text-azuloscuro">Categorías:</h5>
 
-        <ion-grid class="mt-3">
-          <ion-segment [scrollable]="true">
-            <ion-segment-button value="equilibrio" content-id="equilibrio">
-              <ion-label class="text-azulmedio">Equilibrio de pie</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="anterior" content-id="anterior">
-              <ion-label class="text-azulmedio">Flexión anterior</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="posterior" content-id="posterior">
-              <ion-label class="text-azulmedio">Flexión posterior</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="intervidas" content-id="intervidas">
-              <ion-label class="text-azulmedio">Invertidas</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="tronco" content-id="tronco">
-              <ion-label class="text-azulmedio">Brazos / Core</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="torsion" content-id="torsion">
-              <ion-label class="text-azulmedio">Torsión</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="apertura" content-id="apertura">
-              <ion-label class="text-azulmedio">Apertura de caderas</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="meditacion" content-id="meditacion">
-              <ion-label class="text-azulmedio">Meditación</ion-label>
-            </ion-segment-button>
-          </ion-segment>
+        <!-- CATEGORÍAS -->
+        <ion-segment [(ngModel)]="categoriaSeleccionadaId" (ionChange)="onCategoriaChange($event)" scrollable class="mt-3">
+          <ion-segment-button *ngFor="let categoria of categorias" [value]="categoria.id">
+            {{ categoria.nombre }}
+          </ion-segment-button>
+        </ion-segment>
 
 
-          <ion-segment-view>
-            <ion-segment-content id="equilibrio">
-              <!-- row con beneficios y contraindicaciones de la categoria -->
-              <ion-row class="pt-3 pb-2">
+        <!-- CONTENIDO SEGÚN CATEGORÍA -->
+        <div *ngFor="let categoria of categorias">
+          <div *ngIf="categoriaSeleccionadaId === categoria.id">
 
-                <ion-col size-md="6" class="bg-amarillopastel">
-                  <h5 class="text-naranjamedio pt-3">Beneficios:</h5>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                  
-                </ion-col>
+            <!-- BENEFICIOS / CONTRAINDICACIONES -->
+            <ion-row class="pt-3 pb-2">
+              <ion-col size-md="6" class="bg-amarillopastel">
+                <h5 class="text-naranjamedio pt-3">Beneficios:</h5>
+                <p *ngFor="let beneficio of categoria.beneficios" class="text-azuloscuro">{{ beneficio }}</p>
+              </ion-col>
+              <ion-col size-md="6" class="bg-amarillopastel">
+                <h5 class="text-naranjamedio pt-3">Contraindicaciones:</h5>
+                <p *ngFor="let contra of categoria.contraindicaciones" class="text-azuloscuro">{{ contra }}</p>
+              </ion-col>
+            </ion-row>
 
-                <ion-col size-md="6" class="bg-amarillopastel">
-                  <h5 class="text-naranjamedio pt-3">Contraindicaciones:</h5>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                  <p class="text-azuloscuro">Efecto de anclarse a la tierra</p>
-                </ion-col>
-              </ion-row>
-              <!-- row con todas las posturas de esa categoria-->
-              <ion-row>
-                <ion-col size-md="4" >
-                  <ion-card>
-                    <img src="https://www.theclassyoga.com/wp-content/uploads/2024/03/tadasana-samasthiti.jpg" />
-                    <ion-card-header>
-                      <ion-card-title class="text-naranjamedio">
-                        Tadasana o Samasthiti – Postura de la montaña
-                      </ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content class="text-azulmedio">
-                      Dificultad: Fácil
-                    </ion-card-content>
-                  </ion-card>
-                </ion-col>
-                <ion-col size-md="4">
-                  <ion-card>
-                    <img src="https://www.theclassyoga.com/wp-content/uploads/2024/03/tadasana-samasthiti.jpg" />
-                    <ion-card-header>
-                      <ion-card-title class="text-naranjamedio">
-                        Tadasana o Samasthiti – Postura de la montaña
-                      </ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content class="text-azulmedio">
-                      Dificultad: Fácil
-                    </ion-card-content>
-                  </ion-card>
-                </ion-col>
-                <ion-col size-md="4">
-                  <ion-card>
-                    <img src="https://www.theclassyoga.com/wp-content/uploads/2024/03/tadasana-samasthiti.jpg" />
-                    <ion-card-header>
-                      <ion-card-title class="text-naranjamedio">
-                        Tadasana o Samasthiti – Postura de la montaña
-                      </ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content class="text-azulmedio">
-                      Dificultad: Fácil
-                    </ion-card-content>
-                  </ion-card>
-                </ion-col>
-                <ion-col size-md="4">
-                  <ion-card>
-                    <img src="https://www.theclassyoga.com/wp-content/uploads/2024/03/tadasana-samasthiti.jpg" />
-                    <ion-card-header>
-                      <ion-card-title class="text-naranjamedio">
-                        Tadasana o Samasthiti – Postura de la montaña
-                      </ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content class="text-azulmedio">
-                      Dificultad: Fácil
-                    </ion-card-content>
-                  </ion-card>
-                </ion-col>
-              </ion-row>
+            <!-- POSTURAS -->
+            <ion-row>
+              <ion-col size-md="4" *ngFor="let postura of categoria.posturas">
+                <ion-card>
+                  <img [src]="postura.imagen" alt="Imagen de postura" />
+                  <ion-card-header>
+                    <ion-card-title class="text-naranjamedio">{{ postura.nombre }}</ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content class="text-azulmedio">
+                    Dificultad: {{ postura.dificultad }}
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
 
-            </ion-segment-content>
-            <ion-segment-content id="anterior">Flexión anterior</ion-segment-content>
-            <ion-segment-content id="posterior">Flexión posterior</ion-segment-content>
-            <ion-segment-content id="intervidas">Invertidas</ion-segment-content>
-            <ion-segment-content id="tronco"> Brazos / Core</ion-segment-content>
-            <ion-segment-content id="torsion">Torsión</ion-segment-content>
-            <ion-segment-content id="apertura">Apertura de caderas</ion-segment-content>
-            <ion-segment-content id="meditacion">Meditación</ion-segment-content>
-          </ion-segment-view>
+          </div>
+        </div>
 
-        </ion-grid>
       </ion-col>
     </ion-row>
-
   </ion-grid>
 </ion-content>
 

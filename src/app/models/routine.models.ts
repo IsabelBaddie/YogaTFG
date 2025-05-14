@@ -16,5 +16,6 @@ export interface RoutineI {
     media: number | null;
     fechaCreacion: Date | null;
     tipo: string | null; 
+    imagenUrl?: string;
   }
   

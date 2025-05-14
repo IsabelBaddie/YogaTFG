@@ -29,6 +29,33 @@
 
 
 <ion-content class="ion-padding bg-azulclaro">
+  <!-- FORMULARIO PARA RUTINA -->
+<ion-card>
+  <ion-item>
+    <ion-label position="stacked">Nombre de la rutina</ion-label>
+    <ion-input [(ngModel)]="nuevaRutina.nombre" name="nombre" required></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Selecciona la dificultad</ion-label>
+    <ion-select [(ngModel)]="nuevaRutina.dificultad" name="dificultad" required interface="popover">
+      <ion-select-option value="Facil">Fácil</ion-select-option>
+      <ion-select-option value="Media">Media</ion-select-option>
+      <ion-select-option value="Dificil">Difícil</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Duración (minutos)</ion-label>
+    <ion-input type="number" [(ngModel)]="nuevaRutina.duracion" name="duracion" required></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="primary" (click)="guardarYAsignarRutina()" [disabled]="cargando">
+    {{ cargando ? 'Guardando...' : 'Guardar Rutina' }}
+    <ion-spinner *ngIf="cargando" slot="end"></ion-spinner>
+  </ion-button>
+</ion-card>
+
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <ion-col size="6">

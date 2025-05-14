@@ -56,9 +56,9 @@ async getTodasLasRutinas(): Promise<RoutineI[]> {
     const posturasRelajacion = posturas.filter(postura => relajacionCategorias.includes(postura.categoria_id));
 
     const rutinas = [
-      { nombre: "Rutina de Fuerza", posturas: posturasFuerza, tipo: "fuerza", dificultad: Dificultad.Dificil },
-      { nombre: "Rutina de Flexibilidad", posturas: posturasFlexibilidad, tipo: "flexibilidad", dificultad: Dificultad.Media },
-      { nombre: "Rutina de Relajación", posturas: posturasRelajacion, tipo: "relajación", dificultad: Dificultad.Facil },
+      { nombre: "Rutina de Fuerza", posturas: posturasFuerza, tipo: "fuerza", dificultad: Dificultad.Dificil, imagen: "assets/img/fuerza.jpg" },
+      { nombre: "Rutina de Flexibilidad", posturas: posturasFlexibilidad, tipo: "flexibilidad", dificultad: Dificultad.Media, imagen: "assets/img/flexibilidad.jpg" },
+      { nombre: "Rutina de Relajación", posturas: posturasRelajacion, tipo: "relajación", dificultad: Dificultad.Facil, imagen: "assets/img/relajacion.jpg" },
     ];
 
     const coleccionPosturaRutina = collection(this.firestore, 'posturarutina');

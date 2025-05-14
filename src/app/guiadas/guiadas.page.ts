@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, 
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol,
   IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter,
   IonItem
 
- } from '@ionic/angular/standalone';
+} from '@ionic/angular/standalone';
 import { RoutineI } from '../models/routine.models';
+
 import { NavigationService } from '../services/navigation.service';
 
 
@@ -17,35 +19,37 @@ import { NavigationService } from '../services/navigation.service';
   styleUrls: ['./guiadas.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-    IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, 
+    IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol,
     IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonItem
   ]
 })
 export class GuiadasPage implements OnInit {
 
-  
+
   rutinas: RoutineI[] = [];
 
-  ngOnInit() {
+  constructor(private navigationService: NavigationService,) { }
+
+  async ngOnInit() {
   }
 
-    constructor(private navigationService: NavigationService) {}
+  goToHome() {
+    this.navigationService.goToHome();
+  }
 
-    goToHome() {
-      this.navigationService.goToHome();
-    }
-    
-    goToSobreNosotros() {
-      this.navigationService.goToSobreNosotros();
-    }
+  goToSobreNosotros() {
+    this.navigationService.goToSobreNosotros();
+  }
 
-    goToPrivacidad() {
-      this.navigationService.goToPrivacidad();
-    }
-    
-    onRutinaChange(event: any) {
-      this.navigationService.goToRutina(event.detail.value);
-    }
-   
+  goToPrivacidad() {
+    this.navigationService.goToPrivacidad();
+  }
+
+  onRutinaChange(event: any) {
+    this.navigationService.goToRutina(event.detail.value);
+  }
+
+
+
 
 }

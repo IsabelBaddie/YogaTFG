@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, 
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar,
   IonButtons, IonImg, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonListHeader,
   IonLabel, IonItem, IonCardSubtitle, IonFooter, IonSelect, IonSelectOption
- } from '@ionic/angular/standalone';
+} from '@ionic/angular/standalone';
+
 import { NavigationService } from '../../services/navigation.service';
+
+
 
 @Component({
   selector: 'app-privacidad',
@@ -19,27 +23,33 @@ import { NavigationService } from '../../services/navigation.service';
 })
 export class PrivacidadPage implements OnInit {
 
-  
-      constructor(private navigationService: NavigationService) {}
-  
-      goToHome() {
-        this.navigationService.goToHome();
-      }
-      
-      goToSobreNosotros() {
-        this.navigationService.goToSobreNosotros();
-      }
-  
-      goToPrivacidad() {
-        this.navigationService.goToPrivacidad;
-      }
 
-      onRutinaChange(event: any) {
-        this.navigationService.goToRutina(event.detail.value);
-      }
- 
+  constructor(private navigationService: NavigationService,) { }
 
-  ngOnInit() {
+    nombreUsuario: string = ''; // Para almacenar el nombre del usuario
+  async ngOnInit() {
+
   }
+
+  goToHome() {
+    this.navigationService.goToHome();
+  }
+
+  goToSobreNosotros() {
+    this.navigationService.goToSobreNosotros();
+  }
+
+  goToPrivacidad() {
+    this.navigationService.goToPrivacidad;
+  }
+
+  onRutinaChange(event: any) {
+    this.navigationService.goToRutina(event.detail.value);
+  }
+
+
+
+
+
 
 }

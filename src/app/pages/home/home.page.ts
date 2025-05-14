@@ -21,7 +21,6 @@ import { CategoriasService } from '../../services/categorias.service';
 import { AutenticacionService } from '../../services/autenticacion.service';
 import { StorageService } from 'src/app/services/storage.service';
 
-import { UserI } from 'src/app/models/user.models';
 
 @Component({
   selector: 'app-home',

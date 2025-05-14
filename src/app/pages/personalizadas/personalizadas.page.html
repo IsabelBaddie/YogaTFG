@@ -25,18 +25,11 @@
         </ion-item>
         
       </div>
-
-      <!-- DERECHA: Bienvenida + botones -->
-      <div style="display: flex; align-items: center; flex-wrap: wrap;">
-        <span class="me-3 text-white fw-bold">Bienvenido invitado/a</span>
-        <ion-button fill="outline" class="me-2 bg-amarillopastel">Login | Registered</ion-button>
-        <ion-button fill="outline" class="bg-amarillopastel">Logout</ion-button>
-      </div>
-
     </div>
   </ion-toolbar>
 
 </ion-header>
+
 
 <ion-content class="ion-padding bg-azulclaro">
   <ion-grid>
@@ -44,9 +37,9 @@
       <ion-col size="6">
         <h4 class="text-azulmedio">Selecciona la dificultad:</h4>
         <ion-select placeholder="Nivel">
-          <ion-select-option value="principiante">Principiante</ion-select-option>
-          <ion-select-option value="intermedio">Intermedio</ion-select-option>
-          <ion-select-option value="avanzado">Avanzado</ion-select-option>
+          <ion-select-option value="Facil">Fácil</ion-select-option>
+          <ion-select-option value="Media">Media</ion-select-option>
+          <ion-select-option value="Dificil">Difícil</ion-select-option>
         </ion-select>
       </ion-col>
 
@@ -75,24 +68,15 @@
                 <h2 class="text-naranjamedio" > NOMBRE DE LA RUTINA </h2>
                 <p class="text-azuloscuro">Duración: </p>
                 <p class="text-azuloscuro">Dificultad: </p>
-
-                <div class="star-rating d-flex gap-1">
-                  <ion-icon *ngFor="let star of [1,2,3,4,5]" name="star-outline" class="fs-4"></ion-icon>
-                </div>
                 <p class="pt-3">
                   <small class="text-muted">Fecha creación: </small>
                 </p>
-                <p>
-                  <small class="text-muted">Veces usada: </small>
-                </p>
-              
               </ion-card-content>
             </ion-col>
           </ion-row>
         </ion-card>
-        
-      </ion-col>
-      <ion-col size="12" size-md="6" size-xl="4" >
+      </ion-col>     
+            <ion-col size="12" size-md="6" size-xl="4" >
         <ion-card class="bg-amarillopastel">
           <ion-row>
             <ion-col size="4">
@@ -106,24 +90,15 @@
                 <h2 class="text-naranjamedio" > NOMBRE DE LA RUTINA </h2>
                 <p class="text-azuloscuro">Duración: </p>
                 <p class="text-azuloscuro">Dificultad: </p>
-
-                <div class="star-rating d-flex gap-1">
-                  <ion-icon *ngFor="let star of [1,2,3,4,5]" name="star-outline" class="fs-4"></ion-icon>
-                </div>
                 <p class="pt-3">
                   <small class="text-muted">Fecha creación: </small>
                 </p>
-                <p>
-                  <small class="text-muted">Veces usada: </small>
-                </p>
-               
               </ion-card-content>
             </ion-col>
           </ion-row>
         </ion-card>
-        
-      </ion-col>
-      <ion-col size="12" size-md="6" size-xl="4" >
+      </ion-col>   
+            <ion-col size="12" size-md="6" size-xl="4" >
         <ion-card class="bg-amarillopastel">
           <ion-row>
             <ion-col size="4">
@@ -137,24 +112,15 @@
                 <h2 class="text-naranjamedio" > NOMBRE DE LA RUTINA </h2>
                 <p class="text-azuloscuro">Duración: </p>
                 <p class="text-azuloscuro">Dificultad: </p>
-
-                <div class="star-rating d-flex gap-1">
-                  <ion-icon *ngFor="let star of [1,2,3,4,5]" name="star-outline" class="fs-4"></ion-icon>
-                </div>
                 <p class="pt-3">
                   <small class="text-muted">Fecha creación: </small>
                 </p>
-                <p>
-                  <small class="text-muted">Veces usada: </small>
-                </p>
-                
               </ion-card-content>
             </ion-col>
           </ion-row>
         </ion-card>
-        
-      </ion-col>
-      <ion-col size="12" size-md="6" size-xl="4" >
+      </ion-col>   
+            <ion-col size="12" size-md="6" size-xl="4" >
         <ion-card class="bg-amarillopastel">
           <ion-row>
             <ion-col size="4">
@@ -168,23 +134,14 @@
                 <h2 class="text-naranjamedio" > NOMBRE DE LA RUTINA </h2>
                 <p class="text-azuloscuro">Duración: </p>
                 <p class="text-azuloscuro">Dificultad: </p>
-
-                <div class="star-rating d-flex gap-1">
-                  <ion-icon *ngFor="let star of [1,2,3,4,5]" name="star-outline" class="fs-4"></ion-icon>
-                </div>
                 <p class="pt-3">
                   <small class="text-muted">Fecha creación: </small>
                 </p>
-                <p>
-                  <small class="text-muted">Veces usada: </small>
-                </p>
-              
               </ion-card-content>
             </ion-col>
           </ion-row>
         </ion-card>
-        
-      </ion-col>
+      </ion-col>   
     </ion-row>
   </ion-grid>
 </ion-content>

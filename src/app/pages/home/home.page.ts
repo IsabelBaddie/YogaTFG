@@ -18,6 +18,10 @@ import { Firestore } from '@angular/fire/firestore';
 
 import { NavigationService } from '../../services/navigation.service';
 import { CategoriasService } from '../../services/categorias.service';
+import { AutenticacionService } from '../../services/autenticacion.service';
+import { StorageService } from 'src/app/services/storage.service';
+
+import { UserI } from 'src/app/models/user.models';
 
 @Component({
   selector: 'app-home',
@@ -33,13 +37,21 @@ import { CategoriasService } from '../../services/categorias.service';
 })
 export class HomePage implements OnInit {
 
+nombreUsuario: string = ''; // Para almacenar el nombre del usuario
+
   constructor(private navigationService: NavigationService, private categoriasService : CategoriasService,
-    private firestore: Firestore
+    private firestore: Firestore, private autenticacion: AutenticacionService, private storageService: StorageService 
   ) { }
 
-    ngOnInit() {
+    async ngOnInit() {
     this.cargarCategorias();
     this.cargarTodasLasPosturas();
+
+        // Recuperar el nombre del usuario desde el almacenamiento
+    const nombre = await this.storageService.get('nombreUsuario');
+    if (nombre) {
+      this.nombreUsuario = nombre;
+    }
   }
 
   categorias: any[] = [];
@@ -63,12 +75,16 @@ export class HomePage implements OnInit {
     this.navigationService.goToRutina(event.detail.value);
   }
 
-  login() {
-    console.log('Login clicked');
-  }
 
-  logout() {
-    console.log('Logout clicked');
+
+  async logout() { // Método para cerrar sesión
+    try {
+      await this.autenticacion.logout();
+         await this.storageService.remove('usuarioActivo');
+      console.log('Sesión cerrada correctamente');
+    } catch (err) {
+      console.error('Error al cerrar sesión:', err);
+    }
   }
 
   async cargarTodasLasPosturas() {

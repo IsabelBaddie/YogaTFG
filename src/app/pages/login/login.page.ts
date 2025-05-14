@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonFooter,
   IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-  IonLabel, IonInput, 
+  IonLabel, IonInput,
 } from '@ionic/angular/standalone';
 // Importamos el servicio de navegación
 import { NavigationService } from '../../services/navigation.service';
@@ -18,6 +18,8 @@ import { UserI } from 'src/app/models/user.models';
 import { FirestoreService } from '../../services/firestore.service';
 import { AutenticacionService } from '../../services/autenticacion.service';
 import { RutinasService } from '../../services/rutinas.service';
+import { StorageService } from '../../services/storage.service'; // ajusta el path si es diferente
+
 
 @Component({
   selector: 'app-login',
@@ -26,14 +28,16 @@ import { RutinasService } from '../../services/rutinas.service';
   standalone: true,
   imports: [IonCardTitle, IonFooter, IonButtons, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
     FormsModule, IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardContent,
-    IonLabel, IonInput, ReactiveFormsModule, ]
+    IonLabel, IonInput, ReactiveFormsModule,]
 })
 export class LoginPage implements OnInit {
 
-  constructor(private navigationService: NavigationService, private firestoreService: FirestoreService, private rutinaService: RutinasService, private autenticacion: AutenticacionService) { // Constructor del componente
-    this.initStorage(); // Inicializamos el almacenamiento
+  constructor(private navigationService: NavigationService, private firestoreService: FirestoreService, private rutinaService: RutinasService,
+    private autenticacion: AutenticacionService, private storageService: StorageService) { // Constructor del componente
+
     this.loadusers(); //Al crear el componente (la pagina), se ejecuta loadusers() para cargar los usuarios desde Firestore.
     this.initUser(); // Inicializamos un usuario vacío para el formulario
+
   }
 
   ngOnInit() {
@@ -41,7 +45,7 @@ export class LoginPage implements OnInit {
 
   //VARIABLES 
   // Definimos las propiedades del componente
-  private storage!: Storage; // Almacenamiento de datos en el dispositivo
+
 
   //Atributo users, que es un array de objetos del tipo UserI.
   users: UserI[] = []; //Inicializamos en vacio, de un modelo/interfaz que hemos creado, se va rellenando con Firebase
@@ -58,11 +62,7 @@ export class LoginPage implements OnInit {
     password: ''
   };
 
-  //MÉTODOS
-  async initStorage() { // Inicializamos el almacenamiento
-    // Creamos una instancia de Storage
-    this.storage = await new Storage().create();
-  }
+
 
   loadusers() {  // Método que escucha cambios en la colección 'Usuarios' en Firestore
     //utilizamos el metodo del servicio 
@@ -91,7 +91,8 @@ export class LoginPage implements OnInit {
 
   async goToHome() { // Utilizamos el servicio de navegación para ir a la página home
     // Verificar si el usuario está logueado
-    const usuarioId = await this.storage.get('usuarioActivo');
+    const usuarioId = await this.storageService.get('usuarioActivo'); // ✅ Correcto
+
 
     if (usuarioId) {
       // Si está logueado, redirigir a la página de rutinas
@@ -101,14 +102,14 @@ export class LoginPage implements OnInit {
       // Si no está logueado, redirigir al login o mostrar un mensaje
       console.log('Usuario no logueado');
     }
-    
+
   }
 
   goToPrivacidad() { // Utilizamos el servicio de navegación para ir a la página de privacidad
     this.navigationService.goToPrivacidad();
   }
 
-  
+
 
   async registerAndSave() { // Método para registrar y guardar un nuevo usuario
     const { email, password, nombre } = this.newUser;
@@ -143,11 +144,18 @@ export class LoginPage implements OnInit {
         console.log('Login exitoso:', res);
 
         // Guardar el UID o email del usuario
-        await this.storage.set('usuarioActivo', res.user.uid);
+        await this.storageService.set('usuarioActivo', res.user.uid);
         console.log('Usuario almacenado en Storage con este uid:', res.user.uid);
 
+        // Obtener los datos completos del usuario
         const datos = await this.autenticacion.obtenerDatosUsuario();
         this.usuarioActual = datos;
+
+        // ✅ Guarda el nombre del usuario en el Storage
+        if (this.usuarioActual?.nombre) {
+          await this.storageService.set('nombreUsuario', this.usuarioActual.nombre);
+          console.log('Nombre del usuario guardado:', this.usuarioActual.nombre);
+        }
 
         this.rutinaService.crearRutinasPorDefectoParaUsuario(); // Crear rutinas por defecto para el usuario
 
@@ -164,7 +172,7 @@ export class LoginPage implements OnInit {
   async logout() { // Método para cerrar sesión
     try {
       await this.autenticacion.logout();
-      await this.storage.remove('usuarioActivo');
+      await this.storageService.remove('usuarioActivo');
       console.log('Sesión cerrada correctamente');
     } catch (err) {
       console.error('Error al cerrar sesión:', err);

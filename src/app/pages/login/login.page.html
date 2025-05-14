@@ -63,21 +63,12 @@
   </ion-button>
 
 </ion-content>
-
 <ion-footer>
   <ion-toolbar color="bg-degradado-multiple" class="bg-degradado-multiple">
-    <div class="footer-container">
-      <div class="footer-left">
-        <span class="text-white">Isabel Carrasco Gallego ©</span>
-      </div>
-      <div class="footer-right">
-        <ion-button (click)="goToPrivacidad()" fill="clear" class="text-white" size="small">
-          Política y privacidad
-        </ion-button>
-        <ion-button fill="clear" class="text-white" size="small">
-          Términos y condiciones
-        </ion-button>
-      </div>
-    </div>
+    <ion-title class="text-white">Isabel Carrasco Gallego ©</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToPrivacidad()" fill="clear" class="text-white">Política y privacidad</ion-button>
+      <ion-button fill="clear" class="text-white">Términos y condiciones</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-footer>

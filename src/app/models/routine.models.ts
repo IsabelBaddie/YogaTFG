@@ -6,16 +6,21 @@ export enum Dificultad {
   Dificil = "difícil"
 }
 
+export enum Tipo {
+  Fuerza = "fuerza",
+  Relajacion = "relajación",
+  Flexibilidad = "flexibilidad"
+}
+
+
 export interface RoutineI {
     id: string;
     nombre: string;
     dificultad: Dificultad;
-    duracion: number; 
-    puntuacion: number | null;
-    numeroValoraciones: number | null;
-    media: number | null;
+    duracion: number | null; 
     fechaCreacion: Date | null;
-    tipo: string | null; 
+    tipo: Tipo; 
     imagenUrl?: string;
+    esGuiada: boolean; 
   }
   

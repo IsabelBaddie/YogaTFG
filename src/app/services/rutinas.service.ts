@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { collection, doc, getDocs, setDoc, query, where } from '@angular/fire/firestore';
 import { PosturaI } from '../models/postura.models';
 import { Firestore } from '@angular/fire/firestore'
-import { Dificultad, RoutineI } from '../models/routine.models';
+import { Dificultad, RoutineI, Tipo } from '../models/routine.models';
 import { PosturaRutinaI } from '../models/posturarutina.models';
 import { FirestoreService } from './firestore.service';
 
@@ -13,22 +13,22 @@ export class RutinasService {
 
   constructor(private firestore: Firestore, private firestoreService: FirestoreService) { }
 
-async getTodasLasRutinas(): Promise<RoutineI[]> {
-  const coleccionRutinas = collection(this.firestore, 'Rutinas');
-  const snapshot = await getDocs(coleccionRutinas);
-  return snapshot.docs.map(doc => {
-    return {
-      id: doc.id,
-      ...doc.data()
-    } as RoutineI;
-  });
-}
+  async getTodasLasRutinas(): Promise<RoutineI[]> {
+    const coleccionRutinas = collection(this.firestore, 'Rutinas');
+    const snapshot = await getDocs(coleccionRutinas);
+    return snapshot.docs.map(doc => {
+      return {
+        id: doc.id,
+        ...doc.data()
+      } as RoutineI;
+    });
+  }
 
 
   async crearRutinasPorDefectoParaUsuario() {
     // Verificamos si ya existen rutinas por defecto
     const coleccionRutinas = collection(this.firestore, 'rutinas');
-    const nombresPorDefecto = [
+    const nombresPorDefecto = [ //creamos un array de string con los nombres 
       "Rutina de Fuerza",
       "Rutina de Flexibilidad",
       "Rutina de Relajación"
@@ -56,9 +56,9 @@ async getTodasLasRutinas(): Promise<RoutineI[]> {
     const posturasRelajacion = posturas.filter(postura => relajacionCategorias.includes(postura.categoria_id));
 
     const rutinas = [
-      { nombre: "Rutina de Fuerza", posturas: posturasFuerza, tipo: "fuerza", dificultad: Dificultad.Dificil, imagen: "assets/img/fuerza.jpg" },
-      { nombre: "Rutina de Flexibilidad", posturas: posturasFlexibilidad, tipo: "flexibilidad", dificultad: Dificultad.Media, imagen: "assets/img/flexibilidad.jpg" },
-      { nombre: "Rutina de Relajación", posturas: posturasRelajacion, tipo: "relajación", dificultad: Dificultad.Facil, imagen: "assets/img/relajacion.jpg" },
+      { nombre: "Rutina de Fuerza", posturas: posturasFuerza, tipo: Tipo.Fuerza, dificultad: Dificultad.Dificil, imagen: "assets/img/fuerza.png" },
+      { nombre: "Rutina de Flexibilidad", posturas: posturasFlexibilidad, tipo: Tipo.Flexibilidad, dificultad: Dificultad.Media, imagen: "assets/img/flexibilidad.png" },
+      { nombre: "Rutina de Relajación", posturas: posturasRelajacion, tipo: Tipo.Relajacion, dificultad: Dificultad.Facil, imagen: "assets/img/relajacion.png" },
     ];
 
     const coleccionPosturaRutina = collection(this.firestore, 'posturarutina');
@@ -72,11 +72,10 @@ async getTodasLasRutinas(): Promise<RoutineI[]> {
         nombre: rutina.nombre,
         dificultad: rutina.dificultad,
         duracion: rutina.posturas.reduce((acc, p) => acc + p.duracion, 0),
-        puntuacion: null,
-        numeroValoraciones: null,
-        media: null,
         fechaCreacion: new Date(),
-        tipo: rutina.tipo
+        tipo: rutina.tipo,
+        imagenUrl: rutina.imagen,
+        esGuiada: true,
       };
 
       await setDoc(rutinasDocRef, rutinaData);
@@ -95,6 +94,21 @@ async getTodasLasRutinas(): Promise<RoutineI[]> {
       }
     }
   }
+
+  // Obtener las rutinas asociadas a un usuario
+  async getRutinasGuiadas(): Promise<RoutineI[]> {
+    const rutinasRef = collection(this.firestore, 'rutinas');
+    const q = query(rutinasRef, where('esGuiada', '==', true));
+    const rutinasSnapshot = await getDocs(q);
+
+    const rutinas: RoutineI[] = rutinasSnapshot.docs.map(doc => {
+      const data = doc.data() as Omit<RoutineI, 'id'>;
+      return { ...data, id: doc.id };
+    });
+
+    return rutinas;
+  }
+
 
 }
 

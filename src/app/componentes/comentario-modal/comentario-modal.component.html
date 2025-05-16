@@ -1,0 +1,11 @@
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Tu comentario</ion-label>
+    <ion-input
+      type="text"
+      [(ngModel)]="contenido"
+      placeholder="Escribe tu comentario"
+    ></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="cerrarModal()">Guardar comentario</ion-button>
+</ion-content>

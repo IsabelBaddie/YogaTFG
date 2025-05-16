@@ -10,7 +10,7 @@ import {
 
 
 import { NavigationService } from '../../services/navigation.service';
-import { Dificultad, RoutineI } from 'src/app/models/routine.models';
+import { Dificultad, RoutineI, Tipo } from 'src/app/models/routine.models';
 import { AutenticacionService } from 'src/app/services/autenticacion.service';
 import { RutinausuarioService } from 'src/app/services/rutinausuario.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -47,12 +47,10 @@ export class PersonalizadasPage implements OnInit {
   id: this.firestoreService.createIdDoc(),
   nombre: "",
   dificultad: Dificultad.Dificil,
-  duracion: 0,
-  puntuacion: null,
-  numeroValoraciones: null,
-  media: null,
+  duracion: null,
   fechaCreacion: new Date(),
-  tipo: null
+  tipo: Tipo.Fuerza, 
+  esGuiada: false, 
 };
 
   cargando: boolean = false;
@@ -104,12 +102,10 @@ export class PersonalizadasPage implements OnInit {
       id: this.firestoreService.createIdDoc(),
       nombre: "", // Inicializado correctamente
       dificultad: Dificultad.Dificil, // Valor inicial válido
-      duracion: 0,
-      puntuacion: null,
-      numeroValoraciones: null,
-      media: null,
+      duracion: null,
       fechaCreacion: new Date(fechaFormateada),
-      tipo: null
+      tipo: Tipo.Fuerza, 
+      esGuiada: false, 
     };
   }
 

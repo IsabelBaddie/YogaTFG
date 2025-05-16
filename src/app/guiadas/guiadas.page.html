@@ -12,18 +12,15 @@
         <ion-button fill="clear" (click)="goToSobreNosotros()" class="text-white">Sobre Nosotros</ion-button>
 
         <!-- Rutinas -->
-        <ion-item class="bg-transparent" lines="none" style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
-          <ion-select
-            class="select-transparente"
-            aria-label="RUTINAS"
-            interface="popover"
-            placeholder="RUTINAS"
+        <ion-item class="bg-transparent" lines="none"
+          style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
+          <ion-select class="select-transparente" aria-label="RUTINAS" interface="popover" placeholder="RUTINAS"
             (ionChange)="onRutinaChange($event)">
             <ion-select-option value="guiadas">Rutinas guiadas</ion-select-option>
             <ion-select-option value="personalizadas">Rutinas personalizadas</ion-select-option>
           </ion-select>
         </ion-item>
-        
+
       </div>
 
     </div>
@@ -37,7 +34,7 @@
     <ion-row class="ion-align-items-center">
       <ion-col size="6">
         <h4 class="text-azulmedio">Selecciona el objetivo:</h4>
-        <ion-select placeholder="Metas 🎯">
+        <ion-select placeholder="Metas 🎯" (ionChange)="filtrarPorTipo($event)">
           <ion-select-option value="flexibilidad">Flexibilidad</ion-select-option>
           <ion-select-option value="fuerza">Fuerza</ion-select-option>
           <ion-select-option value="relajacion">Relajación</ion-select-option>
@@ -46,31 +43,33 @@
     </ion-row>
 
     <ion-row>
-  <ion-col *ngFor="let rutina of rutinas" size="12" size-md="6" size-xl="4">
-    <ion-card class="bg-amarillopastel">
-      <ion-row>
-        <ion-col size="4">
-          <img [src]="rutina.imagenUrl || '/assets/img/default-rutina.png'" class="img-fluid" alt="{{ rutina.nombre }}" />
-        </ion-col>
-        <ion-col size="8">
-          <ion-card-header>
-            <ion-card-title class="text-naranjamedio">{{ rutina.nombre }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p class="text-azuloscuro">Duración: {{ rutina.duracion }} min</p>
-            <p class="text-azuloscuro">Dificultad: {{ rutina.dificultad }}</p>
-            <p class="pt-1">
-              <small class="text-muted">Añade tu comentario</small>
-            </p>
-            <ion-button (click)="abrirModalComentario(rutina.id)" shape="round" fill="solid" class="position-absolute bottom-0 end-0 m-2" size="small">
-              +
-            </ion-button>
-          </ion-card-content>
-        </ion-col>
-      </ion-row>
-    </ion-card>
-  </ion-col>
-</ion-row>
+      <ion-col *ngFor="let rutina of rutinasFiltradas" size="12" size-md="6" size-xl="4">
+        <ion-card class="bg-amarillopastel">
+          <ion-row>
+            <ion-col size="4">
+              <img [src]="rutina.imagenUrl || '/assets/img/default-rutina.png'" class="img-fluid"
+                alt="{{ rutina.nombre }}" />
+            </ion-col>
+            <ion-col size="8">
+              <ion-card-header>
+                <ion-card-title class="text-naranjamedio">{{ rutina.nombre }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="text-azuloscuro">Duración: {{ rutina.duracion }} min</p>
+                <p class="text-azuloscuro">Dificultad: {{ rutina.dificultad }}</p>
+                <p class="pt-1">
+                  <small class="text-muted">Añade tu comentario</small>
+                </p>
+                <ion-button (click)="abrirModalComentario(rutina.id)" shape="round" fill="solid"
+                  class="position-absolute bottom-0 end-0 m-2" size="small">
+                  +
+                </ion-button>
+              </ion-card-content>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
   </ion-grid>
 </ion-content>

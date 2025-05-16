@@ -8,7 +8,7 @@ export enum Dificultad {
 
 export enum Tipo {
   Fuerza = "fuerza",
-  Relajacion = "relajación",
+  Relajacion = "relajacion",
   Flexibilidad = "flexibilidad"
 }
 

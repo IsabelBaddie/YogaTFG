@@ -32,6 +32,9 @@ export class GuiadasPage implements OnInit {
   rutinas: RoutineI[] = [];
   rutinaSeleccionadaId: string = '';
   usuarioActivo: UserI = { id: '', nombre: '', email: '', password: '' };
+  filtroTipo: string = ''; 
+  rutinasFiltradas: RoutineI[] = [];
+
 
   constructor(
     private navigationService: NavigationService,
@@ -43,7 +46,7 @@ export class GuiadasPage implements OnInit {
 
   async ngOnInit() {
     this.rutinas = await this.rutinaService.getRutinasGuiadas();
-
+    this.rutinasFiltradas = this.rutinas;
     try {
       const datos: any = await this.autenticacionService.obtenerDatosUsuario();
       this.usuarioActivo.id = datos.id || '';
@@ -107,4 +110,17 @@ export class GuiadasPage implements OnInit {
       console.error('Error al guardar el comentario en Firestore:', error);
     }
   }
+
+  filtrarPorTipo(event: any) {
+  const tipoSeleccionado = event.detail.value;
+
+  this.filtroTipo = tipoSeleccionado;
+
+  this.rutinasFiltradas = this.rutinas.filter(rutina =>
+    rutina.tipo.toLowerCase() === tipoSeleccionado.toLowerCase()
+  );
+}
+
+
+  
 }

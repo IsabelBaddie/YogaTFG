@@ -12,18 +12,15 @@
         <ion-button fill="clear" (click)="goToSobreNosotros()" class="text-white">Sobre Nosotros</ion-button>
 
         <!-- Rutinas -->
-        <ion-item class="bg-transparent" lines="none" style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
-          <ion-select
-            class="select-transparente"
-            aria-label="RUTINAS"
-            interface="popover"
-            placeholder="RUTINAS"
+        <ion-item class="bg-transparent" lines="none"
+          style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
+          <ion-select class="select-transparente" aria-label="RUTINAS" interface="popover" placeholder="RUTINAS"
             (ionChange)="onRutinaChange($event)">
             <ion-select-option value="guiadas">Rutinas guiadas</ion-select-option>
             <ion-select-option value="personalizadas">Rutinas personalizadas</ion-select-option>
           </ion-select>
         </ion-item>
-        
+
       </div>
 
       <!-- DERECHA: Bienvenida + botones -->
@@ -45,7 +42,8 @@
         <h5 class="text-center text-azuloscuro">Categorías:</h5>
 
         <!-- CATEGORÍAS -->
-        <ion-segment [(ngModel)]="categoriaSeleccionadaId" (ionChange)="onCategoriaChange($event)" scrollable class="mt-3">
+        <ion-segment [(ngModel)]="categoriaSeleccionadaId" (ionChange)="onCategoriaChange($event)" scrollable
+          class="mt-3">
           <ion-segment-button *ngFor="let categoria of categorias" [value]="categoria.id">
             {{ categoria.nombre }}
           </ion-segment-button>
@@ -69,12 +67,13 @@
             </ion-row>
 
             <!-- POSTURAS -->
+            <!-- POSTURAS -->
             <ion-row>
-              <ion-col size-md="4" *ngFor="let postura of categoria.posturas">
+              <ion-col size-md="4" *ngFor="let postura of posturasPorCategoria[categoria.id]">
                 <ion-card>
                   <img [src]="postura.imagen" alt="Imagen de postura" />
                   <ion-card-header>
-                    <ion-card-title class="text-naranjamedio">{{ postura.nombre }}</ion-card-title>
+                    <ion-card-title class="text-naranjamedio">{{ postura.postura }}</ion-card-title>
                   </ion-card-header>
                   <ion-card-content class="text-azulmedio">
                     Dificultad: {{ postura.dificultad }}
@@ -82,6 +81,7 @@
                 </ion-card>
               </ion-col>
             </ion-row>
+
 
           </div>
         </div>

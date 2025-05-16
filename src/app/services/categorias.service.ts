@@ -278,7 +278,8 @@ async getPosturasDeCategoria(categoriaId: string): Promise<PosturaI[]> {
       const data = documentoInstantanea.data() as PosturaI; 
       posturasPorCategoria.push(data); 
    }
-   
+   console.log("Posturas de la categoria:", categoriaId, "son:", posturasPorCategoria);
+
    return posturasPorCategoria;
 }
 

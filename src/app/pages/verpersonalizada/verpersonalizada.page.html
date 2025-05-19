@@ -22,69 +22,79 @@
         </ion-item>
 
       </div>
+
     </div>
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Ver Rutina Personalizada</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding bg-azulclaro">
 
-  <div class="ion-padding">
+  <!-- Siempre mostrar el selector para agregar posturas -->
+  <ion-card class="bg-amarillopastel">
+    <ion-card-header>
+      <ion-card-title class="text-azulmedio">Agregar postura a la rutina</ion-card-title>
+    </ion-card-header>
+    <ion-item class="bg-amarillopastel m-3">
+      <ion-select placeholder="Selecciona la postura" [(ngModel)]="posturasSeleccionadasId[rutinaId]">
+        <ion-select-option *ngFor="let postura of todasLasPosturas" [value]="postura.id">
+          {{ postura.postura }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button expand="block" class="ion-margin" (click)="asociarPostura()">Agregar</ion-button>
+  </ion-card>
 
-    <!-- Mostrar posturas si hay -->
-    <ion-list *ngIf="selectedPosturas.length > 0; else noPosturas">
-      <ion-item *ngFor="let postura of selectedPosturas">
-        <ion-label>
-          <h3>{{ postura.postura }}</h3>
-          <p>Dificultad: {{ postura.dificultad }}</p>
-        </ion-label>
+  <!-- Mostrar posturas si existen, o el mensaje -->
+  <ion-card *ngIf="selectedPosturas.length > 0; else sinPosturas" class="bg-azulclaro">
+    <ion-card-header>
+      <ion-card-title class="text-azulmedio">Posturas asociadas a esta rutina</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let postura of selectedPosturas" lines="full" class="ion-padding-vertical">
+          <ion-grid>
+            <ion-row>
+              <!-- Dificultad -->
+              <ion-col size="6" class="ion-text-start text-azuloscuro">
+                <strong>Dificultad:</strong> {{ postura.dificultad || 'N/A' }}
+              </ion-col>
 
-        <!-- Mostrar video si existe -->
-        <div *ngIf="postura.video" style="width: 100%; margin-top: 10px;">
-          <video width="100%" height="240" controls>
-            <source [src]="postura.video" type="video/mp4">
-            Tu navegador no soporta videos HTML5.
-          </video>
-        </div>
-         <ion-button color="danger" (click)="eliminarPostura(postura.id)">Eliminar</ion-button>
-      </ion-item>
-    </ion-list>
+              <!-- Nombre -->
+              <ion-col size="6" class="ion-text-end text-azuloscuro">
+                <strong>{{ postura.postura }}</strong>
+              </ion-col>
+            </ion-row>
 
-    <!-- Si no hay posturas, mostrar mensaje y selector -->
-    <ng-template #noPosturas>
-      <ion-text color="medium" class="text-azuloscuro">
-        <p>No hay posturas asociadas a esta rutina.</p>
-      </ion-text>
+            <ion-row class="ion-padding-top">
+              <!-- Video -->
+              <ion-col size="12">
+                <video width="100%" controls *ngIf="postura.video">
+                  <source [src]="postura.video" type="video/mp4" />
+                  Tu navegador no soporta videos HTML5.
+                </video>
+              </ion-col>
+            </ion-row>
 
-      <!-- Formulario para agregar una postura -->
-      <ion-card *ngIf="todasLasPosturas.length > 0" class="bg-amarillopastel">
-        <ion-card-header>
-          <ion-card-title class="text-azulmedio">Agregar Postura a la Rutina</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item>
-            <ion-label position="stacked">Selecciona una postura</ion-label>
-            <ion-select [(ngModel)]="posturasSeleccionadasId[rutinaId]" placeholder="Selecciona una postura">
-              <ion-select-option *ngFor="let postura of todasLasPosturas" [value]="postura.id">
-                {{ postura.postura }} ({{ postura.dificultad }})
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
+            <ion-row>
+              <ion-col size="12" class="ion-text-end">
+                <ion-button color="danger" size="small" (click)="eliminarPostura(postura.id)">
+                  Eliminar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
-          <ion-button expand="block" color="primary"
-            (click)="asociarPostura()"
-            [disabled]="!posturasSeleccionadasId[rutinaId]">
-            Asociar Postura
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
-    </ng-template>
-  </div>
+  <ng-template #sinPosturas>
+    <ion-text color="medium">
+      <p class="ion-padding">No hay posturas asociadas a esta rutina.</p>
+    </ion-text>
+  </ng-template>
+
 </ion-content>
 
 <ion-footer>

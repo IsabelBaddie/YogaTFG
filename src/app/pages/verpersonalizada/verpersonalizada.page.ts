@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton,  IonItem, IonSelect, 
-  IonSelectOption, IonFooter, IonButtons, IonText, IonList, IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
+  IonSelectOption, IonFooter, IonButtons, IonText, IonList, IonLabel, IonCard, IonCardHeader,
+   IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
 import { PosturarutinaService } from 'src/app/services/posturarutina.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { PosturaI } from 'src/app/models/postura.models';
@@ -17,8 +18,8 @@ import { Firestore } from '@angular/fire/firestore';
   templateUrl: './verpersonalizada.page.html',
   styleUrls: ['./verpersonalizada.page.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonText, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, 
-    IonItem, IonSelect, IonSelectOption, IonFooter, IonButtons, IonList, IonLabel, 
+  imports: [IonGrid, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonText, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, 
+    IonItem, IonSelect, IonSelectOption, IonFooter, IonButtons, IonList, IonLabel, IonRow, IonCol
   ]
 })
 export class VerpersonalizadaPage implements OnInit {

@@ -23,10 +23,10 @@
 
 <ion-content class="ion-padding bg-azulclaro">
   <!-- FORMULARIO PARA RUTINA -->
-  <ion-card>
-    <ion-item>
-      <ion-label position="stacked">Nombre de la rutina: </ion-label>
-      <ion-input [(ngModel)]="nuevaRutina.nombre" name="nombre" required></ion-input>
+  <ion-card class="bg-azuloscuro">
+    <ion-item >
+      <ion-label class="text-azulmedio" position="stacked">Nombre de la rutina: </ion-label>
+      <ion-input  [(ngModel)]="nuevaRutina.nombre" name="nombre" required></ion-input>
     </ion-item>
 
     <ion-item>
@@ -47,10 +47,9 @@
   <!-- FILTRO DE DIFICULTAD -->
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="6">
-        <h4 class="text-azulmedio">Selecciona la dificultad:</h4>
+      <ion-col size="6">  
         <ion-item>
-          <ion-label>Dificultad</ion-label>
+          <ion-label class="text-azulmedio"> Filtra por dificultad 📈 </ion-label>
           <ion-select [(ngModel)]="dificultadSeleccionada" placeholder="Todas">
             <ion-select-option value="">Todas</ion-select-option>
             <ion-select-option [value]="Dificultad.Facil">Fácil</ion-select-option>

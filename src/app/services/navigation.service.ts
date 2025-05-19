@@ -27,4 +27,14 @@ export class NavigationService {
       this.router.navigate(['/personalizadas']);
     }
   }
+
+ comienzaRutinaPersonalizada(rutina_id: string) {
+this.router.navigate(['/verpersonalizada', rutina_id]);
+}
+
+
+  comienzaRutinaGuiada(rutina_id: string) {
+    this.router.navigate(['/verguiada', rutina_id]);
+    
+  } 
 }

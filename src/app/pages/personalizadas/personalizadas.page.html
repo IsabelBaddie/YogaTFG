@@ -30,26 +30,26 @@
 
 <ion-content class="ion-padding bg-azulclaro">
   <!-- FORMULARIO PARA RUTINA -->
-<ion-card>
-  <ion-item>
-    <ion-label position="stacked">Nombre de la rutina: </ion-label>
-    <ion-input [(ngModel)]="nuevaRutina.nombre" name="nombre" required></ion-input>
-  </ion-item>
+  <ion-card>
+    <ion-item>
+      <ion-label position="stacked">Nombre de la rutina: </ion-label>
+      <ion-input [(ngModel)]="nuevaRutina.nombre" name="nombre" required></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label>Selecciona la dificultad</ion-label>
-    <ion-select [(ngModel)]="nuevaRutina.dificultad" name="dificultad" required interface="popover">
-      <ion-select-option value="Facil">Fácil</ion-select-option>
-      <ion-select-option value="Media">Media</ion-select-option>
-      <ion-select-option value="Dificil">Difícil</ion-select-option>
-    </ion-select>
-  </ion-item>
+    <ion-item>
+      <ion-label>Selecciona la dificultad</ion-label>
+      <ion-select [(ngModel)]="nuevaRutina.dificultad" name="dificultad" required interface="popover">
+        <ion-select-option value="Facil">Fácil</ion-select-option>
+        <ion-select-option value="Media">Media</ion-select-option>
+        <ion-select-option value="Dificil">Difícil</ion-select-option>
+      </ion-select>
+    </ion-item>
 
-  <ion-button expand="block" color="primary" (click)="guardarYAsignarRutina()" [disabled]="cargando">
-    {{ cargando ? 'Guardando...' : 'Guardar Rutina' }}
-    <ion-spinner *ngIf="cargando" slot="end"></ion-spinner>
-  </ion-button>
-</ion-card>
+    <ion-button expand="block" class="bg-azuloscuro" (click)="guardarYAsignarRutina()" [disabled]="cargando">
+      {{ cargando ? 'Guardando...' : 'Guardar Rutina' }}
+      <ion-spinner *ngIf="cargando" slot="end"></ion-spinner>
+    </ion-button>
+  </ion-card>
 
   <ion-grid>
     <ion-row class="ion-align-items-center">
@@ -63,27 +63,33 @@
       </ion-col>
     </ion-row>
 
-<ion-row>
-  <ion-col *ngFor="let rutina of rutinas" size="12" size-md="6" size-xl="4">
-    <ion-card class="bg-amarillopastel">
-      <ion-row class="p-2">
-   
-        <ion-card-content>
-          <ion-card-title class="text-naranjamedio pb-2">{{ rutina.nombre }}</ion-card-title>
-          <p class="text-azuloscuro">Duración: {{ rutina.duracion }} minutos</p>
-          <p class="text-azuloscuro">Dificultad: {{ rutina.dificultad }}</p>
-          <p class="text-azuloscuro">Fecha creación: {{ rutina.fechaCreacion | date: 'shortDate' }}</p>
-          <p class="pt-3">
-            <small class="text-muted"> Gestiona tu rutina </small>
-          </p>
-          <ion-button (click)="gestionaRutina(rutina.id)" shape="round" fill="solid" class="position-absolute bottom-0 end-0" size="small">
-            ✏️
-          </ion-button>
-        </ion-card-content>
-      </ion-row>
-    </ion-card>
-  </ion-col>
-</ion-row>
+    <ion-row>
+      <ion-col *ngFor="let rutina of rutinas" size="12" size-md="6" size-xl="4">
+        <ion-card class="bg-amarillopastel">
+          <ion-row class="p-2">
+
+            <ion-card-content>
+              <ion-card-title class="text-naranjamedio pb-2">{{ rutina.nombre }}</ion-card-title>
+              <p class="text-azuloscuro">Duración: {{ rutina.duracion }} minutos</p>
+              <p class="text-azuloscuro">Dificultad: {{ rutina.dificultad }}</p>
+              <p class="text-azuloscuro">Fecha creación: {{ rutina.fechaCreacion | date: 'shortDate' }}</p>
+             
+              <ion-buttons class="pt-2" slot="end">
+                <ion-button (click)="editarRutina(rutina)">
+                  <ion-icon color="bg-verdemedio" slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+                <ion-button color="danger" (click)="deleteRoutine(rutina)">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+                <ion-button class="text-azulmedio" (click)="empezarRutina(rutina.id)">
+                  Empezar la rutina
+                </ion-button>
+              </ion-buttons>
+            </ion-card-content>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
   </ion-grid>
 </ion-content>

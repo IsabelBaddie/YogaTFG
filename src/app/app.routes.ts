@@ -31,7 +31,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/privacidad/privacidad.page').then( m => m.PrivacidadPage)
   },
   {
-    path: 'gestionrutina',
-    loadComponent: () => import('./pages/gestionrutina/gestionrutina.page').then( m => m.GestionrutinaPage)
+    path: 'verguiada',
+    loadComponent: () => import('./pages/verguiada/verguiada.page').then( m => m.VerguiadaPage)
+  },
+  {
+    path: 'verpersonalizada/:id',
+    loadComponent: () => import('./pages/verpersonalizada/verpersonalizada.page').then( m => m.VerpersonalizadaPage)
   },
 ];

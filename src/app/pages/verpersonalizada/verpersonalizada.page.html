@@ -1,0 +1,97 @@
+<ion-header class="bg-degradado-multiple">
+
+  <ion-toolbar class="bg-degradado-multiple p-4" color="bg-degradado-multiple">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+
+      <!-- IZQUIERDA: Logo + navegación -->
+      <div style="display: flex; align-items: center; flex-wrap: wrap;">
+        <img src="/assets/img/logoyoga.png" alt="logo" width="50" />
+        <h6 class="ms-3 me-3 mb-0 text-white">Asana flow</h6>
+
+        <ion-button fill="clear" (click)="goToHome()" class="text-white">Inicio</ion-button>
+        <ion-button fill="clear" (click)="goToSobreNosotros()" class="text-white">Sobre Nosotros</ion-button>
+
+        <!-- Rutinas -->
+        <ion-item class="bg-transparent" lines="none"
+          style="--padding-start: 0; --inner-padding-end: 0; margin-left: 8px;">
+          <ion-select class="select-transparente" aria-label="RUTINAS" interface="popover" placeholder="RUTINAS"
+            (ionChange)="onRutinaChange($event)">
+            <ion-select-option value="guiadas">Rutinas guiadas</ion-select-option>
+            <ion-select-option value="personalizadas">Rutinas personalizadas</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </div>
+    </div>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Ver Rutina Personalizada</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding">
+
+    <!-- Mostrar posturas si hay -->
+    <ion-list *ngIf="selectedPosturas.length > 0; else noPosturas">
+      <ion-item *ngFor="let postura of selectedPosturas">
+        <ion-label>
+          <h3>{{ postura.postura }}</h3>
+          <p>Dificultad: {{ postura.dificultad }}</p>
+        </ion-label>
+
+        <!-- Mostrar video si existe -->
+        <div *ngIf="postura.video" style="width: 100%; margin-top: 10px;">
+          <video width="100%" height="240" controls>
+            <source [src]="postura.video" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+          </video>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <!-- Si no hay posturas, mostrar mensaje y selector -->
+    <ng-template #noPosturas>
+      <ion-text color="medium">
+        <p>No hay posturas asociadas a esta rutina.</p>
+      </ion-text>
+
+      <!-- Formulario para agregar una postura -->
+      <ion-card *ngIf="todasLasPosturas.length > 0">
+        <ion-card-header>
+          <ion-card-title>Agregar Postura a la Rutina</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Selecciona una postura</ion-label>
+            <ion-select [(ngModel)]="posturasSeleccionadasId[rutinaId]" placeholder="Selecciona una postura">
+              <ion-select-option *ngFor="let postura of todasLasPosturas" [value]="postura.id">
+                {{ postura.postura }} ({{ postura.dificultad }})
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-button expand="block" color="primary"
+            (click)="asociarPostura()"
+            [disabled]="!posturasSeleccionadasId[rutinaId]">
+            Asociar Postura
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="bg-degradado-multiple" class="bg-degradado-multiple">
+    <ion-title class="text-white">Isabel Carrasco Gallego ©</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToPrivacidad()" fill="clear" class="text-white">Política y privacidad</ion-button>
+      <ion-button fill="clear" class="text-white">Términos y condiciones</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

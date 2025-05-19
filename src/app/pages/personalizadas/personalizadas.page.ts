@@ -10,6 +10,10 @@ import {
 
 
 
+import { addIcons } from 'ionicons';
+import * as icons from 'ionicons/icons';
+
+
 import { NavigationService } from '../../services/navigation.service';
 import { Dificultad, RoutineI, Tipo } from 'src/app/models/routine.models';
 import { AutenticacionService } from 'src/app/services/autenticacion.service';
@@ -34,7 +38,10 @@ export class PersonalizadasPage implements OnInit {
     private autenticacionService: AutenticacionService,
     private rutinausuarioService: RutinausuarioService,
     private storageService: StorageService,
-    private firestoreService: FirestoreService) { }
+    private firestoreService: FirestoreService) { 
+
+      addIcons({ create: icons['create'], trash: icons['trash'] });
+    }
 
   async ngOnInit() {
     await this.loadUser();
@@ -71,6 +78,13 @@ export class PersonalizadasPage implements OnInit {
   onRutinaChange(event: any) {
     this.navigationService.goToRutina(event.detail.value);
   }
+
+  empezarRutina(rutina_id: string) { 
+// Navegamos a una pagina que gestiona la rutina 
+  console.log('empezamos la rutina' + rutina_id  );
+   this.navigationService.comienzaRutinaPersonalizada(rutina_id);
+}
+
 
   // Cargar usuario activo desde el almacenamiento o Firebase
   async loadUser() {
@@ -140,11 +154,18 @@ async guardarYAsignarRutina() {
  }
 }
 
-gestionaRutina(rutina_id: string) { 
-  // Aquí puedes implementar la lógica para gestionar la rutina
-  // Por ejemplo, podrías abrir un modal o navegar a otra página
-  console.log('Gestión de rutina:' + rutina_id  );
-}
+
+  async deleteRoutine(routine: RoutineI) {
+    this.cargando = true;
+    await this.firestoreService.deleteDocumentID('rutinas', routine.id);
+    this.cargando = false;
+    this.cargarRutinasUsuario();
+  }
+
+  editarRutina(routine: RoutineI) {
+    console.log("Editando rutina -> ", routine);
+    this.nuevaRutina = routine;
+  }
 
 
 

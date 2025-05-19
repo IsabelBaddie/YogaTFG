@@ -3,6 +3,7 @@ import { PosturaI } from '../models/postura.models';
 import { collection, addDoc, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { inject, Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
+import { FirestoreService } from './firestore.service';
 import { PosturaRutinaI } from '../models/posturarutina.models';
 
 @Injectable({
@@ -10,7 +11,7 @@ import { PosturaRutinaI } from '../models/posturarutina.models';
 })
 export class PosturarutinaService {
 
-  constructor() { }
+  constructor(private firestoreService : FirestoreService ) { }
 
   private firestore = inject(Firestore)
 
@@ -40,6 +41,7 @@ export class PosturarutinaService {
     try {
       const posturasRutinaRef = collection(this.firestore, 'posturarutina'); // nombre de la colección
       await addDoc(posturasRutinaRef, {
+        id : this.firestoreService.createIdDoc(), // genera un ID único para la relación
         rutina_id: rutinaId,
         postura_id: posturaId
       });

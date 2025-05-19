@@ -63,6 +63,15 @@ export class PersonalizadasPage implements OnInit {
 
   cargando: boolean = false;
 
+
+dificultadSeleccionada: Dificultad | '' = '';
+Dificultad = Dificultad; // Para usarlo en el HTML
+
+get rutinasFiltradas(): any[] {
+  if (!this.dificultadSeleccionada) return this.rutinas;
+  return this.rutinas.filter(r => r.dificultad === this.dificultadSeleccionada);
+}
+
   goToHome() {
     this.navigationService.goToHome();
   }

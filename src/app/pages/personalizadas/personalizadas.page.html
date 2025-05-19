@@ -30,7 +30,7 @@
 
 <ion-content class="ion-padding bg-azulclaro">
   <!-- FORMULARIO PARA RUTINA -->
-  <ion-card>
+  <ion-card >
     <ion-item>
       <ion-label position="stacked">Nombre de la rutina: </ion-label>
       <ion-input [(ngModel)]="nuevaRutina.nombre" name="nombre" required></ion-input>
@@ -75,14 +75,14 @@
               <p class="text-azuloscuro">Fecha creación: {{ rutina.fechaCreacion | date: 'shortDate' }}</p>
              
               <ion-buttons class="pt-2" slot="end">
-                <ion-button (click)="editarRutina(rutina)">
-                  <ion-icon color="bg-verdemedio" slot="icon-only" name="create"></ion-icon>
+                <ion-button (click)="editarRutina(rutina)" color="success">
+                  <ion-icon slot="icon-only" name="create"></ion-icon>
                 </ion-button>
                 <ion-button color="danger" (click)="deleteRoutine(rutina)">
                   <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </ion-button>
                 <ion-button class="text-azulmedio" (click)="empezarRutina(rutina.id)">
-                  Empezar la rutina
+                  Empezar la rutina ▶️
                 </ion-button>
               </ion-buttons>
             </ion-card-content>

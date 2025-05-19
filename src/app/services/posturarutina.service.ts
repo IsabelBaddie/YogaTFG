@@ -1,6 +1,6 @@
 
 import { PosturaI } from '../models/postura.models';
-import { collection, addDoc, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import { inject, Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { FirestoreService } from './firestore.service';
@@ -50,5 +50,19 @@ export class PosturarutinaService {
       console.error('Error al asociar postura a rutina:', error);
     }
   }
+
+  async eliminarPosturaDeRutina(rutinaId: string, posturaId: string): Promise<void> {
+  const posturasRutinaRef = collection(this.firestore, 'posturarutina');
+  const q = query(posturasRutinaRef,
+    where('rutina_id', '==', rutinaId),
+    where('postura_id', '==', posturaId)
+  );
+  const snapshot = await getDocs(q);
+
+  for (const docSnap of snapshot.docs) {
+    await deleteDoc(docSnap.ref);
+    console.log(`Eliminado el documento con postura ${posturaId} de rutina ${rutinaId}`);
+  }
+}
 
 }

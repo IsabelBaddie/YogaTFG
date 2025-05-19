@@ -51,19 +51,20 @@
             Tu navegador no soporta videos HTML5.
           </video>
         </div>
+         <ion-button color="danger" (click)="eliminarPostura(postura.id)">Eliminar</ion-button>
       </ion-item>
     </ion-list>
 
     <!-- Si no hay posturas, mostrar mensaje y selector -->
     <ng-template #noPosturas>
-      <ion-text color="medium">
+      <ion-text color="medium" class="text-azuloscuro">
         <p>No hay posturas asociadas a esta rutina.</p>
       </ion-text>
 
       <!-- Formulario para agregar una postura -->
-      <ion-card *ngIf="todasLasPosturas.length > 0">
+      <ion-card *ngIf="todasLasPosturas.length > 0" class="bg-amarillopastel">
         <ion-card-header>
-          <ion-card-title>Agregar Postura a la Rutina</ion-card-title>
+          <ion-card-title class="text-azulmedio">Agregar Postura a la Rutina</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <ion-item>

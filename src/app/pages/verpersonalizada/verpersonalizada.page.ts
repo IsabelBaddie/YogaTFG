@@ -96,4 +96,12 @@ async asociarPostura() {
   this.showPosturas(this.rutinaId); // Refrescar lista
 }
 
+async eliminarPostura(posturaId: string) {
+  if (!this.rutinaId) return;
+
+  await this.posturaRutinaService.eliminarPosturaDeRutina(this.rutinaId, posturaId);
+  await this.showPosturas(this.rutinaId); // Recarga la lista
+}
+
+
 }

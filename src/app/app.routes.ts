@@ -30,4 +30,8 @@ export const routes: Routes = [
     path: 'privacidad',
     loadComponent: () => import('./pages/privacidad/privacidad.page').then( m => m.PrivacidadPage)
   },
+  {
+    path: 'gestionrutina',
+    loadComponent: () => import('./pages/gestionrutina/gestionrutina.page').then( m => m.GestionrutinaPage)
+  },
 ];

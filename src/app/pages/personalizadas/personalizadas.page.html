@@ -32,7 +32,7 @@
   <!-- FORMULARIO PARA RUTINA -->
 <ion-card>
   <ion-item>
-    <ion-label position="stacked">Nombre de la rutina</ion-label>
+    <ion-label position="stacked">Nombre de la rutina: </ion-label>
     <ion-input [(ngModel)]="nuevaRutina.nombre" name="nombre" required></ion-input>
   </ion-item>
 
@@ -43,11 +43,6 @@
       <ion-select-option value="Media">Media</ion-select-option>
       <ion-select-option value="Dificil">Difícil</ion-select-option>
     </ion-select>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Duración (minutos)</ion-label>
-    <ion-input type="number" [(ngModel)]="nuevaRutina.duracion" name="duracion" required></ion-input>
   </ion-item>
 
   <ion-button expand="block" color="primary" (click)="guardarYAsignarRutina()" [disabled]="cargando">
@@ -68,96 +63,28 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col size="12" size-md="6" size-xl="4">
-        <ion-card class="bg-amarillopastel">
-          <ion-row class="p-2">
-            <ion-card-header>
-              <ion-card-title class="text-naranjamedio"></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <h2 class="text-naranjamedio"> NOMBRE DE LA RUTINA </h2>
-              <p class="text-azuloscuro">Duración: </p>
-              <p class="text-azuloscuro">Dificultad: </p>
-              <p class="text-azuloscuro">Fecha creación: </p>
-              <p class="pt-3">
-                <small class="text-muted"> Gestiona tu rutina </small>
-              </p>
-              <ion-button shape="round" fill="solid" class="position-absolute bottom-0 end-0 " size="small">
-                ✏️
-              </ion-button>
-            </ion-card-content>
+<ion-row>
+  <ion-col *ngFor="let rutina of rutinas" size="12" size-md="6" size-xl="4">
+    <ion-card class="bg-amarillopastel">
+      <ion-row class="p-2">
+   
+        <ion-card-content>
+          <ion-card-title class="text-naranjamedio pb-2">{{ rutina.nombre }}</ion-card-title>
+          <p class="text-azuloscuro">Duración: {{ rutina.duracion }} minutos</p>
+          <p class="text-azuloscuro">Dificultad: {{ rutina.dificultad }}</p>
+          <p class="text-azuloscuro">Fecha creación: {{ rutina.fechaCreacion | date: 'shortDate' }}</p>
+          <p class="pt-3">
+            <small class="text-muted"> Gestiona tu rutina </small>
+          </p>
+          <ion-button (click)="gestionaRutina(rutina.id)" shape="round" fill="solid" class="position-absolute bottom-0 end-0" size="small">
+            ✏️
+          </ion-button>
+        </ion-card-content>
+      </ion-row>
+    </ion-card>
+  </ion-col>
+</ion-row>
 
-          </ion-row>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="6" size-xl="4">
-        <ion-card class="bg-amarillopastel">
-          <ion-row class="p-2">
-            <ion-card-header>
-              <ion-card-title class="text-naranjamedio"></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <h2 class="text-naranjamedio"> NOMBRE DE LA RUTINA </h2>
-              <p class="text-azuloscuro">Duración: </p>
-              <p class="text-azuloscuro">Dificultad: </p>
-              <p class="text-azuloscuro">Fecha creación: </p>
-              <p class="pt-3">
-                <small class="text-muted"> Gestiona tu rutina </small>
-              </p>
-              <ion-button shape="round" fill="solid" class="position-absolute bottom-0 end-0 " size="small">
-                ✏️
-              </ion-button>
-            </ion-card-content>
-
-          </ion-row>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="6" size-xl="4">
-        <ion-card class="bg-amarillopastel">
-          <ion-row class="p-2">
-            <ion-card-header>
-              <ion-card-title class="text-naranjamedio"></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <h2 class="text-naranjamedio"> NOMBRE DE LA RUTINA </h2>
-              <p class="text-azuloscuro">Duración: </p>
-              <p class="text-azuloscuro">Dificultad: </p>
-              <p class="text-azuloscuro">Fecha creación: </p>
-              <p class="pt-3">
-                <small class="text-muted"> Gestiona tu rutina </small>
-              </p>
-              <ion-button shape="round" fill="solid" class="position-absolute bottom-0 end-0 " size="small">
-                ✏️
-              </ion-button>
-            </ion-card-content>
-
-          </ion-row>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="6" size-xl="4">
-        <ion-card class="bg-amarillopastel">
-          <ion-row class="p-2">
-            <ion-card-header>
-              <ion-card-title class="text-naranjamedio"></ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <h2 class="text-naranjamedio"> NOMBRE DE LA RUTINA </h2>
-              <p class="text-azuloscuro">Duración: </p>
-              <p class="text-azuloscuro">Dificultad: </p>
-              <p class="text-azuloscuro">Fecha creación: </p>
-              <p class="pt-3">
-                <small class="text-muted"> Gestiona tu rutina </small>
-              </p>
-              <ion-button shape="round" fill="solid" class="position-absolute bottom-0 end-0 " size="small">
-                ✏️
-              </ion-button>
-            </ion-card-content>
-
-          </ion-row>
-        </ion-card>
-      </ion-col>
-    </ion-row>
   </ion-grid>
 </ion-content>
 

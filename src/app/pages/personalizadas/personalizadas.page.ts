@@ -140,6 +140,12 @@ async guardarYAsignarRutina() {
  }
 }
 
+gestionaRutina(rutina_id: string) { 
+  // Aquí puedes implementar la lógica para gestionar la rutina
+  // Por ejemplo, podrías abrir un modal o navegar a otra página
+  console.log('Gestión de rutina:' + rutina_id  );
+}
+
 
 
 

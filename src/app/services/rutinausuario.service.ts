@@ -34,13 +34,14 @@ export class RutinausuarioService {
         }
       }
     }
-
+    console.log('Rutinas de usuario: ', rutinas);
     return rutinas;
   }
 
   // Asignar una rutina a un usuario
   async asignarRutinaAUsuario(usuarioId: string, rutinaId: string): Promise<void> {
     const relacionesRef = collection(this.firestore, 'rutinausuario');
+    console.log('Asignando rutina a usuario: ', usuarioId, 'rutina: ', rutinaId);
     await addDoc(relacionesRef, {
       usuario_id: usuarioId,
       rutina_id: rutinaId,

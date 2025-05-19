@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonSelectOption,
-  IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonSpinner
+  IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonSpinner, 
+  IonInput
 } from '@ionic/angular/standalone';
 
 
@@ -24,7 +25,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   standalone: true,
   imports: [IonSpinner, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
     IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonSelectOption,
-    IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect
+    IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonInput
   ]
 })
 export class PersonalizadasPage implements OnInit {
@@ -108,23 +109,6 @@ export class PersonalizadasPage implements OnInit {
       esGuiada: false, 
     };
   }
-
-
-  /*async saveRoutine() {
-    this.cargando = true;
-    await this.firestoreService.createDocumentID(this.nuevaRutina, 'rutinas', this.nuevaRutina.id);
-    this.cargando = false;
-    this.initRoutine();
-    this.cargarRutinasUsuario(); // Recargar rutinas después de guardar una nueva
-  }
-
-    // Asignar una nueva rutina al usuario
-  async asignarRutina(rutinaId: string) {
-    if (this.usuarioActivo) {
-      await this.rutinausuarioService.asignarRutinaAUsuario(this.usuarioActivo.id, rutinaId);
-      this.cargarRutinasUsuario(); // Recargar las rutinas del usuario
-    }
-  }*/
 
 async guardarYAsignarRutina() {
  if (!this.usuarioActivo) {

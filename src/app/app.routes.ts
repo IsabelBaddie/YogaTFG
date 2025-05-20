@@ -31,7 +31,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/privacidad/privacidad.page').then( m => m.PrivacidadPage)
   },
   {
-    path: 'verguiada',
+    path: 'verguiada/:id',
     loadComponent: () => import('./pages/verguiada/verguiada.page').then( m => m.VerguiadaPage)
   },
   {

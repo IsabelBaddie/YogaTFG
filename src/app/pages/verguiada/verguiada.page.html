@@ -28,12 +28,57 @@
 
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">verguiada</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding bg-azulclaro">
+
+  <!-- Mostrar posturas si existen, o el mensaje -->
+  <ion-card *ngIf="posturasSeleccionadas.length > 0; else sinPosturas" class="bg-azulclaro">
+    <ion-card-header>
+      <ion-card-title class="text-azulmedio">Posturas asociadas a esta rutina</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let postura of posturasSeleccionadas" lines="full" class="ion-padding-vertical">
+          <ion-grid>
+            <ion-row>
+              <!-- Dificultad -->
+              <ion-col size="6" class="ion-text-start text-azuloscuro">
+                <strong>Dificultad:</strong> {{ postura.dificultad || 'N/A' }}
+              </ion-col>
+
+              <!-- Nombre -->
+              <ion-col size="6" class="ion-text-end text-azuloscuro">
+                <strong>{{ postura.postura }}</strong>
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="ion-padding-top">
+              <!-- Video -->
+              <ion-col size="12">
+                <iframe *ngIf="postura.video"
+                  [src]="sanitizer.bypassSecurityTrustResourceUrl(transformarUrlYoutube(postura.video))" width="100%"
+                  height="450" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+              </ion-col>
+
+            </ion-row>
+
+            <ion-row>
+             
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ng-template #sinPosturas>
+    <ion-text color="medium">
+      <p class="ion-padding">No hay posturas asociadas a esta rutina.</p>
+    </ion-text>
+  </ng-template>
+
 </ion-content>
 
 

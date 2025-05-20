@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton,  IonItem, IonSelect, 
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonSelect,
   IonSelectOption, IonFooter, IonButtons, IonText, IonList, IonLabel, IonCard, IonCardHeader,
-   IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
+  IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol
+} from '@ionic/angular/standalone';
 import { PosturarutinaService } from 'src/app/services/posturarutina.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { PosturaI } from 'src/app/models/postura.models';
@@ -12,21 +14,23 @@ import { ActivatedRoute } from '@angular/router';
 
 import { collection, getDocs } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-verpersonalizada',
   templateUrl: './verpersonalizada.page.html',
   styleUrls: ['./verpersonalizada.page.scss'],
   standalone: true,
-  imports: [IonGrid, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonText, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, 
+  imports: [IonGrid, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonText, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
     IonItem, IonSelect, IonSelectOption, IonFooter, IonButtons, IonList, IonLabel, IonRow, IonCol
   ]
 })
 export class VerpersonalizadaPage implements OnInit {
   //VARIABLES DEL COMPONENTE
-  selectedPosturas: PosturaI[] = [];
-  todasLasPosturas: PosturaI[] = []; 
-   posturasSeleccionadasId: { [key: string]: string } = {}; // inicializa el objeto vacío
+  posturasSeleccionadas: PosturaI[] = [];
+  todasLasPosturas: PosturaI[] = [];
+  posturasSeleccionadasId: { [key: string]: string } = {}; // inicializa el objeto vacío
   public rutinaId: string = ''; // 
 
   constructor(
@@ -34,24 +38,30 @@ export class VerpersonalizadaPage implements OnInit {
     private navigationService: NavigationService,
     private route: ActivatedRoute, // para leer rutinaId
     private firestore: Firestore,
-  ) {}
+    public sanitizer: DomSanitizer //para ver el video 
+  ) { }
 
-async ngOnInit() {
-  const id = this.route.snapshot.paramMap.get('id');
+  async ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
 
-  if (id) {
-    this.rutinaId = id; // <-- Guarda el ID para que esté accesible siempre
-    await this.cargarTodasLasPosturas();
-    await this.showPosturas(this.rutinaId);
-  } else {
-    console.error("No se proporcionó rutinaId");
+    if (id) {
+      this.rutinaId = id; // <-- Guarda el ID para que esté accesible siempre
+      await this.cargarTodasLasPosturas();
+      await this.verPosturasDeRutina(this.rutinaId);
+    } else {
+      console.error("No se proporcionó rutinaId");
+    }
   }
-}
 
-  async showPosturas(rutinaId: string) {
+  async verPosturasDeRutina(rutinaId: string) {
     try {
-      this.selectedPosturas = await this.posturaRutinaService.getPosturasDeRutina(rutinaId);
-      console.log('Posturas asociadas a la rutina:', this.selectedPosturas);
+      this.posturasSeleccionadas = await this.posturaRutinaService.getPosturasDeRutina(rutinaId);
+      console.log('Posturas asociadas a la rutina:', this.posturasSeleccionadas);
+
+      for (let i in this.posturasSeleccionadas) {
+        console.log("El video de la postura"  + this.posturasSeleccionadas[i] + "es" + this.posturasSeleccionadas[i].video); // 1, 2, 3
+      }
+
     } catch (error) {
       console.error('Error al obtener las posturas:', error);
     }
@@ -74,7 +84,7 @@ async ngOnInit() {
     this.navigationService.goToRutina(event.detail.value);
   }
 
-  
+
   async cargarTodasLasPosturas() {
     const colRef = collection(this.firestore, 'posturas');
     const snapshot = await getDocs(colRef);
@@ -88,20 +98,25 @@ async ngOnInit() {
 
   }
 
-async asociarPostura() {
-  const posturaId = this.posturasSeleccionadasId[this.rutinaId];
-  if (!posturaId || !this.rutinaId) return;
-  console.log('Asociando postura:', posturaId, 'a rutina:', this.rutinaId);
-  await this.posturaRutinaService.addPosturaARutina(this.rutinaId, posturaId);
-  this.posturasSeleccionadasId[this.rutinaId] = ''; // Limpiar selección
-  this.showPosturas(this.rutinaId); // Refrescar lista
-}
+  async asociarPostura() {
+    const posturaId = this.posturasSeleccionadasId[this.rutinaId];
+    if (!posturaId || !this.rutinaId) return;
+    console.log('Asociando postura:', posturaId, 'a rutina:', this.rutinaId);
+    await this.posturaRutinaService.addPosturaARutina(this.rutinaId, posturaId);
+    this.posturasSeleccionadasId[this.rutinaId] = ''; // Limpiar selección
+    this.verPosturasDeRutina(this.rutinaId); // Refrescar lista
+  }
 
-async eliminarPostura(posturaId: string) {
-  if (!this.rutinaId) return;
+  async eliminarPostura(posturaId: string) {
+    if (!this.rutinaId) return;
 
-  await this.posturaRutinaService.eliminarPosturaDeRutina(this.rutinaId, posturaId);
-  await this.showPosturas(this.rutinaId); // Recarga la lista
+    await this.posturaRutinaService.eliminarPosturaDeRutina(this.rutinaId, posturaId);
+    await this.verPosturasDeRutina(this.rutinaId); // Recarga la lista
+  }
+
+  transformarUrlYoutube(url: string): string {
+  const videoId = url.split('v=')[1]?.split('&')[0]; // extrae el ID
+  return `https://www.youtube.com/embed/${videoId}`;
 }
 
 

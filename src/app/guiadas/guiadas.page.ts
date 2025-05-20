@@ -29,6 +29,7 @@ import { Timestamp } from 'firebase/firestore';
 })
 export class GuiadasPage implements OnInit {
 
+
   rutinas: RoutineI[] = [];
   rutinaSeleccionadaId: string = '';
   usuarioActivo: UserI = { id: '', nombre: '', email: '', password: '' };
@@ -120,6 +121,13 @@ export class GuiadasPage implements OnInit {
     rutina.tipo.toLowerCase() === tipoSeleccionado.toLowerCase()
   );
 }
+
+  empezarRutina(rutina_id: string) { 
+// Navegamos a una pagina que gestiona la rutina 
+  console.log('empezamos la rutina' + rutina_id  );
+   this.navigationService.comienzaRutinaGuiada(rutina_id);
+}
+
 
 
   

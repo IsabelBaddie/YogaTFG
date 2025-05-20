@@ -4,9 +4,8 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
   IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
   IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
-  IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView,
-  
-} from '@ionic/angular/standalone';
+  IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView, IonAlert, 
+ } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
 
@@ -26,12 +25,12 @@ import { StorageService } from 'src/app/services/storage.service';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [
+  imports: [IonAlert, 
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
     IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
     IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
     IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView,
-       FormsModule, CommonModule
+       FormsModule, CommonModule, IonAlert, IonButton
   ],
 })
 export class HomePage implements OnInit {
@@ -57,6 +56,7 @@ nombreUsuario: string = ''; // Para almacenar el nombre del usuario
    posturasPorCategoria: { [categoriaId: string]: PosturaI[] } = {}; // Diccionario para guardar resultados por categoría
   categoriaSeleccionadaId: string | null = null;
   todasLasPosturas: PosturaI[] = [];
+  alertButtons = ['Aceptar'];
 
   goToHome() {
     this.navigationService.goToHome();

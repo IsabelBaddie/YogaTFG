@@ -84,7 +84,9 @@ export class VerguiadaPage implements OnInit {
 
   async verPosturasDeRutina(rutinaId: string) {
     try {
-      this.posturasSeleccionadas = await this.posturaRutinaService.getPosturasDeRutina(rutinaId);
+      this.posturasSeleccionadas = await this.posturaRutinaService.getPosturasDeRutinaGuiada(rutinaId, true);
+
+
       console.log('Posturas asociadas a la rutina:', this.posturasSeleccionadas);
 
       for (let i in this.posturasSeleccionadas) {

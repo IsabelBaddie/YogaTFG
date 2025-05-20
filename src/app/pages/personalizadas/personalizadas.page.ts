@@ -4,12 +4,11 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonSelectOption,
-  IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonSpinner, 
-  IonInput
+  IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonSpinner,
+  IonInput, IonToast
 } from '@ionic/angular/standalone';
 
-
-
+import { ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import * as icons from 'ionicons/icons';
 
@@ -29,7 +28,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   standalone: true,
   imports: [IonSpinner, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
     IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonSelectOption,
-    IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonInput
+    IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonInput, IonToast
   ]
 })
 export class PersonalizadasPage implements OnInit {
@@ -38,10 +37,12 @@ export class PersonalizadasPage implements OnInit {
     private autenticacionService: AutenticacionService,
     private rutinausuarioService: RutinausuarioService,
     private storageService: StorageService,
-    private firestoreService: FirestoreService) { 
+    private firestoreService: FirestoreService,
+    private toastController: ToastController
+  ) {
 
-      addIcons({ create: icons['create'], trash: icons['trash'] });
-    }
+    addIcons({ create: icons['create'], trash: icons['trash'] });
+  }
 
   async ngOnInit() {
     await this.loadUser();
@@ -52,25 +53,25 @@ export class PersonalizadasPage implements OnInit {
   rutinas: RoutineI[] = [];
   usuarioActivo: any = null; // Variable para almacenar el usuario activo
   nuevaRutina: RoutineI = {
-  id: this.firestoreService.createIdDoc(),
-  nombre: "",
-  dificultad: Dificultad.Dificil,
-  duracion: null,
-  fechaCreacion: new Date(),
-  tipo: Tipo.Fuerza, 
-  esGuiada: false, 
-};
+    id: this.firestoreService.createIdDoc(),
+    nombre: "",
+    dificultad: Dificultad.Dificil,
+    duracion: null,
+    fechaCreacion: new Date(),
+    tipo: Tipo.Fuerza,
+    esGuiada: false,
+  };
 
   cargando: boolean = false;
 
 
-dificultadSeleccionada: Dificultad | '' = '';
-Dificultad = Dificultad; // Para usarlo en el HTML
+  dificultadSeleccionada: Dificultad | '' = '';
+  Dificultad = Dificultad; // Para usarlo en el HTML
 
-get rutinasFiltradas(): any[] {
-  if (!this.dificultadSeleccionada) return this.rutinas;
-  return this.rutinas.filter(r => r.dificultad === this.dificultadSeleccionada);
-}
+  get rutinasFiltradas(): any[] {
+    if (!this.dificultadSeleccionada) return this.rutinas;
+    return this.rutinas.filter(r => r.dificultad === this.dificultadSeleccionada);
+  }
 
   goToHome() {
     this.navigationService.goToHome();
@@ -88,11 +89,11 @@ get rutinasFiltradas(): any[] {
     this.navigationService.goToRutina(event.detail.value);
   }
 
-  empezarRutina(rutina_id: string) { 
-// Navegamos a una pagina que gestiona la rutina 
-  console.log('empezamos la rutina' + rutina_id  );
-   this.navigationService.comienzaRutinaPersonalizada(rutina_id);
-}
+  empezarRutina(rutina_id: string) {
+    // Navegamos a una pagina que gestiona la rutina 
+    console.log('empezamos la rutina' + rutina_id);
+    this.navigationService.comienzaRutinaPersonalizada(rutina_id);
+  }
 
 
   // Cargar usuario activo desde el almacenamiento o Firebase
@@ -128,40 +129,63 @@ get rutinasFiltradas(): any[] {
       dificultad: Dificultad.Dificil, // Valor inicial válido
       duracion: null,
       fechaCreacion: new Date(fechaFormateada),
-      tipo: Tipo.Fuerza, 
-      esGuiada: false, 
+      tipo: Tipo.Fuerza,
+      esGuiada: false,
     };
   }
 
 async guardarYAsignarRutina() {
- if (!this.usuarioActivo) {
-   console.error('No hay usuario autenticado para asignar la rutina.');
-   return;
- }
+  if (!this.usuarioActivo) {
+    const toast = await this.toastController.create({
+      message: 'Debes estar autenticado para guardar una rutina.',
+      duration: 3000,
+      position: 'top',
+      color: 'danger'
+    });
+    await toast.present();
+    return;
+  }
 
- this.cargando = true;
+  if (!this.nuevaRutina.nombre || this.nuevaRutina.nombre.trim() === '') {
+    const toast = await this.toastController.create({
+      message: 'El nombre de la rutina es obligatorio.',
+      duration: 3000,
+      position: 'top',
+      color: 'warning'
+    });
+    await toast.present();
+    return;
+  }
 
- try {
-   console.log('Valores antes de guardar:', this.nuevaRutina);
+  this.cargando = true;
 
-   // 1. Guardar la rutina en la colección "rutinas"
-   await this.firestoreService.createDocumentID(this.nuevaRutina, 'rutinas', this.nuevaRutina.id);
+  try {
+    console.log('Valores antes de guardar:', this.nuevaRutina);
 
-   // 2. Asignar la rutina al usuario actual
-   await this.rutinausuarioService.asignarRutinaAUsuario(this.usuarioActivo.id, this.nuevaRutina.id);
+    // Verificamos si la rutina ya existe (edición)
+    const esRutinaExistente = this.rutinas.some(r => r.id === this.nuevaRutina.id);
 
-   // 3. Recargar las rutinas después de guardar
-   await this.cargarRutinasUsuario();  // Recargar rutinas después de guardar
+    // Guardamos (o actualizamos) la rutina en Firestore
+    await this.firestoreService.createDocumentID(this.nuevaRutina, 'rutinas', this.nuevaRutina.id);
 
-   // 4. Reiniciar el formulario de rutina
-   this.initRoutine(); 
+    // Si es nueva rutina, asignamos al usuario. Si es edición, NO asignamos de nuevo.
+    if (!esRutinaExistente) {
+      await this.rutinausuarioService.asignarRutinaAUsuario(this.usuarioActivo.id, this.nuevaRutina.id);
+    }
 
- } catch (error) {
-   console.error('Error al guardar y asignar la rutina:', error);
- } finally {
-   this.cargando = false;
- }
+    // Recargamos las rutinas para actualizar la lista
+    await this.cargarRutinasUsuario();
+
+    // Reiniciamos el formulario para nueva rutina
+    this.initRoutine();
+
+  } catch (error) {
+    console.error('Error al guardar y asignar la rutina:', error);
+  } finally {
+    this.cargando = false;
+  }
 }
+
 
 
   async deleteRoutine(routine: RoutineI) {
@@ -173,7 +197,8 @@ async guardarYAsignarRutina() {
 
   editarRutina(routine: RoutineI) {
     console.log("Editando rutina -> ", routine);
-    this.nuevaRutina = routine;
+   // this.nuevaRutina = routine;
+   this.nuevaRutina = { ...routine };
   }
 
 

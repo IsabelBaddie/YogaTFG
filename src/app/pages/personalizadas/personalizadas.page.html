@@ -50,7 +50,7 @@
       <ion-col size="6">  
         <ion-item>
           <ion-label class="text-azulmedio"> Filtra por dificultad 📈 </ion-label>
-          <ion-select [(ngModel)]="dificultadSeleccionada" placeholder="Todas">
+          <ion-select class="ps-2" [(ngModel)]="dificultadSeleccionada" placeholder="Todas">
             <ion-select-option value="">Todas</ion-select-option>
             <ion-select-option [value]="Dificultad.Facil">Fácil</ion-select-option>
             <ion-select-option [value]="Dificultad.Media">Media</ion-select-option>
@@ -67,7 +67,7 @@
           <ion-row class="p-2">
             <ion-card-content>
               <ion-card-title class="text-naranjamedio pb-2">{{ rutina.nombre }}</ion-card-title>
-              <p class="text-azuloscuro">Duración: {{ rutina.duracion }} minutos</p>
+              
               <p class="text-azuloscuro">Dificultad: {{ rutina.dificultad }}</p>
               <p class="text-azuloscuro">Fecha creación: {{ rutina.fechaCreacion | date: 'shortDate' }}</p>
 

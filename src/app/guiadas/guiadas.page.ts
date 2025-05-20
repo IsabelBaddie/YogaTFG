@@ -14,6 +14,7 @@ import { FirestoreService } from '../services/firestore.service';
 import { AutenticacionService } from '../services/autenticacion.service';
 
 import { Timestamp } from 'firebase/firestore';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-guiadas',
@@ -42,7 +43,8 @@ export class GuiadasPage implements OnInit {
     private rutinaService: RutinasService,
     private firestoreService: FirestoreService,
     private autenticacionService: AutenticacionService,
-    private modalController: ModalController
+    private modalController: ModalController, 
+    private toastController: ToastController
   ) { }
 
   async ngOnInit() {
@@ -91,10 +93,29 @@ export class GuiadasPage implements OnInit {
   }
 
   async guardarComentario(contenido: string) {
-    if (!this.usuarioActivo.id) {
-      console.error('No hay usuario autenticado o UID no disponible');
-      return;
-    }
+  if (!this.usuarioActivo.id) {
+    const toast = await this.toastController.create({
+      message: 'Debes estar autenticado para poder comentar.',
+      duration: 3000,
+      position: 'top',
+      color: 'danger'  // Puedes usar 'success', 'warning', 'danger', etc.
+    });
+    await toast.present();
+    return;
+  }
+
+    if (!contenido || contenido.trim() === '') {
+    const toast = await this.toastController.create({
+      message: 'El contenido del comentario no puede estar vacío.',
+      duration: 3000,
+      position: 'top',
+      color: 'danger'  // Puedes usar 'success', 'warning', 'danger', etc.
+    });
+    await toast.present();
+    return;
+  }
+
+  
 
     const comentario: ComentarioI = {
       id: this.firestoreService.createIdDoc(),

@@ -4,60 +4,62 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
   IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
   IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
-  IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView, IonAlert, 
- } from '@ionic/angular/standalone';
-import { FormsModule } from '@angular/forms'; 
-import { CommonModule } from '@angular/common'; 
+  IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView, IonAlert,
+} from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
+import { PosturaI } from '../../models/postura.models'; //MODELOS
+
+import { Firestore } from '@angular/fire/firestore'; //FIRESTORE
 import { collection, getDocs } from 'firebase/firestore';
 
-import { PosturaI } from '../../models/postura.models';
-
-import { Firestore } from '@angular/fire/firestore';
-
-import { NavigationService } from '../../services/navigation.service';
+import { NavigationService } from '../../services/navigation.service'; //SERVICIOS 
 import { CategoriasService } from '../../services/categorias.service';
 import { AutenticacionService } from '../../services/autenticacion.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { CategoriaI } from 'src/app/models/categoria.models';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonAlert, 
+  imports: [IonAlert,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
     IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
     IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
     IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView,
-       FormsModule, CommonModule, IonAlert, IonButton
+    FormsModule, CommonModule, IonAlert, IonButton
   ],
 })
 export class HomePage implements OnInit {
 
-nombreUsuario: string = ''; // Para almacenar el nombre del usuario
+  nombreUsuario: string = ''; // Para almacenar el nombre del usuario
 
-  constructor(private navigationService: NavigationService, private categoriasService : CategoriasService,
-    private firestore: Firestore, private autenticacion: AutenticacionService, private storageService: StorageService 
+  constructor(private navigationService: NavigationService, private categoriasService: CategoriasService,
+    private firestore: Firestore, private autenticacion: AutenticacionService, private storageService: StorageService
   ) { }
 
-    async ngOnInit() {
-    this.cargarCategorias();
-    this.cargarTodasLasPosturas();
+  async ngOnInit() { // Lógica que se ejecuta al iniciar el componente
+    this.cargarTodasLasCategorias(); //Cargamos todas las categorías
+    this.cargarTodasLasPosturas(); //Cargamos todas las posturas
 
-        // Recuperar el nombre del usuario desde el almacenamiento
+    // Recuperarmos el nombre del usuario desde el almacenamiento
     const nombre = await this.storageService.get('nombreUsuario');
     if (nombre) {
       this.nombreUsuario = nombre;
     }
   }
 
-  categorias: any[] = [];
-   posturasPorCategoria: { [categoriaId: string]: PosturaI[] } = {}; // Diccionario para guardar resultados por categoría
+  categorias: CategoriaI[] = []; // Array para almacenar las categorías
+  // Diccionario para guardar las posturas por categoría, el key es el id de la categoría y el value es un array de posturas
+  posturasPorCategoria: { [categoriaId: string]: PosturaI[] } = {}; 
   categoriaSeleccionadaId: string | null = null;
   todasLasPosturas: PosturaI[] = [];
   alertButtons = ['Aceptar'];
 
+  //Métodos para navegar a otras páginas
   goToHome() {
     this.navigationService.goToHome();
   }
@@ -74,12 +76,10 @@ nombreUsuario: string = ''; // Para almacenar el nombre del usuario
     this.navigationService.goToRutina(event.detail.value);
   }
 
-
-
   async logout() { // Método para cerrar sesión
     try {
       await this.autenticacion.logout();
-         await this.storageService.remove('usuarioActivo');
+      await this.storageService.remove('usuarioActivo');
       console.log('Sesión cerrada correctamente');
     } catch (err) {
       console.error('Error al cerrar sesión:', err);
@@ -87,8 +87,9 @@ nombreUsuario: string = ''; // Para almacenar el nombre del usuario
   }
 
   async cargarTodasLasPosturas() {
-    const colRef = collection(this.firestore, 'posturas');
-    const snapshot = await getDocs(colRef);
+    const colRef = collection(this.firestore, 'posturas'); //Obtenemos la referencia a la colección de posturas
+    const snapshot = await getDocs(colRef); //Obtenemos los documentos de la colección
+    // Mapeamos los documentos a un array de PosturaI
     this.todasLasPosturas = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
@@ -98,26 +99,34 @@ nombreUsuario: string = ''; // Para almacenar el nombre del usuario
     console.log('Posturas con categoría_id:', this.todasLasPosturas.map(p => p.categoria_id));
 
   }
-
-    async cargarCategorias(): Promise<void> {
+  
+  async cargarTodasLasCategorias(): Promise<void> {
     try {
       this.categorias = await this.categoriasService.getTodasCategorias();
       console.log('Categorías cargadas:', this.categorias);
+
+      if (this.categorias.length > 0) {
+        // Asignar la primera categoría para que ion-segment la muestre seleccionada por defecto
+        this.categoriaSeleccionadaId = this.categorias[0].id;
+
+        if (this.categoriaSeleccionadaId) { //Si hay una categoría seleccionada cargamos las posturas de esa categoría
+          await this.cargarPosturasDeCategoria(this.categoriaSeleccionadaId);
+        }
+      }
     } catch (error) {
       console.error('Error al cargar categorías:', error);
     }
-    console.log('IDs de categorías:', this.categorias.map(c => c.id));
-
   }
 
-onCategoriaChange(event: any) {
-  const categoriaId = event.detail.value;
-  this.categoriaSeleccionadaId = categoriaId;
-  this.cargarPosturasDeCategoria(categoriaId);
-}
+  onCategoriaChange(event: any) { // Método que se ejecuta al cambiar la categoría seleccionada en el ion-segment
+    const categoriaId = event.detail.value; // Obtenemos el id de la categoría seleccionada
+    this.categoriaSeleccionadaId = categoriaId; // Asignamos el id de la categoría seleccionada
+    this.cargarPosturasDeCategoria(categoriaId); // Cargamos las posturas de la categoría seleccionada
+  }
 
-async cargarPosturasDeCategoria(categoriaId: string) {
-  this.posturasPorCategoria[categoriaId] = await this.categoriasService.getPosturasDeCategoria(categoriaId);
-}
+  async cargarPosturasDeCategoria(categoriaId: string) {
+    // Método que carga las posturas de una categoría específica llamando al servicio y guardando el resultado en el diccionario
+    this.posturasPorCategoria[categoriaId] = await this.categoriasService.getPosturasDeCategoria(categoriaId);
+  }
 
 }

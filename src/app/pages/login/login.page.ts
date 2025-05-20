@@ -12,6 +12,7 @@ import {
 import { NavigationService } from '../../services/navigation.service';
 //Para el almacenamiento de datos en el dispositivo
 import { Storage } from '@ionic/storage-angular';
+//Modelo
 import { UserI } from 'src/app/models/user.models';
 
 // Importamos diferenes servicios 
@@ -20,6 +21,7 @@ import { AutenticacionService } from '../../services/autenticacion.service';
 import { RutinasService } from '../../services/rutinas.service';
 import { StorageService } from '../../services/storage.service'; // ajusta el path si es diferente
 
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -33,10 +35,10 @@ import { StorageService } from '../../services/storage.service'; // ajusta el pa
 export class LoginPage implements OnInit {
 
   constructor(private navigationService: NavigationService, private firestoreService: FirestoreService, private rutinaService: RutinasService,
-    private autenticacion: AutenticacionService, private storageService: StorageService) { // Constructor del componente
+    private autenticacion: AutenticacionService, private storageService: StorageService, private toastController: ToastController ) { // Constructor del componente donde inyectamos los servicios necesarios
 
     this.loadusers(); //Al crear el componente (la pagina), se ejecuta loadusers() para cargar los usuarios desde Firestore.
-    this.initUser(); // Inicializamos un usuario vacío para el formulario
+    this.inicializarUsuario(); // Inicializamos un usuario vacío para el formulario
 
   }
 
@@ -50,11 +52,11 @@ export class LoginPage implements OnInit {
   //Atributo users, que es un array de objetos del tipo UserI.
   users: UserI[] = []; //Inicializamos en vacio, de un modelo/interfaz que hemos creado, se va rellenando con Firebase
 
-  newUser!: UserI;   // Objeto que usamos para el formulario de crear/editar usuarios
+  newUser!: UserI;   // Objeto  para el formulario de crear/editar usuarios
 
   cargando: boolean = false;  // Bandera para mostrar un spinner de carga (true/false)
 
-  usuarioActual: any; // Variable para almacenar el usuario activo
+  usuarioActual: UserI | null = null; // Almacena el usuario actual después de iniciar sesión
 
 
   loginData = {
@@ -80,7 +82,7 @@ export class LoginPage implements OnInit {
     })
   }
 
-  initUser() { // Inicializamos un nuevo usuario vacío para el formulario
+  inicializarUsuario() { // Inicializamos un nuevo usuario vacío para el formulario
     this.newUser = {
       id: this.firestoreService.createIdDoc(),
       nombre: null,
@@ -91,16 +93,23 @@ export class LoginPage implements OnInit {
 
   async goToHome() { // Utilizamos el servicio de navegación para ir a la página home
     // Verificar si el usuario está logueado
-    const usuarioId = await this.storageService.get('usuarioActivo'); // ✅ Correcto
+    const usuarioId = await this.storageService.get('usuarioActivo'); // Obtener el ID del usuario activo desde el almacenamiento
 
-
-    if (usuarioId) {
-      // Si está logueado, redirigir a la página de rutinas
+    if (usuarioId) { // Si hay un ID de usuario activo, significa que está logueado
       console.log('Usuario logueado, redirigiendo...');
-      this.navigationService.goToHome();
-    } else {
-      // Si no está logueado, redirigir al login o mostrar un mensaje
+      this.navigationService.goToHome(); //Redirigimos a la página home
+    } 
+    else {
+      // Si no está logueado mostrarmos un mensaje
       console.log('Usuario no logueado');
+      const toast = await this.toastController.create({
+        message: 'Debes iniciar sesión para poder entrar.',
+        duration: 5000,
+        position: 'top',
+        color: 'danger'
+      });
+      await toast.present();
+      return;
     }
 
   }
@@ -109,51 +118,55 @@ export class LoginPage implements OnInit {
     this.navigationService.goToPrivacidad();
   }
 
-
-
   async registerAndSave() { // Método para registrar y guardar un nuevo usuario
     const { email, password, nombre } = this.newUser;
 
-    if (email && password && nombre) {
+    if (email && password && nombre) { // Verificamos que todos los campos estén completos
       try {
-        // 1. Registrar en Firebase Auth
-        const cred = await this.autenticacion.register({ email, password });
+        //Registramos en Firebase Auth gracias al servicio de autenticación
+        const credenciales = await this.autenticacion.register({ email, password });
 
-        // 2. Guardar en Firestore (usando el ID generado o el UID del auth)
-        this.newUser.id = cred.user.uid; // usa el UID del auth como ID único
+        //Guardamos en Firestore (usando el ID generado o el UID del auth)
+        this.newUser.id = credenciales.user.uid; // usa el UID del auth como ID único
         await this.firestoreService.createDocumentID(this.newUser, 'usuarios', this.newUser.id);
 
         console.log('Usuario registrado y guardado correctamente.');
-        this.initUser();
+        this.inicializarUsuario(); // Reiniciamos el formulario
 
       } catch (err) {
         console.error('Error al registrar:', err);
       }
-    } else {
-      console.warn('Completa todos los campos antes de registrar.');
+    } else {           
+      // Si no se completan todos los campos, mostramos un mensaje de error
+      const toast = await this.toastController.create({
+        message: 'Completa todos los campos antes de registrarte.',
+        duration: 5000,
+        position: 'top',
+        color: 'danger'
+      });
+      await toast.present();
+      return;
     }
   }
 
   async login() { // Método para iniciar sesión
     const { email, password } = this.loginData;
 
-
     if (email && password) {
       try {
-        const res = await this.autenticacion.signIn(email, password);
-        console.log('Login exitoso:', res);
+        const credenciales = await this.autenticacion.signIn(email, password); // Iniciar sesión con nuestro servicio de autenticación
+        console.log('Login exitoso:', credenciales);
 
-        // Guardar el UID o email del usuario
-        await this.storageService.set('usuarioActivo', res.user.uid);
-        console.log('Usuario almacenado en Storage con este uid:', res.user.uid);
+        // Guardamos el UID del usuario
+        await this.storageService.set('usuarioActivo', credenciales.user.uid);
+        console.log('Usuario almacenado en Storage con este uid:', credenciales.user.uid);
 
-        // Obtener los datos completos del usuario
+        // Obtenemos los datos completos del usuario
         const datos = await this.autenticacion.obtenerDatosUsuario();
         this.usuarioActual = datos;
 
-        // ✅ Guarda el nombre del usuario en el Storage
-        if (this.usuarioActual?.nombre) {
-          await this.storageService.set('nombreUsuario', this.usuarioActual.nombre);
+        if (this.usuarioActual?.nombre) { // Verificamos que el nombre no sea nulo
+          await this.storageService.set('nombreUsuario', this.usuarioActual.nombre); // Guardamos el nombre en el Storage gracias a nuestro servicio
           console.log('Nombre del usuario guardado:', this.usuarioActual.nombre);
         }
 
@@ -165,7 +178,15 @@ export class LoginPage implements OnInit {
         console.error('Error en login:', err);
       }
     } else {
-      console.warn('Por favor completa el email y la contraseña.');
+      // Si no se completan todos los campos, mostramos un mensaje de error
+      const toast = await this.toastController.create({
+        message: 'Por favor completa el email y la contraseña para logearte.',
+        duration: 5000,
+        position: 'top',
+        color: 'danger'
+      });
+      await toast.present();
+      return;
     }
   }
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from '@angular/fire/auth';
-import { FirestoreService } from '../services/firestore.service'; 
-import { Storage } from '@ionic/storage-angular'; 
-import { UserI } from '../models/user.models'; 
+import { FirestoreService } from '../services/firestore.service'; //SERVICIO
+import { Storage } from '@ionic/storage-angular'; //ALMACENAMIENTO
+import { UserI } from '../models/user.models'; //MODELO
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { Firestore } from '@angular/fire/firestore';
 
@@ -11,35 +11,37 @@ import { Firestore } from '@angular/fire/firestore';
 })
 export class AutenticacionService {
 
-  private db: Firestore;
+  private db: Firestore; //propiedad privada db para manejar la instancia de Firestore que se usará para acceder a los datos de los usuarios
 
-  constructor(
+  constructor( // Constructor de la clase que inyecta los servicios necesarios
     private auth: Auth,
     private firestoreService: FirestoreService,
-    private storage: Storage // Inyectamos Storage
-  ) { 
-    this.db = getFirestore(); // Inicializa Firestore
-  }
-
-  // Método de registro
-  register(user: { email: string; password: string }) {
-    return createUserWithEmailAndPassword(this.auth, user.email, user.password);
+    private storage: Storage
+  ) {
+    this.db = getFirestore(); // Inicializamos Firestore y lo asignamos a nuestra propiedad db
   }
 
   // Método de inicio de sesión
   signIn(email: string, password: string) {
+    // Llamamos a la función signInWithEmailAndPassword de Firebase Auth para autenticar al usuario
     return signInWithEmailAndPassword(this.auth, email, password);
+  }
+  // Método de registro
+  register(user: { email: string; password: string }) {
+    // Llamamos a la función createUserWithEmailAndPassword de Firebase Auth para crear un nuevo usuario
+    return createUserWithEmailAndPassword(this.auth, user.email, user.password);
   }
 
   // Método de cierre de sesión
   logout() {
+    // Llamamos a la función signOut de Firebase Auth para cerrar la sesión del usuario
     return signOut(this.auth);
   }
 
-  // Verificar si hay un usuario autenticado
+  // Escucha los cambios de estado del usuario autenticado
   onAuthStateChanged(callback: (user: UserI | null) => void) {
     onAuthStateChanged(this.auth, (user) => {
-      if (user) {
+      if (user) { //si tenemos usuario creamos un usuario de tipo UserI con los datos del usuario autenticado
         const userI: UserI = {
           id: user.uid,
           nombre: user.displayName || '',
@@ -53,7 +55,25 @@ export class AutenticacionService {
     });
   }
 
-  async obtenerDatosUsuario() {
+  /* async obtenerDatosUsuario() {
+     const user = this.auth.currentUser; // Obtenemos el usuario autenticado actualmente
+     // Si hay un usuario autenticado, buscamos su documento en Firestore
+     if (user) {
+       const uid = user.uid;
+       const docRef = doc(this.db, 'usuarios', uid); // Referencia al documento del usuario en Firestore
+       const docSnap = await getDoc(docRef); // Obtenemos el documento
+ 
+       if (docSnap.exists()) {  // Si el documento existe, devolvemos los datos del usuario
+         return docSnap.data();
+       } else {
+         throw new Error('No se encontró el documento del usuario.');
+       }
+     } else {
+       throw new Error('No hay usuario autenticado.');
+     }
+   }*/
+  
+  async obtenerDatosUsuario(): Promise<UserI> {
     const user = this.auth.currentUser;
     if (user) {
       const uid = user.uid;
@@ -61,7 +81,7 @@ export class AutenticacionService {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        return docSnap.data();
+        return docSnap.data() as UserI; // 👈 Aquí haces el cast
       } else {
         throw new Error('No se encontró el documento del usuario.');
       }

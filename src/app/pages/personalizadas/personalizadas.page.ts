@@ -186,8 +186,6 @@ async guardarYAsignarRutina() {
   }
 }
 
-
-
   async deleteRoutine(routine: RoutineI) {
     this.cargando = true;
     await this.firestoreService.deleteDocumentID('rutinas', routine.id);

@@ -4,15 +4,16 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem,
   IonSelect, IonSelectOption, IonFooter, IonButtons, IonCardHeader, IonCardTitle, IonCard, IonCardContent,
-   IonCol, IonList, IonGrid, IonRow, IonText, 
+  IonCol, IonList, IonGrid, IonRow, IonText,
 } from '@ionic/angular/standalone';
+//Servicios
 import { PosturarutinaService } from 'src/app/services/posturarutina.service';
 import { NavigationService } from 'src/app/services/navigation.service';
-import { ActivatedRoute } from '@angular/router';
-import { PosturaI } from 'src/app/models/postura.models';
+import { ActivatedRoute } from '@angular/router'; //Para acceder a los parámetros de la ruta, como el ID de la rutina
+import { PosturaI } from 'src/app/models/postura.models'; //Modelo
 import { Firestore } from '@angular/fire/firestore';
 import { collection, getDocs } from 'firebase/firestore';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser'; //Para el vídeo 
 
 
 @Component({
@@ -21,38 +22,34 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./verguiada.page.scss'],
   standalone: true,
   imports: [IonCol, IonCardContent, IonCard, IonCardTitle, IonCardHeader, IonItem, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-    IonItem, IonSelect, IonSelectOption, IonFooter, IonButtons, IonList, IonGrid, IonRow, IonText, 
+    IonItem, IonSelect, IonSelectOption, IonFooter, IonButtons, IonList, IonGrid, IonRow, IonText,
   ]
 })
 export class VerguiadaPage implements OnInit {
 
   //VARIABLES DEL COMPONENTE
-  posturasSeleccionadas: PosturaI[] = [];
-  todasLasPosturas: PosturaI[] = [];
-  posturasSeleccionadasId: { [key: string]: string } = {}; // inicializa el objeto vacío
+  posturasSeleccionadas: PosturaI[] = []; // Posturas de la rutina actual
+  posturasSeleccionadasId: { [key: string]: string } = {}; // Inicializamos el objeto vacío
   public rutinaId: string = ''; // 
 
   constructor(private posturaRutinaService: PosturarutinaService,
     private navigationService: NavigationService,
-    private route: ActivatedRoute, // para leer rutinaId
+    private route: ActivatedRoute, //Para leer rutinaId
     private firestore: Firestore,
-    public sanitizer: DomSanitizer //para ver el video 
+    public sanitizer: DomSanitizer //Para ver el video 
   ) { }
 
   async ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-
+    const id = this.route.snapshot.paramMap.get('id'); //Obtenemos el id de la rutina desde la URL
     if (id) {
-      this.rutinaId = id; // <-- Guarda el ID para que esté accesible siempre
-      await this.cargarTodasLasPosturas();
-      await this.verPosturasDeRutina(this.rutinaId);
+      this.rutinaId = id; //Guardamos el id en rutinaId para que esté accesible siempre
+      await this.verPosturasDeRutina(this.rutinaId); // Llamamos a la función para obtener las posturas de la rutina
     } else {
       console.error("No se proporcionó rutinaId");
     }
   }
 
-  selectedPosturas: PosturaI[] = [];
-
+  //Métodos para navegar a otras páginas
   goToHome() {
     this.navigationService.goToHome();
   }
@@ -69,38 +66,19 @@ export class VerguiadaPage implements OnInit {
     this.navigationService.goToRutina(event.detail.value);
   }
 
-  async cargarTodasLasPosturas() {
-    const colRef = collection(this.firestore, 'posturas');
-    const snapshot = await getDocs(colRef);
-    this.todasLasPosturas = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as PosturaI[];
-
-    console.log('Posturas cargadas:', this.todasLasPosturas);
-    console.log('Posturas con categoría_id:', this.todasLasPosturas.map(p => p.categoria_id));
-
-  }
 
   async verPosturasDeRutina(rutinaId: string) {
     try {
       this.posturasSeleccionadas = await this.posturaRutinaService.getPosturasDeRutinaGuiada(rutinaId, true);
-
-
       console.log('Posturas asociadas a la rutina:', this.posturasSeleccionadas);
-
-      for (let i in this.posturasSeleccionadas) {
-        console.log("El video de la postura" + this.posturasSeleccionadas[i] + "es" + this.posturasSeleccionadas[i].video); // 1, 2, 3
-      }
-
     } catch (error) {
       console.error('Error al obtener las posturas:', error);
     }
   }
 
-    transformarUrlYoutube(url: string): string {
-  const videoId = url.split('v=')[1]?.split('&')[0]; // extrae el ID
-  return `https://www.youtube.com/embed/${videoId}`;
-}
+  transformarUrlYoutube(url: string): string {
+    const videoId = url.split('v=')[1]?.split('&')[0]; // extrae el ID
+    return `https://www.youtube.com/embed/${videoId}`;
+  }
 
 }

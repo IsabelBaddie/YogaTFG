@@ -27,8 +27,8 @@ import { FirestoreService } from 'src/app/services/firestore.service';
   styleUrls: ['./personalizadas.page.scss'],
   standalone: true,
   imports: [IonSpinner, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-    IonButtons, IonImg, IonButton, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonSelectOption,
-    IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonInput, IonToast
+    IonButtons, IonButton, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonSelectOption,
+    IonCard, IonCardTitle, IonCardContent, IonIcon, IonFooter, IonSelect, IonInput,
   ]
 })
 export class PersonalizadasPage implements OnInit {

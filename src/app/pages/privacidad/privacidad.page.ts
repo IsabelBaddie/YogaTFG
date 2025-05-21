@@ -7,9 +7,7 @@ import {
   IonLabel, IonItem, IonCardSubtitle, IonFooter, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
 
-import { NavigationService } from '../../services/navigation.service';
-
-
+import { NavigationService } from '../../services/navigation.service'; // Importamos el servicio de navegación
 
 @Component({
   selector: 'app-privacidad',
@@ -17,20 +15,20 @@ import { NavigationService } from '../../services/navigation.service';
   styleUrls: ['./privacidad.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-    IonButtons, IonImg, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonListHeader,
+    IonButtons, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonList, IonListHeader,
     IonLabel, IonItem, IonCardSubtitle, IonFooter, IonSelect, IonSelectOption
   ]
 })
 export class PrivacidadPage implements OnInit {
 
 
-  constructor(private navigationService: NavigationService,) { }
+  constructor(private navigationService: NavigationService) { } // Constructor del componente donde inyectamos los servicios necesarios
 
-    nombreUsuario: string = ''; // Para almacenar el nombre del usuario
   async ngOnInit() {
 
   }
 
+  //Métodos de navegación utilizando el servicio de navegación 
   goToHome() {
     this.navigationService.goToHome();
   }
@@ -46,10 +44,6 @@ export class PrivacidadPage implements OnInit {
   onRutinaChange(event: any) {
     this.navigationService.goToRutina(event.detail.value);
   }
-
-
-
-
 
 
 }

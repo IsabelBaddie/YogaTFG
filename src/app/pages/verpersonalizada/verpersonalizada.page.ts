@@ -23,7 +23,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./verpersonalizada.page.scss'],
   standalone: true,
   imports: [IonGrid, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonText, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-    IonItem, IonSelect, IonSelectOption, IonFooter, IonButtons, IonList, IonLabel, IonRow, IonCol
+    IonItem, IonSelect, IonSelectOption, IonFooter, IonButtons, IonList, IonRow, IonCol
   ]
 })
 export class VerpersonalizadaPage implements OnInit {

@@ -28,9 +28,8 @@ import { ToastController } from '@ionic/angular';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonCardTitle, IonFooter, IonButtons, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
-    FormsModule, IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardContent,
-    IonLabel, IonInput, ReactiveFormsModule,]
+  imports: [IonFooter, IonButtons, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
+    FormsModule, IonItem, IonCard, IonLabel, IonInput, ReactiveFormsModule,]
 })
 export class LoginPage implements OnInit {
 
@@ -49,8 +48,7 @@ export class LoginPage implements OnInit {
   // Definimos las propiedades del componente
 
 
-  //Atributo users, que es un array de objetos del tipo UserI.
-  users: UserI[] = []; //Inicializamos en vacio, de un modelo/interfaz que hemos creado, se va rellenando con Firebase
+  users: UserI[] = []; //Es un array de tipo User I que lo inicializamos en vacio, de un modelo/interfaz que hemos creado, se va rellenando con Firebase
 
   newUser!: UserI;   // Objeto  para el formulario de crear/editar usuarios
 
@@ -84,7 +82,7 @@ export class LoginPage implements OnInit {
 
   inicializarUsuario() { // Inicializamos un nuevo usuario vacío para el formulario
     this.newUser = {
-      id: this.firestoreService.createIdDoc(),
+      id: this.firestoreService.createIdDoc(), // Generamos un ID único para el nuevo usuario usando nuestro servicio
       nombre: null,
       email: '',
       password: ''
@@ -92,9 +90,9 @@ export class LoginPage implements OnInit {
   }
 
   async goToHome() { // Utilizamos el servicio de navegación para ir a la página home
-    // Verificar si el usuario está logueado
+    
     const usuarioId = await this.storageService.get('usuarioActivo'); // Obtener el ID del usuario activo desde el almacenamiento
-
+    //PD: anteriormente se ha usado en el login el método set para guardar el uid del usuario activo en el storage, ahora lo recuperamos con get
     if (usuarioId) { // Si hay un ID de usuario activo, significa que está logueado
       console.log('Usuario logueado, redirigiendo...');
       this.navigationService.goToHome(); //Redirigimos a la página home
@@ -119,12 +117,11 @@ export class LoginPage implements OnInit {
   }
 
   async registerAndSave() { // Método para registrar y guardar un nuevo usuario
-    const { email, password, nombre } = this.newUser;
+    const { email, password, nombre } = this.newUser; // Desestructuramos el objeto newUser para obtener los valores de email, password y nombre
 
-    if (email && password && nombre) { // Verificamos que todos los campos estén completos
-      try {
-        //Registramos en Firebase Auth gracias al servicio de autenticación
-        const credenciales = await this.autenticacion.register({ email, password });
+    if (email && password && nombre) { //Obtenidos los datos verificamos que todos los campos estén completos
+      try {  //Intentamos registrar al usuario
+        const credenciales = await this.autenticacion.register({ email, password }); //Registramos en Firebase Auth gracias nuestro servicio de autenticación
 
         //Guardamos en Firestore (usando el ID generado o el UID del auth)
         this.newUser.id = credenciales.user.uid; // usa el UID del auth como ID único
@@ -133,11 +130,10 @@ export class LoginPage implements OnInit {
         console.log('Usuario registrado y guardado correctamente.');
         this.inicializarUsuario(); // Reiniciamos el formulario
 
-      } catch (err) {
+      } catch (err) { // Si hay un error al registrar, lo mostramos en la consola
         console.error('Error al registrar:', err);
       }
-    } else {           
-      // Si no se completan todos los campos, mostramos un mensaje de error
+    } else { // Si no se completan todos los campos, mostramos un mensaje de error         
       const toast = await this.toastController.create({
         message: 'Completa todos los campos antes de registrarte.',
         duration: 5000,
@@ -150,20 +146,20 @@ export class LoginPage implements OnInit {
   }
 
   async login() { // Método para iniciar sesión
-    const { email, password } = this.loginData;
+    const { email, password } = this.loginData; // Desestructuramos el objeto loginData para obtener los valores de email y password
 
-    if (email && password) {
-      try {
+    if (email && password) { // Verificamos que ambos campos estén completos
+      try { //Intentamos iniciar sesión 
         const credenciales = await this.autenticacion.signIn(email, password); // Iniciar sesión con nuestro servicio de autenticación
         console.log('Login exitoso:', credenciales);
 
-        // Guardamos el UID del usuario
+        // Guardamos el UID del usuario en el almacenamiento local/storage para poder usarlo en otras partes de la app
         await this.storageService.set('usuarioActivo', credenciales.user.uid);
         console.log('Usuario almacenado en Storage con este uid:', credenciales.user.uid);
 
-        // Obtenemos los datos completos del usuario
+        // Obtenemos los datos completos del usuario gracias a nuestro servicio de autenticación
         const datos = await this.autenticacion.obtenerDatosUsuario();
-        this.usuarioActual = datos;
+        this.usuarioActual = datos; //Guardamos los datos del usuario en usuarioActual
 
         if (this.usuarioActual?.nombre) { // Verificamos que el nombre no sea nulo
           await this.storageService.set('nombreUsuario', this.usuarioActual.nombre); // Guardamos el nombre en el Storage gracias a nuestro servicio
@@ -174,7 +170,7 @@ export class LoginPage implements OnInit {
 
         console.log('Usuario actual:', this.usuarioActual);
 
-      } catch (err) {
+      } catch (err) { // Si hay un error al iniciar sesión, lo mostramos en la consola
         console.error('Error en login:', err);
       }
     } else {
@@ -192,8 +188,8 @@ export class LoginPage implements OnInit {
 
   async logout() { // Método para cerrar sesión
     try {
-      await this.autenticacion.logout();
-      await this.storageService.remove('usuarioActivo');
+      await this.autenticacion.logout(); // Llamamos al método de cierre de sesión de nuestro servicio de autenticación
+      await this.storageService.remove('usuarioActivo'); // Limpiamos el almacenamiento local
       console.log('Sesión cerrada correctamente');
     } catch (err) {
       console.error('Error al cerrar sesión:', err);

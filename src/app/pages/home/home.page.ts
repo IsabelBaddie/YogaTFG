@@ -28,8 +28,8 @@ import { CategoriaI } from 'src/app/models/categoria.models';
   imports: [IonAlert,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton,
     IonGrid, IonRow, IonCol, IonCard, IonCardHeader, IonCardContent,
-    IonFooter, IonCardTitle, IonList, IonItem, IonSelect, IonSelectOption,
-    IonSegment, IonSegmentButton, IonLabel, IonSegmentContent, IonSegmentView,
+    IonFooter, IonCardTitle, IonItem, IonSelect, IonSelectOption,
+    IonSegment, IonSegmentButton ,
     FormsModule, CommonModule, IonAlert, IonButton
   ],
 })

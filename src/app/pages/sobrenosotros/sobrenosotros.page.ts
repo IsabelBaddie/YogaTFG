@@ -15,14 +15,12 @@ import { NavigationService } from '../../services/navigation.service';
   styleUrls: ['./sobrenosotros.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-    IonButtons, IonSegment, IonButton, IonSegmentButton,
-    IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter,
-    IonItem, IonSelect, IonSelectOption
+    IonButtons, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent,
+    IonGrid, IonRow, IonCol, IonFooter, IonItem, IonSelect, IonSelectOption
   ]
 })
 export class SobrenosotrosPage implements OnInit {
-
-
+  // Definimos las propiedades del componente, nos crearemos un array de objetos, cada objeto es una de mis tarjetas
   cards = [
     {
       img: 'assets/img/mandala5.png',
@@ -46,14 +44,11 @@ export class SobrenosotrosPage implements OnInit {
     }
   ];
 
+  constructor(private navigationService: NavigationService) { } // Constructor del componente donde inyectamos los servicios necesarios
   
-  constructor(private navigationService: NavigationService) { }
-  
-  async ngOnInit() {
- 
-  }
+  async ngOnInit() { }
 
-
+// Métodos de navegación utilizando el servicio de navegación
   goToHome() {
     this.navigationService.goToHome();
   }

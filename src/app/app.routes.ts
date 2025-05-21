@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'guiadas',
-    loadComponent: () => import('./guiadas/guiadas.page').then( m => m.GuiadasPage)
+    loadComponent: () => import('./pages/guiadas/guiadas.page').then( m => m.GuiadasPage)
   },
   {
     path: 'personalizadas',

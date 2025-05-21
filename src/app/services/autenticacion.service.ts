@@ -54,24 +54,6 @@ export class AutenticacionService {
       }
     });
   }
-
-  /* async obtenerDatosUsuario() {
-     const user = this.auth.currentUser; // Obtenemos el usuario autenticado actualmente
-     // Si hay un usuario autenticado, buscamos su documento en Firestore
-     if (user) {
-       const uid = user.uid;
-       const docRef = doc(this.db, 'usuarios', uid); // Referencia al documento del usuario en Firestore
-       const docSnap = await getDoc(docRef); // Obtenemos el documento
- 
-       if (docSnap.exists()) {  // Si el documento existe, devolvemos los datos del usuario
-         return docSnap.data();
-       } else {
-         throw new Error('No se encontró el documento del usuario.');
-       }
-     } else {
-       throw new Error('No hay usuario autenticado.');
-     }
-   }*/
   
   async obtenerDatosUsuario(): Promise<UserI> {
     const user = this.auth.currentUser;
@@ -81,7 +63,7 @@ export class AutenticacionService {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        return docSnap.data() as UserI; // 👈 Aquí haces el cast
+        return docSnap.data() as UserI; //Casteamos para poder devolverlo como UserI
       } else {
         throw new Error('No se encontró el documento del usuario.');
       }

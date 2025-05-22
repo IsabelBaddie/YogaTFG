@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -6,6 +6,8 @@ import {
   IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonFooter,
   IonItem, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
+
+declare const google: any;
 
 import { NavigationService } from '../../services/navigation.service';
 
@@ -19,7 +21,7 @@ import { NavigationService } from '../../services/navigation.service';
     IonGrid, IonRow, IonCol, IonFooter, IonItem, IonSelect, IonSelectOption
   ]
 })
-export class SobrenosotrosPage implements OnInit {
+export class SobrenosotrosPage implements OnInit, AfterViewInit {
   // Definimos las propiedades del componente, nos crearemos un array de objetos, cada objeto es una de mis tarjetas
   cards = [
     {
@@ -48,6 +50,11 @@ export class SobrenosotrosPage implements OnInit {
   
   async ngOnInit() { }
 
+  
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+
 // Métodos de navegación utilizando el servicio de navegación
   goToHome() {
     this.navigationService.goToHome();
@@ -65,6 +72,15 @@ export class SobrenosotrosPage implements OnInit {
     this.navigationService.goToRutina(event.detail.value);
   }
 
-
+    async initMap() {
+    const { Map } = await google.maps.importLibrary("maps");
+    new Map(document.getElementById("map"), {
+      center: { lat: -34.397, lng: 150.644 },
+      zoom: 8,
+    });
+  }
 }
+
+
+
 

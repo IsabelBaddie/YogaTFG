@@ -35,7 +35,7 @@ import { CategoriaI } from 'src/app/models/categoria.models';
 })
 export class HomePage implements OnInit {
 
-  nombreUsuario: string = ''; // Para almacenar el nombre del usuario
+  
 
   constructor(private navigationService: NavigationService, private categoriasService: CategoriasService,
     private firestore: Firestore, private autenticacion: AutenticacionService, private storageService: StorageService
@@ -45,11 +45,6 @@ export class HomePage implements OnInit {
     this.cargarTodasLasCategorias(); //Cargamos todas las categorías
     this.cargarTodasLasPosturas(); //Cargamos todas las posturas
 
-    // Recuperarmos el nombre del usuario desde el almacenamiento
-    const nombre = await this.storageService.get('nombreUsuario');
-    if (nombre) {
-      this.nombreUsuario = nombre;
-    }
   }
 
   categorias: CategoriaI[] = []; // Array para almacenar las categorías
@@ -79,7 +74,7 @@ export class HomePage implements OnInit {
   async logout() { // Método para cerrar sesión
     try {
       await this.autenticacion.logout();
-      await this.storageService.remove('usuarioActivo');
+      await this.storageService.remove('usuarioActivo')
       console.log('Sesión cerrada correctamente');
     } catch (err) {
       console.error('Error al cerrar sesión:', err);

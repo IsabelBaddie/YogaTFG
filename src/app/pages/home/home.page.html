@@ -23,9 +23,8 @@
 
       </div>
 
-      <!-- DERECHA: Bienvenida + botones -->
+      <!-- DERECHA: Botón -->
       <div style="display: flex; align-items: center; flex-wrap: wrap;">
-        <span class="me-3 text-white fw-bold">Bienvenido {{ nombreUsuario || 'invitado/a' }}</span>
         <ion-button id="logout-alert" fill="outline" class="bg-amarillopastel" (click)="logout()">Logout</ion-button>
         <ion-alert trigger="logout-alert" header="Logout correcto" 
           message="Vas a salir de la sesión" [buttons]="alertButtons"></ion-alert>

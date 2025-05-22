@@ -11,7 +11,7 @@ import { Timestamp } from 'firebase/firestore';
 })
 export class RutinausuarioService {
 
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore) { }
 
   // Obtener las rutinas asociadas a un usuario
   async getRutinasDeUsuario(usuarioId: string): Promise<RoutineI[]> {
@@ -29,14 +29,23 @@ export class RutinausuarioService {
         const rutinaSnap = await getDoc(rutinaRef);
 
         if (rutinaSnap.exists()) {
-          const rutinaData = rutinaSnap.data() as Omit<RoutineI, 'id'>;
-          rutinas.push({ ...rutinaData, id: rutinaSnap.id });
+          const rutinaData = rutinaSnap.data() as any;
+
+          const rutina: RoutineI = {
+            id: rutinaSnap.id,
+            ...rutinaData,
+            fechaCreacion: rutinaData.fechaCreacion?.toDate?.() ?? null  // ✅ aquí haces la conversión segura
+          };
+
+          rutinas.push(rutina);
         }
       }
     }
     console.log('Rutinas de usuario: ', rutinas);
     return rutinas;
   }
+
+
 
   // Asignar una rutina a un usuario
   async asignarRutinaAUsuario(usuarioId: string, rutinaId: string): Promise<void> {
@@ -45,7 +54,7 @@ export class RutinausuarioService {
     await addDoc(relacionesRef, {
       usuario_id: usuarioId,
       rutina_id: rutinaId,
-      fechaAsignacion: Timestamp.now()
+      fechaAsignacion: Timestamp.now().toDate() // Guardamos la fecha de asignación
     });
   }
 }

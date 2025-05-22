@@ -122,13 +122,13 @@ export class PersonalizadasPage implements OnInit {
 
   initRoutine() {
     const hoy = new Date();
-    const fechaFormateada = hoy.toISOString().split('T')[0];
+    
     this.nuevaRutina = {
       id: this.firestoreService.createIdDoc(),
       nombre: "", // Inicializado correctamente
       dificultad: Dificultad.Dificil, // Valor inicial válido
       duracion: null,
-      fechaCreacion: new Date(fechaFormateada),
+      fechaCreacion: new Date(),
       tipo: Tipo.Fuerza,
       esGuiada: false,
     };

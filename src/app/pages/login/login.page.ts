@@ -34,7 +34,7 @@ import { ToastController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   constructor(private navigationService: NavigationService, private firestoreService: FirestoreService, private rutinaService: RutinasService,
-    private autenticacion: AutenticacionService, private storageService: StorageService, private toastController: ToastController ) { // Constructor del componente donde inyectamos los servicios necesarios
+    private autenticacion: AutenticacionService, private storageService: StorageService, private toastController: ToastController) { // Constructor del componente donde inyectamos los servicios necesarios
 
     this.loadusers(); //Al crear el componente (la pagina), se ejecuta loadusers() para cargar los usuarios desde Firestore.
     this.inicializarUsuario(); // Inicializamos un usuario vacío para el formulario
@@ -90,13 +90,13 @@ export class LoginPage implements OnInit {
   }
 
   async goToHome() { // Utilizamos el servicio de navegación para ir a la página home
-    
+
     const usuarioId = await this.storageService.get('usuarioActivo'); // Obtener el ID del usuario activo desde el almacenamiento
     //PD: anteriormente se ha usado en el login el método set para guardar el uid del usuario activo en el storage, ahora lo recuperamos con get
     if (usuarioId) { // Si hay un ID de usuario activo, significa que está logueado
       console.log('Usuario logueado, redirigiendo...');
       this.navigationService.goToHome(); //Redirigimos a la página home
-    } 
+    }
     else {
       // Si no está logueado mostrarmos un mensaje
       console.log('Usuario no logueado');
@@ -126,6 +126,10 @@ export class LoginPage implements OnInit {
         //Guardamos en Firestore (usando el ID generado o el UID del auth)
         this.newUser.id = credenciales.user.uid; // usa el UID del auth como ID único
         await this.firestoreService.createDocumentID(this.newUser, 'usuarios', this.newUser.id);
+
+        // Guardar en Storage
+        await this.storageService.set('usuarioActivo', credenciales.user.uid);
+        console.log('Usuario registrado y almacenado en Storage.');
 
         console.log('Usuario registrado y guardado correctamente.');
         this.inicializarUsuario(); // Reiniciamos el formulario

@@ -112,7 +112,7 @@ export class GuiadasPage implements OnInit {
         message: 'El contenido del comentario no puede estar vacío.', //Creamos un toast si el contenido está vacío
         duration: 3000,
         position: 'top',
-        color: 'danger'  
+        color: 'warning'  
       });
       await toast.present(); //Mostramos el toast
       return;

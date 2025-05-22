@@ -36,6 +36,7 @@
       <ion-card-title class="text-azulmedio">Agregar postura a la rutina</ion-card-title>
     </ion-card-header>
     <ion-item class="bg-amarillopastel m-3">
+      <!-- enlazado con la lógica siendo la key nuestra rutinaId y el value la posturaid-->
       <ion-select placeholder="Selecciona la postura" [(ngModel)]="posturasSeleccionadasId[rutinaId]">
         <ion-select-option *ngFor="let postura of todasLasPosturas" [value]="postura.id">
           {{ postura.postura }}

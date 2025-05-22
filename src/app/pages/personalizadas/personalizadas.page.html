@@ -50,9 +50,9 @@
       <ion-col size="6">  
         <ion-item>
           <ion-label class="text-azulmedio"> Filtra por dificultad 📈 </ion-label>
-          <ion-select class="ps-2" [(ngModel)]="dificultadSeleccionada" placeholder="Todas">
+          <ion-select class="ps-2" [(ngModel)]="dificultadSeleccionada" placeholder="Todas"> <!-- Data binding bidireccional -->
             <ion-select-option value="">Todas</ion-select-option>
-            <ion-select-option [value]="Dificultad.Facil">Fácil</ion-select-option>
+            <ion-select-option [value]="Dificultad.Facil">Fácil</ion-select-option> <!-- Asocia los valores del enumn como opciones-->
             <ion-select-option [value]="Dificultad.Media">Media</ion-select-option>
             <ion-select-option [value]="Dificultad.Dificil">Difícil</ion-select-option>
           </ion-select>
@@ -62,6 +62,7 @@
 
     <!-- LISTADO DE RUTINAS FILTRADAS -->
     <ion-row>
+      <!-- bucle de rutinas-->
       <ion-col *ngFor="let rutina of rutinasFiltradas" size="12" size-md="6" size-xl="4">
         <ion-card class="bg-amarillopastel">
           <ion-row class="p-2">
@@ -75,7 +76,7 @@
                 <ion-button (click)="editarRutina(rutina)" color="success">
                   <ion-icon slot="icon-only" name="create"></ion-icon>
                 </ion-button>
-                <ion-button color="danger" (click)="deleteRoutine(rutina)">
+                <ion-button color="danger" (click)="eliminarRutina(rutina)">
                   <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </ion-button>
                 <ion-button class="text-azulmedio" (click)="empezarRutina(rutina.id)">

@@ -7,36 +7,34 @@ import { v4 as uuidv4 } from 'uuid';
 import { Observable } from 'rxjs'; // rxjs -> para usar Observables (suscripciones en tiempo real)
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' // Hace que el servicio esté disponible a nivel global 
 })
 export class FirestoreService {
-  firestore: Firestore = inject(Firestore);   // Inyectamos la instancia de Firestore
-  constructor() { }
+   // Inyectamos Firestore
+  constructor(private firestore: Firestore) { }
 
-  getDocument<tipo>(enlace: string) { // Método para obtener un único documento
-    const document = doc(this.firestore, enlace) as DocumentReference<tipo, any>; 
-    return getDoc<tipo, any>(document)
+  getDocument<tipo>(rutaDocumento: string) { // Método para obtener un único documento
+    const documento = doc(this.firestore, rutaDocumento) as DocumentReference<tipo, any>; //la ruta es decir nombrecoleccion/iddocumento
+    return getDoc<tipo, any>(documento) 
   }
 
   //leemos coleccion, método de tipo generico. Método para obtener todos los documentos de una colección
-  getCollectionChanges<tipo>(path: string): Observable<tipo[]> { //recibe como parametro el tipo de dato (en este caso UserI),
+  getCollectionChanges<tipo>(rutaColeccion: string): Observable<tipo[]> { //recibe como parametro el tipo de dato (en este caso UserI),
     //  el argumento path que es la la ruta/el nombre de la coleccion 
 
-    const refcollection = collection(this.firestore, path); //recibe la biblioteca/libreria y la ruta 
-    return collectionData(refcollection)  as Observable<tipo[]>; //nos devuelve un observable y le pasamos una referencia a la coleccion 
+    const refcollection = collection(this.firestore, rutaColeccion); //recibe la biblioteca/libreria y la ruta 
+    return collectionData(refcollection)  as Observable<tipo[]>; //nos devuelve un observable 
     
   }
 
-    //nuestro crud
-
-  createDocument(data: any, enlace: string) { // Método para crear un documento en una ruta específica
-    const document = doc(this.firestore, enlace); 
+  createDocument(data: any, rutaColeccion: string) { // Método para crear un documento en una ruta específica
+    const document = doc(this.firestore, rutaColeccion); 
     return setDoc(document, data); 
   }
 
   // Método para crear un documento con un ID personalizado
-  createDocumentID(data: any, enlace: string, idDoc: string) { //el enlace es el nombre de la coleccion y se concatena con el id del documento
-    const document = doc(this.firestore, `${enlace}/${idDoc}`); 
+  createDocumentID(data: any, rutaColeccion: string, idDoc: string) { //la rutaColeccion es el nombre de la coleccion y se concatena con el id del documento
+    const document = doc(this.firestore, `${rutaColeccion}/${idDoc}`); 
     return setDoc(document,data); 
   }
 
@@ -44,13 +42,13 @@ export class FirestoreService {
     return uuidv4() //llamamos a la funcion de la libreria 
   }
 
-  async updateDocument(data: any, enlace : string) { // Método que actualiza un documento
-    const document = doc(this.firestore, enlace)
+  async updateDocument(data: any, rutaColeccion : string) { // Método que actualiza un documento
+    const document = doc(this.firestore, rutaColeccion)
     return updateDoc(document, data)
   }
 
-  deleteDocumentID(enlace: string, idDoc : string) {  // Método que borra un documento
-    const document = doc(this.firestore, `${enlace}/${idDoc}`)
+  deleteDocumentID(rutaColeccion: string, idDoc : string) {  // Método que borra un documento
+    const document = doc(this.firestore, `${rutaColeccion}/${idDoc}`)
     return deleteDoc(document); 
   }
 

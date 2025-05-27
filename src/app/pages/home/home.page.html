@@ -71,9 +71,9 @@
             <!-- POSTURAS -->
             <ion-row>
                 <!-- bucle por cada postura de esa categoria  -->
-              <ion-col size-md="4" *ngFor="let postura of posturasPorCategoria[categoria.id]">
+              <ion-col size-md="4" size-s="12" *ngFor="let postura of posturasPorCategoria[categoria.id]" class="d-flex">
                 <ion-card>
-                  <img [src]="postura.imagen" alt="Imagen de postura" />
+                  <img [src]="postura.imagen" alt="Imagen de la postura" />
                   <ion-card-header>
                     <ion-card-title class="text-naranjamedio">{{ postura.postura }}</ion-card-title>
                   </ion-card-header>

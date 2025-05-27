@@ -76,6 +76,7 @@ export class HomePage implements OnInit {
       await this.autenticacion.logout();
       await this.storageService.remove('usuarioActivo')
       console.log('Sesión cerrada correctamente');
+       this.navigationService.goToLogin(); // Redirigimos a la página de login
     } catch (err) {
       console.error('Error al cerrar sesión:', err);
     }

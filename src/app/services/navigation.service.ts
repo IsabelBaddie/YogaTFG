@@ -12,7 +12,11 @@ export class NavigationService {
   /* .navigate es un método del Router que permite navegar a una ruta específica 
   Internamente cambia la vista sin recargar la página (SPA: Single Page Application).
   */
- 
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+
   goToHome() {
     this.router.navigate(['/home']);
   }

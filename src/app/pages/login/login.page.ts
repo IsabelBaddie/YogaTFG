@@ -107,6 +107,7 @@ export class LoginPage implements OnInit {
         color: 'danger'
       });
       await toast.present();
+      console.log('entra en la tostada de aviso de debes iniciar sesión para poder entrar');
       return;
     }
 
@@ -123,9 +124,16 @@ export class LoginPage implements OnInit {
       try {  //Intentamos registrar al usuario
         const credenciales = await this.autenticacion.register({ email, password }); //Registramos en Firebase Auth gracias nuestro servicio de autenticación
 
-        //Guardamos en Firestore (usando el ID generado o el UID del auth)
+        //Guardamos en Firestore (usando el UID del auth)
         this.newUser.id = credenciales.user.uid; // usa el UID del auth como ID único
-        await this.firestoreService.createDocumentID(this.newUser, 'usuarios', this.newUser.id);
+        const usuarioAGuardar = {
+          id: credenciales.user.uid,
+          email: email,
+          nombre: nombre
+        };
+
+        await this.firestoreService.createDocumentID(usuarioAGuardar, 'usuarios', usuarioAGuardar.id);
+
 
         // Guardar en Storage
         await this.storageService.set('usuarioActivo', credenciales.user.uid);
@@ -145,6 +153,7 @@ export class LoginPage implements OnInit {
         color: 'danger'
       });
       await toast.present();
+      console.log('entra en la tostada de aviso de completar todos los campos antes de registrarse');
       return;
     }
   }
@@ -186,6 +195,7 @@ export class LoginPage implements OnInit {
         color: 'danger'
       });
       await toast.present();
+      console.log('entra en la tostada de aviso de completar email y contraseña para logearte');
       return;
     }
   }
@@ -195,10 +205,10 @@ export class LoginPage implements OnInit {
       await this.autenticacion.logout(); // Llamamos al método de cierre de sesión de nuestro servicio de autenticación
       await this.storageService.remove('usuarioActivo'); // Limpiamos el almacenamiento local
       console.log('Sesión cerrada correctamente');
+     
     } catch (err) {
       console.error('Error al cerrar sesión:', err);
     }
   }
-
 
 }

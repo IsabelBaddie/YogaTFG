@@ -146,6 +146,7 @@ export class PersonalizadasPage implements OnInit {
         color: 'danger'
       });
       await toast.present();
+      console.log('entra en la tostada de aviso de debes estar autenticado para guardar rutina'); 
       return;
     }
 
@@ -157,6 +158,7 @@ export class PersonalizadasPage implements OnInit {
         color: 'warning'
       });
       await toast.present();
+       console.log('entra en la tostada de aviso de nombre de rutina obligatorio'); 
       return;
     }
 

@@ -142,6 +142,15 @@ export class LoginPage implements OnInit {
         console.log('Usuario registrado y guardado correctamente.');
         this.inicializarUsuario(); // Reiniciamos el formulario
 
+        const toast = await this.toastController.create({
+          message: 'Registro correcto.',
+          duration: 5000,
+          position: 'top',
+          color: 'success'
+        });
+        await toast.present();
+        console.log('entra en la tostada de aviso de registro correcto');
+
       } catch (err) { // Si hay un error al registrar, lo mostramos en la consola
         console.error('Error al registrar:', err);
       }
@@ -174,18 +183,23 @@ export class LoginPage implements OnInit {
         const datos = await this.autenticacion.obtenerDatosUsuario();
         this.usuarioActual = datos; //Guardamos los datos del usuario en usuarioActual
 
-        if (this.usuarioActual?.nombre) { // Verificamos que el nombre no sea nulo
-          await this.storageService.set('nombreUsuario', this.usuarioActual.nombre); // Guardamos el nombre en el Storage gracias a nuestro servicio
-          console.log('Nombre del usuario guardado:', this.usuarioActual.nombre);
-        }
-
         this.rutinaService.crearRutinasPorDefectoParaUsuario(); // Crear rutinas por defecto para el usuario
 
         console.log('Usuario actual:', this.usuarioActual);
 
+        const toast = await this.toastController.create({
+          message: 'Login correcto.',
+          duration: 5000,
+          position: 'top',
+          color: 'success'
+        });
+        await toast.present();
+        console.log('entra en la tostada de aviso de login correcto');
+
       } catch (err) { // Si hay un error al iniciar sesión, lo mostramos en la consola
         console.error('Error en login:', err);
       }
+
     } else {
       // Si no se completan todos los campos, mostramos un mensaje de error
       const toast = await this.toastController.create({
@@ -205,7 +219,7 @@ export class LoginPage implements OnInit {
       await this.autenticacion.logout(); // Llamamos al método de cierre de sesión de nuestro servicio de autenticación
       await this.storageService.remove('usuarioActivo'); // Limpiamos el almacenamiento local
       console.log('Sesión cerrada correctamente');
-     
+
     } catch (err) {
       console.error('Error al cerrar sesión:', err);
     }

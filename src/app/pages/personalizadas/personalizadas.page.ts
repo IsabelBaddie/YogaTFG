@@ -55,7 +55,7 @@ export class PersonalizadasPage implements OnInit {
   rutinas: RoutineI[] = [];
   usuarioActivo: UserI | null = null; // Variable para almacenar el usuario activo
   nuevaRutina: RoutineI = {
-    id: this.firestoreService.createIdDoc(), //Creamos objeto RoutineI para rutina nueva o en edición
+    id: this.firestoreService.generarIdAleatorio(), //Creamos objeto RoutineI para rutina nueva o en edición
     nombre: "",
     dificultad: Dificultad.Dificil,
     duracion: null,
@@ -127,7 +127,7 @@ export class PersonalizadasPage implements OnInit {
     const hoy = new Date();
 
     this.nuevaRutina = {
-      id: this.firestoreService.createIdDoc(),
+      id: this.firestoreService.generarIdAleatorio(),
       nombre: "", 
       dificultad: Dificultad.Dificil, 
       duracion: null,
@@ -171,7 +171,7 @@ export class PersonalizadasPage implements OnInit {
       const esRutinaExistente = this.rutinas.some(r => r.id === this.nuevaRutina.id);
 
       // Guardamos/actualizamos la rutina en Firestore
-      await this.firestoreService.createDocumentID(this.nuevaRutina, 'rutinas', this.nuevaRutina.id);
+      await this.firestoreService.crearDocumentoID(this.nuevaRutina, 'rutinas', this.nuevaRutina.id);
 
       // Si es nueva rutina, asignamos al usuario. Si estamos editando, NO asignamos de nuevo.
       if (!esRutinaExistente) {
@@ -193,7 +193,7 @@ export class PersonalizadasPage implements OnInit {
 
   async eliminarRutina(routine: RoutineI) { //Método para eliminar una rutina especifica
     this.cargando = true;
-    await this.firestoreService.deleteDocumentID('rutinas', routine.id);
+    await this.firestoreService.borrarDocumentoID('rutinas', routine.id);
     this.cargando = false;
     this.cargarRutinasUsuario(); //Actualizar la lista despues de borrar 
   }

@@ -120,7 +120,7 @@ export class GuiadasPage implements OnInit {
 
     // Creamos el objeto del comentario
     const comentario: ComentarioI = {
-      id: this.firestoreService.createIdDoc(),
+      id: this.firestoreService.generarIdAleatorio(),
       contenido,
       fechaPublicacion: new Timestamp(Date.now() / 1000, 0),
       usuario_id: this.usuarioActivo.id,
@@ -128,7 +128,7 @@ export class GuiadasPage implements OnInit {
     };
 
     try {
-      await this.firestoreService.createDocumentID(comentario, 'comentarios', comentario.id); // Guardamos el comentario en Firestore
+      await this.firestoreService.crearDocumentoID(comentario, 'comentarios', comentario.id); // Guardamos el comentario en Firestore
       console.log('Comentario guardado:', comentario);
     } catch (error) {
       console.error('Error al guardar el comentario en Firestore:', error);

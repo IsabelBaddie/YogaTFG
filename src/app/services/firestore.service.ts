@@ -13,7 +13,7 @@ export class FirestoreService {
    // Inyectamos Firestore
   constructor(private firestore: Firestore) { }
 
-  getDocument<tipo>(rutaDocumento: string) { // Método para obtener un único documento
+  getDocumento<tipo>(rutaDocumento: string) { // Método para obtener un único documento
     const documento = doc(this.firestore, rutaDocumento) as DocumentReference<tipo, any>; //la ruta es decir nombrecoleccion/iddocumento
     return getDoc<tipo, any>(documento) 
   }
@@ -27,33 +27,31 @@ export class FirestoreService {
     
   }
 
-  createDocument(data: any, rutaColeccion: string) { // Método para crear un documento en una ruta específica
+  crearDocumento(datos: any, rutaColeccion: string) { // Método para crear un documento en una ruta específica
     const document = doc(this.firestore, rutaColeccion); 
-    return setDoc(document, data); 
+    return setDoc(document, datos); 
   }
 
   // Método para crear un documento con un ID personalizado
-  createDocumentID(data: any, rutaColeccion: string, idDoc: string) { //la rutaColeccion es el nombre de la coleccion y se concatena con el id del documento
+  crearDocumentoID(data: any, rutaColeccion: string, idDoc: string) { //la rutaColeccion es el nombre de la coleccion y se concatena con el id del documento
     const document = doc(this.firestore, `${rutaColeccion}/${idDoc}`); 
     return setDoc(document,data); 
   }
 
-  createIdDoc() { // Método que genera un ID único usando uuid
+  generarIdAleatorio() { // Método que genera un ID único usando uuid
     return uuidv4() //llamamos a la funcion de la libreria 
   }
 
-  async updateDocument(data: any, rutaColeccion : string) { // Método que actualiza un documento
+  async actualizarDocumento(data: any, rutaColeccion : string) { // Método que actualiza un documento
     const document = doc(this.firestore, rutaColeccion)
     return updateDoc(document, data)
   }
 
-  deleteDocumentID(rutaColeccion: string, idDoc : string) {  // Método que borra un documento
+  borrarDocumentoID(rutaColeccion: string, idDoc : string) {  // Método que borra un documento
     const document = doc(this.firestore, `${rutaColeccion}/${idDoc}`)
     return deleteDoc(document); 
   }
 
-  delateDocFromRef(ref: any) {  // Métod que borra un documento directamente desde su referencia
-    return deleteDoc(ref)
-  }
+ 
 }
 

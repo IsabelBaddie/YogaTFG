@@ -68,7 +68,7 @@ export class RutinasService {
       const coleccionPosturaRutina = collection(this.firestore, 'posturarutina'); //Referencia a la colección posturarutina, colección intermedia
 
       for (const rutina of rutinas) { //Por cada rutina 
-        const rutinaId = this.firestoreService.createIdDoc(); //Usamos nuestro servicio de Firebase para el id
+        const rutinaId = this.firestoreService.generarIdAleatorio(); //Usamos nuestro servicio de Firebase para el id
         const rutinasDocRef = doc(coleccionRutinas, rutinaId); //Referencia al documento de rutinas
 
         const rutinaData: RoutineI = { //Construimos un objeto RoutineI con los datos de la rutina a guardar

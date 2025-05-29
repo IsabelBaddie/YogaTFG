@@ -82,7 +82,7 @@ export class LoginPage implements OnInit {
 
   inicializarUsuario() { // Inicializamos un nuevo usuario vacío para el formulario
     this.newUser = {
-      id: this.firestoreService.createIdDoc(), // Generamos un ID único para el nuevo usuario usando nuestro servicio
+      id: this.firestoreService.generarIdAleatorio(), // Generamos un ID único para el nuevo usuario usando nuestro servicio
       nombre: null,
       email: '',
       password: ''
@@ -132,7 +132,7 @@ export class LoginPage implements OnInit {
           nombre: nombre
         };
 
-        await this.firestoreService.createDocumentID(usuarioAGuardar, 'usuarios', usuarioAGuardar.id);
+        await this.firestoreService.crearDocumentoID(usuarioAGuardar, 'usuarios', usuarioAGuardar.id);
 
 
         // Guardar en Storage

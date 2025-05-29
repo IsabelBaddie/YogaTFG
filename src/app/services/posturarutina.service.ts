@@ -80,7 +80,7 @@ export class PosturarutinaService {
     try {
       const posturasRutinaColeccion = collection(this.firestore, 'posturarutina'); // Obtenemos la colección posturarutina
       await addDoc(posturasRutinaColeccion, { //Añadimos el documento a la colección 
-        id: this.firestoreService.createIdDoc(), //Usamos el servicio FirestoreService para crear un id único
+        id: this.firestoreService.generarIdAleatorio(), //Usamos el servicio FirestoreService para crear un id único
         rutina_id: rutinaId,
         postura_id: posturaId
       });

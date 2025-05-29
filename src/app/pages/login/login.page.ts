@@ -21,7 +21,9 @@ import { AutenticacionService } from '../../services/autenticacion.service';
 import { RutinasService } from '../../services/rutinas.service';
 import { StorageService } from '../../services/storage.service'; // ajusta el path si es diferente
 
-import { ToastController } from '@ionic/angular';
+import {  IonicModule } from '@ionic/angular';
+import { ToastController } from '@ionic/angular/standalone';
+
 
 @Component({
   selector: 'app-login',
@@ -29,19 +31,21 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [IonFooter, IonButtons, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
-    FormsModule, IonItem, IonCard, IonLabel, IonInput, ReactiveFormsModule,]
+    FormsModule, IonItem, IonCard, IonLabel, IonInput, ReactiveFormsModule, IonicModule]
+    , providers: [ToastController]
 })
 export class LoginPage implements OnInit {
 
   constructor(private navigationService: NavigationService, private firestoreService: FirestoreService, private rutinaService: RutinasService,
     private autenticacion: AutenticacionService, private storageService: StorageService, private toastController: ToastController) { // Constructor del componente donde inyectamos los servicios necesarios
-
+      
     this.loadusers(); //Al crear el componente (la pagina), se ejecuta loadusers() para cargar los usuarios desde Firestore.
     this.inicializarUsuario(); // Inicializamos un usuario vacío para el formulario
-
+ 
   }
 
-  ngOnInit() {
+   async ngOnInit() {
+
   }
 
   //VARIABLES 
@@ -61,7 +65,6 @@ export class LoginPage implements OnInit {
     email: '',
     password: ''
   };
-
 
 
   loadusers() {  // Método que escucha cambios en la colección 'Usuarios' en Firestore
@@ -169,7 +172,7 @@ export class LoginPage implements OnInit {
 
   async login() { // Método para iniciar sesión
     const { email, password } = this.loginData; // Desestructuramos el objeto loginData para obtener los valores de email y password
-
+    
     if (email && password) { // Verificamos que ambos campos estén completos
       try { //Intentamos iniciar sesión 
         const credenciales = await this.autenticacion.signIn(email, password); // Iniciar sesión con nuestro servicio de autenticación
@@ -199,17 +202,23 @@ export class LoginPage implements OnInit {
       } catch (err) { // Si hay un error al iniciar sesión, lo mostramos en la consola
         console.error('Error en login:', err);
       }
-
+     
     } else {
-      // Si no se completan todos los campos, mostramos un mensaje de error
-      const toast = await this.toastController.create({
-        message: 'Por favor completa el email y la contraseña para logearte.',
-        duration: 5000,
-        position: 'top',
-        color: 'danger'
-      });
-      await toast.present();
-      console.log('entra en la tostada de aviso de completar email y contraseña para logearte');
+      
+      try {
+        const toast = await this.toastController.create({
+          message: 'Por favor completa el email y la contraseña para logearte.',
+          duration: 5000,
+          position: 'top',
+          color: 'danger'
+        });
+        console.log('comprobación tostada 4');
+        await toast.present();
+        console.log('entra en la tostada de aviso de completar email y contraseña para logearte');
+      } catch (err) {
+        console.log('Error mostrando el toast:', err);
+      }
+    
       return;
     }
   }
@@ -224,5 +233,7 @@ export class LoginPage implements OnInit {
       console.error('Error al cerrar sesión:', err);
     }
   }
+
+
 
 }

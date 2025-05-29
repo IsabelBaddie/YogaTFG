@@ -8,7 +8,7 @@ import {
   IonInput, IonToast
 } from '@ionic/angular/standalone';
 
-import { ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import * as icons from 'ionicons/icons';
 

@@ -16,7 +16,7 @@ import { FirestoreService } from '../../services/firestore.service';
 import { AutenticacionService } from '../../services/autenticacion.service';
 
 import { Timestamp } from 'firebase/firestore';
-import { ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-guiadas',

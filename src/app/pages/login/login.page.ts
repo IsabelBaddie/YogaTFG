@@ -137,7 +137,6 @@ export class LoginPage implements OnInit {
 
         await this.firestoreService.crearDocumentoID(usuarioAGuardar, 'usuarios', usuarioAGuardar.id);
 
-
         // Guardar en Storage
         await this.storageService.set('usuarioActivo', credenciales.user.uid);
         console.log('Usuario registrado y almacenado en Storage.');
@@ -153,7 +152,7 @@ export class LoginPage implements OnInit {
         });
         await toast.present();
         console.log('entra en la tostada de aviso de registro correcto');
-
+        this.goToHome(); 
       } catch (err) { // Si hay un error al registrar, lo mostramos en la consola
         console.error('Error al registrar:', err);
       }
@@ -198,7 +197,7 @@ export class LoginPage implements OnInit {
         });
         await toast.present();
         console.log('entra en la tostada de aviso de login correcto');
-
+        this.goToHome(); 
       } catch (err) { // Si hay un error al iniciar sesión, lo mostramos en la consola
         console.error('Error en login:', err);
       }

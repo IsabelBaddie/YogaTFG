@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 // Importamos los módulos necesarios de Ionic
-import {
-  IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonButtons, IonFooter,
-  IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonCardContent,
-  IonLabel, IonInput,
-} from '@ionic/angular/standalone';
+
 // Importamos el servicio de navegación
 import { NavigationService } from '../../services/navigation.service';
 //Para el almacenamiento de datos en el dispositivo
@@ -30,8 +26,9 @@ import { ToastController } from '@ionic/angular/standalone';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonFooter, IonButtons, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule,
-    FormsModule, IonItem, IonCard, IonLabel, IonInput, ReactiveFormsModule, IonicModule]
+  imports: [    CommonModule,
+    FormsModule,
+    ReactiveFormsModule, IonicModule]
     , providers: [ToastController]
 })
 export class LoginPage implements OnInit {
@@ -59,6 +56,8 @@ export class LoginPage implements OnInit {
   cargando: boolean = false;  // Bandera para mostrar un spinner de carga (true/false)
 
   usuarioActual: UserI | null = null; // Almacena el usuario actual después de iniciar sesión
+
+  verRegistro: boolean = false; 
 
 
   loginData = {
@@ -222,16 +221,10 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async logout() { // Método para cerrar sesión
-    try {
-      await this.autenticacion.logout(); // Llamamos al método de cierre de sesión de nuestro servicio de autenticación
-      await this.storageService.remove('usuarioActivo'); // Limpiamos el almacenamiento local
-      console.log('Sesión cerrada correctamente');
-
-    } catch (err) {
-      console.error('Error al cerrar sesión:', err);
-    }
+  mostrarRegistro() {
+    this.verRegistro = true; 
   }
+
 
 
 

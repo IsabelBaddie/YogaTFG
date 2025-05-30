@@ -9,14 +9,14 @@
         <h6 class="ms-3 me-3 mb-0 text-white">Asana flow</h6>
       </div>
 
-   
+
     </div>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content fullscreen class="ion-padding bg-azulclaro">
-  <ion-card>
+  <ion-card *ngIf="!verRegistro">
     <!-- FORMULARIO LOGIN -->
     <ion-item>
       <ion-label position="stacked">Email</ion-label>
@@ -31,7 +31,7 @@
     <ion-button expand="block" (click)="login()">Iniciar sesión</ion-button>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="verRegistro">
     <!-- FORMULARIO REGISTRO -->
     <ion-item>
       <ion-label position="stacked">Email</ion-label>
@@ -50,11 +50,9 @@
 
     <ion-button expand="block" (click)="registerAndSave()">Registrar usuario</ion-button>
   </ion-card>
-
-  <ion-button expand="block" color="medium" (click)="logout()">
-    Cerrar sesión
-  </ion-button>
-
+  <ion-text (click)="mostrarRegistro()" class="texto-link text-azuloscuro text-center">
+    ¿No tienes cuenta? Regístrate aquí
+  </ion-text>
 
 </ion-content>
 <ion-footer>

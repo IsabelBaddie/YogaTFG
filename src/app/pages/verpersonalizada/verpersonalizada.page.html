@@ -36,24 +36,24 @@
       <ion-card-title class="text-azulmedio">Agregar postura a la rutina</ion-card-title>
     </ion-card-header>
     <ion-item class="bg-amarillopastel m-3">
-      <!-- enlazado con la lógica siendo la key nuestra rutinaId y el value la posturaid-->
-      <ion-select placeholder="Selecciona la postura" [(ngModel)]="posturasSeleccionadasId[rutinaId]">
-        <ion-select-option *ngFor="let postura of todasLasPosturas" [value]="postura.id">
-          {{ postura.postura }}
-        </ion-select-option>
-      </ion-select>
+      <ion-button expand="block" (click)="abrirModalPosturas()">Seleccionar postura</ion-button>
+      <ion-text class="ps-2" *ngIf="posturaSeleccionada">
+        {{ posturaSeleccionada.postura }}
+      </ion-text>
+
     </ion-item>
+
     <ion-button expand="block" class="ion-margin" (click)="asociarPostura()">Agregar</ion-button>
   </ion-card>
 
   <!-- Mostrar posturas si existen, o el mensaje -->
-  <ion-card *ngIf="posturasSeleccionadas.length > 0; else sinPosturas" class="bg-azulclaro">
+  <ion-card *ngIf="posturasDeLaRutina.length > 0; else sinPosturas" class="bg-azulclaro">
     <ion-card-header>
       <ion-card-title class="text-azulmedio">Posturas asociadas a esta rutina</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let postura of posturasSeleccionadas" lines="full" class="ion-padding-vertical">
+        <ion-item *ngFor="let postura of posturasDeLaRutina" lines="full" class="ion-padding-vertical">
           <ion-grid>
             <ion-row>
               <!-- Dificultad -->

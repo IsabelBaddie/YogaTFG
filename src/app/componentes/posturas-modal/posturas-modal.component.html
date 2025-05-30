@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Selecciona una postura</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">Cancelar</ion-button> <!-- para cerrar la modal -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!-- cuerpo de la modal -->
+<ion-content>
+  <!-- campo de texto (input) para el filtro de posturas, con el ngModel vinculamos el valor input con el filtro -->
+  <ion-item>
+    <ion-input
+      [(ngModel)]="filtro" 
+      placeholder="Buscar postura..."
+      debounce="300"> <!-- espera para aplicar el filtro-->
+    </ion-input>
+  </ion-item>
+
+  <ion-list>
+    <ion-radio-group [(ngModel)]="posturaSeleccionadaId"> <!-- el radio que el usuario elija se guarda en posturaSeleccionadaId-->
+      <ion-item *ngFor="let postura of posturasFiltradas()"> <!-- bucle de posturas filtradas por el input de arriba-->
+        <ion-label>{{ postura.postura }}</ion-label> <!-- nombre de la posutra -->
+        <ion-radio slot="start" [value]="postura.id"></ion-radio> <!-- asociamos el valor del radio con el id de la posutra-->
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" (click)="confirmar()">OK</ion-button>
+</ion-footer>
+
